@@ -15,6 +15,10 @@ mkShell {
 
   env = [
     {
+      name = "DEVSHELL_NO_MOTD";
+      value = 1;
+    }
+    {
       name = "GOROOT";
       value = pkgs.go + "/share/go";
     }
@@ -30,10 +34,9 @@ mkShell {
   ];
 
   commands = [
-    {
-      category = "development";
-      package = perSystem.gomod2nix.default;
-    }
+    { package = perSystem.gomod2nix.default; }
+    { package = pkgs.golangci-lint; }
+    { package = pkgs.cobra-cli; }
   ];
 
 }
