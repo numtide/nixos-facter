@@ -1,7 +1,10 @@
-package scan
+package pci
 
 import (
+	"fmt"
 	"github.com/u-root/u-root/pkg/pci"
+	"os"
+	"path/filepath"
 	"slices"
 )
 
@@ -95,7 +98,32 @@ func (d *Device) IsInputKeyboard() bool {
 	return d.IsClass(pci.ClassInputKeyboard)
 }
 
-type Report struct {
-	// Devices is a list of PCI devices
-	Devices []*Device
+func Scan() ([]*Device, error) {
+
+	reader, err := pci.NewBusReader()
+	if err != nil {
+		return nil, fmt.Errorf("failed to create bus reader: %w", err)
+	}
+
+	devices, err := reader.Read()
+	if err != nil {
+		return nil, fmt.Errorf("failed to read devices")
+	}
+
+	// convert to our device struct and attempt to resolve a kernel module
+	var result []*Device
+	for idx := range devices {
+		dev := &Device{PCI: *devices[idx]}
+		result = append(result, dev)
+
+		path, err := os.Readlink(dev.FullPath + "/driver/module")
+		if err != nil {
+			// todo add some logging and check error
+			continue
+		}
+
+		dev.Module = filepath.Base(path)
+	}
+
+	return result, nil
 }

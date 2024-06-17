@@ -22,6 +22,18 @@ mkShell {
       name = "GOROOT";
       value = pkgs.go + "/share/go";
     }
+    {
+      name = "LD_LIBRARY_PATH";
+      prefix = "$DEVSHELL_DIR/lib";
+    }
+    {
+      name = "C_INCLUDE_PATH";
+      prefix = "$DEVSHELL_DIR/include";
+    }
+    {
+      name = "PKG_CONFIG_PATH";
+      prefix = "$DEVSHELL_DIR/lib/pkgconfig";
+    }
   ];
 
   packages = lib.mkMerge [
@@ -30,6 +42,9 @@ mkShell {
       delve
       pprof
       graphviz
+      libusb1.dev
+      gcc
+      pkg-config
     ])
   ];
 

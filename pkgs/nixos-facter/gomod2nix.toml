@@ -4,6 +4,9 @@ schema = 3
   [mod."github.com/fsnotify/fsnotify"]
     version = "v1.7.0"
     hash = "sha256-MdT2rQyQHspPJcx6n9ozkLbsktIOJutOqDuKpNAtoZY="
+  [mod."github.com/google/gousb"]
+    version = "v1.1.3"
+    hash = "sha256-xqe3FvpzN7I287DT5MqCW8OufJ9E5e9WL3XwA1NWr9s="
   [mod."github.com/hashicorp/hcl"]
     version = "v1.0.0"
     hash = "sha256-xsRCmYyBfglMxeWUvTZqkaRLSW+V2FvNodEDjTGg1WA="
