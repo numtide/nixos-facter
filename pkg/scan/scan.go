@@ -6,7 +6,7 @@ type Scanner interface {
 
 func Run() (*Report, error) {
 	scanners := []Scanner{
-		&DeviceScanner{},
+		&PCIScanner{},
 	}
 
 	report := &Report{}

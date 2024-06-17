@@ -7,10 +7,10 @@ import (
 	"path/filepath"
 )
 
-type DeviceScanner struct {
+type PCIScanner struct {
 }
 
-func (p *DeviceScanner) Run(report *Report) error {
+func (p *PCIScanner) Run(report *Report) error {
 	// read devices
 	var devices pci.Devices
 
