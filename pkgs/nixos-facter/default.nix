@@ -6,7 +6,7 @@
   ...
 }:
 let
-  inherit (pkgs) go lib musl;
+  inherit (pkgs) go lib;
 in
 inputs.gomod2nix.legacyPackages.${system}.buildGoApplication rec {
   pname = "nixos-facter";
@@ -25,10 +25,11 @@ inputs.gomod2nix.legacyPackages.${system}.buildGoApplication rec {
     filter {
       root = ../../.;
       include = [
+        "cmd"
+        "pkg"
         "go.mod"
         "go.sum"
-        "gomod2nix.toml"
-        (filter.matchExt "go")
+        "main.go"
       ];
     };
 
@@ -39,8 +40,8 @@ inputs.gomod2nix.legacyPackages.${system}.buildGoApplication rec {
   ldflags = [
     "-s"
     "-w"
-    "-X git.numtide.com/numtide/treefmt/build.Name=${pname}"
-    "-X git.numtide.com/numtide/treefmt/build.Version=v${version}"
+    "-X git.numtide.com/numtide/nixos-facter/build.Name=${pname}"
+    "-X git.numtide.com/numtide/nixos-facter/build.Version=v${version}"
   ];
 
   meta = with lib; {
