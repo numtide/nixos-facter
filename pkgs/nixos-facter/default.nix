@@ -35,7 +35,18 @@ inputs.gomod2nix.legacyPackages.${system}.buildGoApplication rec {
 
   modules = ./gomod2nix.toml;
 
-  CGO_ENABLED = 0;
+  buildInputs = [
+    pkgs.libusb1
+  ];
+
+  nativeBuildInputs = with pkgs; [
+    gcc
+    pkg-config
+  ];
+
+  runtimeInputs = [
+    pkgs.libusb1
+  ];
 
   ldflags = [
     "-s"
