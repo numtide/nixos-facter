@@ -1,4 +1,4 @@
-{
+args@{
   flake,
   inputs,
   system,
@@ -35,9 +35,7 @@ inputs.gomod2nix.legacyPackages.${system}.buildGoApplication rec {
 
   modules = ./gomod2nix.toml;
 
-  buildInputs = [
-    pkgs.libusb1
-  ];
+  buildInputs = [ pkgs.libusb1 ];
 
   nativeBuildInputs = with pkgs; [
     gcc
@@ -56,6 +54,8 @@ inputs.gomod2nix.legacyPackages.${system}.buildGoApplication rec {
     "-X git.numtide.com/numtide/nixos-facter/build.Name=${pname}"
     "-X git.numtide.com/numtide/nixos-facter/build.Version=v${version}"
   ];
+
+  passthru.tests = (import ./tests) args;
 
   meta = with lib; {
     description = "nixos-facter: declarative nixos-generate-config";
