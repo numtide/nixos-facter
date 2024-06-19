@@ -1,5 +1,5 @@
 {
-  "PCIDevices": [
+  "pci": [
     {
       "Addr": "0000:00:00.0",
       "Vendor": 4130,
@@ -2316,7 +2316,7 @@
       "Module": "snd_hda_intel"
     }
   ],
-  "USBDevices": [
+  "usb": [
     {
       "Bus": 8,
       "Address": 2,
@@ -4228,7 +4228,7 @@
       }
     }
   ],
-  "BlockDevices": [
+  "block": [
     {
       "disc-gran": "0B",
       "disk-seq": 12,

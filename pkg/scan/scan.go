@@ -8,12 +8,12 @@ import (
 )
 
 type Report struct {
-	// PCIDevices is a list of PCI devices
-	PCIDevices []*pci.Device
-	// USBDevices is a list of USB devices
-	USBDevices []*usb.Device
-	// BlockDevices is a list of Block devices
-	BlockDevices []*block.Device
+	// PCI is a list of PCI devices
+	PCI []*pci.Device `json:"pci"`
+	// USB is a list of USB devices
+	USB []*usb.Device `json:"usb"`
+	// Block is a list of Block devices
+	Block []*block.Device `json:"block"`
 }
 
 type Scanner interface {
@@ -24,15 +24,15 @@ func Run() (report *Report, err error) {
 
 	report = &Report{}
 
-	if report.PCIDevices, err = pci.Scan(); err != nil {
+	if report.PCI, err = pci.Scan(); err != nil {
 		return nil, fmt.Errorf("failed to scan pci devices: %w", err)
 	}
 
-	if report.USBDevices, err = usb.Scan(); err != nil {
+	if report.USB, err = usb.Scan(); err != nil {
 		return nil, fmt.Errorf("failed to scan usb devices: %w", err)
 	}
 
-	if report.BlockDevices, err = block.Scan(); err != nil {
+	if report.Block, err = block.Scan(); err != nil {
 		return nil, fmt.Errorf("failed to scan block devices: %w", err)
 	}
 

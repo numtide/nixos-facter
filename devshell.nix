@@ -45,7 +45,7 @@ mkShell {
       libusb1.dev
       gcc
       pkg-config
-      util-linux
+      util-linux.dev
       pciutils
     ])
   ];
