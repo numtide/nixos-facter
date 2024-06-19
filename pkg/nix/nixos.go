@@ -56,7 +56,7 @@ func (mg *ModuleGenerator) Generate(writer io.Writer) error {
 }
 
 func (mg *ModuleGenerator) processDevices() {
-	for _, dev := range mg.Report.PCI {
+	for _, dev := range mg.Report.PCIDevices {
 
 		if dev.Module != "" {
 			if dev.IsClass(

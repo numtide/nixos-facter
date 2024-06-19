@@ -44,8 +44,10 @@ inputs.gomod2nix.legacyPackages.${system}.buildGoApplication rec {
     pkg-config
   ];
 
-  runtimeInputs = [
-    pkgs.libusb1
+  runtimeInputs = with pkgs; [
+    libusb1
+    util-linux
+    pciutils
   ];
 
   ldflags = [

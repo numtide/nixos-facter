@@ -22,6 +22,9 @@ schema = 3
   [mod."github.com/pelletier/go-toml/v2"]
     version = "v2.2.2"
     hash = "sha256-ukxk1Cfm6cQW18g/aa19tLcUu5BnF7VmfAvrDHAOl6A="
+  [mod."github.com/rekby/gpt"]
+    version = "v0.0.0-20200219180433-a930afbc6edc"
+    hash = "sha256-3DTwNLaFC6EFg8QMqS245/NBWpksXNeX6Uoohbdioxo="
   [mod."github.com/sagikazarmark/locafero"]
     version = "v0.4.0"
     hash = "sha256-7I1Oatc7GAaHgAqBFO6Tv4IbzFiYeU9bJAfJhXuWaXk="
@@ -52,6 +55,9 @@ schema = 3
   [mod."github.com/u-root/u-root"]
     version = "v0.14.0"
     hash = "sha256-YmT4ikLyKHHXhONH1byZpGive8OGWQanEWnQLMJWHwU="
+  [mod."github.com/ungerik/go-sysfs"]
+    version = "v0.0.0-20210209091351-68e6f4d6bff9"
+    hash = "sha256-cR9zLGGViNjZuYj39mstNA0/1rRMcGRHMk9j6g0qZm4="
   [mod."go.uber.org/atomic"]
     version = "v1.9.0"
     hash = "sha256-D8OtLaViqPShz1w8ijhIHmjw9xVaRu0qD2hXKj63r4Q="
