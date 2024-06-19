@@ -614,7 +614,7 @@
         "Lim": 0,
         "Attr": 0
       },
-      "Module": "i2c_piix4"
+      "KernelModule": "i2c_piix4"
     },
     {
       "Addr": "0000:00:14.3",
@@ -820,7 +820,7 @@
         "Lim": 0,
         "Attr": 0
       },
-      "Module": "k10temp"
+      "KernelModule": "k10temp"
     },
     {
       "Addr": "0000:00:18.4",
@@ -1034,7 +1034,7 @@
         "Lim": 0,
         "Attr": 0
       },
-      "Module": "nvme"
+      "KernelModule": "nvme"
     },
     {
       "Addr": "0000:02:00.0",
@@ -1412,7 +1412,7 @@
         "Lim": 0,
         "Attr": 0
       },
-      "Module": "nvme"
+      "KernelModule": "nvme"
     },
     {
       "Addr": "0000:05:00.0",
@@ -1492,7 +1492,7 @@
         "Lim": 0,
         "Attr": 0
       },
-      "Module": "r8169"
+      "KernelModule": "r8169"
     },
     {
       "Addr": "0000:06:00.0",
@@ -1554,7 +1554,7 @@
         "Lim": 0,
         "Attr": 0
       },
-      "Module": "igb"
+      "KernelModule": "igb"
     },
     {
       "Addr": "0000:07:00.0",
@@ -1604,7 +1604,7 @@
         "Lim": 0,
         "Attr": 0
       },
-      "Module": "iwlwifi"
+      "KernelModule": "iwlwifi"
     },
     {
       "Addr": "0000:08:00.0",
@@ -1695,7 +1695,7 @@
         "Lim": 0,
         "Attr": 0
       },
-      "Module": "xhci_pci"
+      "KernelModule": "xhci_pci"
     },
     {
       "Addr": "0000:08:00.3",
@@ -1745,7 +1745,7 @@
         "Lim": 0,
         "Attr": 0
       },
-      "Module": "xhci_pci"
+      "KernelModule": "xhci_pci"
     },
     {
       "Addr": "0000:09:00.0",
@@ -1795,7 +1795,7 @@
         "Lim": 0,
         "Attr": 0
       },
-      "Module": "ahci"
+      "KernelModule": "ahci"
     },
     {
       "Addr": "0000:0a:00.0",
@@ -1845,7 +1845,7 @@
         "Lim": 0,
         "Attr": 0
       },
-      "Module": "ahci"
+      "KernelModule": "ahci"
     },
     {
       "Addr": "0000:0b:00.0",
@@ -1919,7 +1919,7 @@
         "Lim": 0,
         "Attr": 0
       },
-      "Module": "nvidia"
+      "KernelModule": "nvidia"
     },
     {
       "Addr": "0000:0b:00.1",
@@ -1969,7 +1969,7 @@
         "Lim": 0,
         "Attr": 0
       },
-      "Module": "snd_hda_intel"
+      "KernelModule": "snd_hda_intel"
     },
     {
       "Addr": "0000:0b:00.2",
@@ -2025,7 +2025,7 @@
         "Lim": 0,
         "Attr": 0
       },
-      "Module": "xhci_pci"
+      "KernelModule": "xhci_pci"
     },
     {
       "Addr": "0000:0b:00.3",
@@ -2075,7 +2075,7 @@
         "Lim": 0,
         "Attr": 0
       },
-      "Module": "i2c_nvidia_gpu"
+      "KernelModule": "i2c_nvidia_gpu"
     },
     {
       "Addr": "0000:0c:00.0",
@@ -2213,7 +2213,7 @@
         "Lim": 0,
         "Attr": 0
       },
-      "Module": "ccp"
+      "KernelModule": "ccp"
     },
     {
       "Addr": "0000:0d:00.3",
@@ -2263,7 +2263,7 @@
         "Lim": 0,
         "Attr": 0
       },
-      "Module": "xhci_pci"
+      "KernelModule": "xhci_pci"
     },
     {
       "Addr": "0000:0d:00.4",
@@ -2313,7 +2313,7 @@
         "Lim": 0,
         "Attr": 0
       },
-      "Module": "snd_hda_intel"
+      "KernelModule": "snd_hda_intel"
     }
   ],
   "usb": [
@@ -2327,7 +2327,7 @@
       ],
       "Spec": 800,
       "Device": 305,
-      "Vendor": 3034,
+      "Vendor": 3034,""
       "Product": 1041,
       "Class": 9,
       "SubClass": 0,
@@ -2367,7 +2367,7 @@
           ]
         }
       },
-      "Module": "usbcore"
+      "KernelModule": "usbcore"
     },
     {
       "Bus": 8,
@@ -2565,7 +2565,7 @@
           ]
         }
       },
-      "Module": "usbhid"
+      "KernelModule": "usbhid"
     },
     {
       "Bus": 7,
@@ -2923,7 +2923,7 @@
           ]
         }
       },
-      "Module": "snd_usb_audio"
+      "KernelModule": "snd_usb_audio"
     },
     {
       "Bus": 7,
@@ -2994,7 +2994,7 @@
           ]
         }
       },
-      "Module": "usbcore"
+      "KernelModule": "usbcore"
     },
     {
       "Bus": 7,
@@ -3193,7 +3193,7 @@
           ]
         }
       },
-      "Module": "usbcore"
+      "KernelModule": "usbcore"
     },
     {
       "Bus": 4,
@@ -3343,7 +3343,7 @@
           ]
         }
       },
-      "Module": "usbhid"
+      "KernelModule": "usbhid"
     },
     {
       "Bus": 3,
@@ -3414,7 +3414,7 @@
           ]
         }
       },
-      "Module": "usbcore"
+      "KernelModule": "usbcore"
     },
     {
       "Bus": 3,
@@ -3544,7 +3544,7 @@
           ]
         }
       },
-      "Module": "usbcore"
+      "KernelModule": "usbcore"
     },
     {
       "Bus": 3,
@@ -3922,7 +3922,7 @@
           ]
         }
       },
-      "Module": "btusb"
+      "KernelModule": "btusb"
     },
     {
       "Bus": 1,
@@ -3988,7 +3988,7 @@
           ]
         }
       },
-      "Module": "usbhid"
+      "KernelModule": "usbhid"
     },
     {
       "Bus": 1,
@@ -4059,7 +4059,7 @@
           ]
         }
       },
-      "Module": "usbcore"
+      "KernelModule": "usbcore"
     },
     {
       "Bus": 1,
@@ -4188,7 +4188,7 @@
           ]
         }
       },
-      "Module": "usbhid"
+      "KernelModule": "usbhid"
     },
     {
       "Bus": 1,

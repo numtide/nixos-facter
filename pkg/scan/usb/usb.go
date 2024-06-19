@@ -10,8 +10,24 @@ import (
 
 type Device struct {
 	*gousb.DeviceDesc
-
 	KernelModule string `json:",omitempty"`
+}
+
+func (d *Device) IsClass(classes ...gousb.Class) bool {
+	for _, mask := range classes {
+		if d.Class&mask == 0x1 {
+			return true
+		}
+	}
+	return false
+}
+
+func (d *Device) IsKeyboard() bool {
+	return d.IsClass(gousb.ClassHID)
+}
+
+func (d *Device) IsMassStorage() bool {
+	return d.IsClass(gousb.ClassMassStorage)
 }
 
 func (d *Device) Paths() []string {

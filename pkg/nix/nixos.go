@@ -3,6 +3,7 @@ package nix
 import (
 	"embed"
 	"fmt"
+	"github.com/google/gousb"
 	"github.com/numtide/nixos-facter/pkg/scan"
 	"github.com/u-root/u-root/pkg/pci"
 	"io"
@@ -27,7 +28,8 @@ type ModuleGenerator struct {
 }
 
 func (mg *ModuleGenerator) Generate(writer io.Writer) error {
-	mg.processDevices()
+	mg.processPCI()
+	mg.processUSB()
 
 	// remove duplicates
 	mg.Attrs = slices.Compact(mg.Attrs)
@@ -55,7 +57,7 @@ func (mg *ModuleGenerator) Generate(writer io.Writer) error {
 	return tmpl.Funcs(funcMap).Execute(writer, mg)
 }
 
-func (mg *ModuleGenerator) processDevices() {
+func (mg *ModuleGenerator) processPCI() {
 	for _, dev := range mg.Report.PCI {
 
 		if dev.KernelModule != "" {
@@ -108,5 +110,15 @@ func (mg *ModuleGenerator) processDevices() {
 
 		// todo review setting the nvidia video driver which is unfree
 		// https://github.com/NixOS/nixpkgs/blob/dac9cdf8c930c0af98a63cbfe8005546ba0125fb/nixos/modules/installer/tools/nixos-generate-config.pl#L199-L202
+	}
+}
+
+func (mg *ModuleGenerator) processUSB() {
+	for _, dev := range mg.Report.USB {
+		if dev.KernelModule != "" {
+			if dev.Class == gousb.ClassMassStorage || (dev.Class == gousb.ClassHID && dev.Protocol == 1) {
+				mg.InitrdAvailableKernelModules = append(mg.InitrdAvailableKernelModules, dev.KernelModule)
+			}
+		}
 	}
 }
