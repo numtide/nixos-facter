@@ -6,6 +6,16 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
+)
+
+var (
+	deviceGlobs = []string{
+		"/dev/stratis/*/*",
+		"/dev/disk/by-uuid/*",
+		"/dev/mapper/*",
+		"/dev/disk/by-label/*",
+	}
 )
 
 type Device struct {
@@ -82,6 +92,8 @@ type Device struct {
 
 	// KernelModule is the result of probing /device/driver/module
 	KernelModule string `json:"module,omitempty"`
+
+	StablePath string `json:"stable-path,omitempty"`
 }
 
 type lsblkOutput struct {
@@ -104,14 +116,41 @@ func Scan() ([]*Device, error) {
 	}
 
 	for _, dev := range output.Devices {
-		path, err := os.Readlink(dev.Path + "/device/driver/module")
+		// for device names like /dev/sda1 find a more stable path like /dev/disk/by-uuid/X or /dev/disk/by-label/Y
+
+		if !strings.HasPrefix(dev.Path, "/") {
+			continue
+		}
+
+		deviceStat, err := os.Stat(dev.Path)
+		if err != nil {
+			return nil, fmt.Errorf("failed to stat block device path: %w", err)
+		}
+
+		for _, pattern := range deviceGlobs {
+			matches, err := filepath.Glob(pattern)
+			if err != nil {
+				return nil, fmt.Errorf("failed to resolve glob pattern: %w", err)
+			}
+			for _, match := range matches {
+				stat, err := os.Stat(match)
+				if err != nil {
+					return nil, fmt.Errorf("failed to stat device: %w", err)
+				}
+				if os.SameFile(deviceStat, stat) {
+					dev.StablePath = match
+					break
+				}
+			}
+		}
+
+		module, err := os.Readlink(dev.Path + "/device/driver/module")
 		if err != nil {
 			// todo add some logging and check error
 			continue
 		}
 
-		println("setting module")
-		dev.KernelModule = filepath.Base(path)
+		dev.KernelModule = filepath.Base(module)
 	}
 
 	return output.Devices, nil
