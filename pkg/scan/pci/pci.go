@@ -42,7 +42,7 @@ var (
 
 type Device struct {
 	pci.PCI
-	Module string `json:",omitempty"`
+	KernelModule string `json:",omitempty"`
 }
 
 func (d *Device) IsVendorBroadcom() bool {
@@ -122,7 +122,7 @@ func Scan() ([]*Device, error) {
 			continue
 		}
 
-		dev.Module = filepath.Base(path)
+		dev.KernelModule = filepath.Base(path)
 	}
 
 	return result, nil

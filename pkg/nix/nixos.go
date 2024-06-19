@@ -58,7 +58,7 @@ func (mg *ModuleGenerator) Generate(writer io.Writer) error {
 func (mg *ModuleGenerator) processDevices() {
 	for _, dev := range mg.Report.PCI {
 
-		if dev.Module != "" {
+		if dev.KernelModule != "" {
 			if dev.IsClass(
 				// mass-storage controller
 				pci.ClassStorage,
@@ -67,7 +67,7 @@ func (mg *ModuleGenerator) processDevices() {
 				// usb controller, needed if we want to use the keyboard when things go wrong in the initrd
 				pci.ClassSerialUSB,
 			) {
-				mg.InitrdAvailableKernelModules = append(mg.InitrdAvailableKernelModules, dev.Module)
+				mg.InitrdAvailableKernelModules = append(mg.InitrdAvailableKernelModules, dev.KernelModule)
 			}
 		}
 

@@ -80,8 +80,8 @@ type Device struct {
 	ZoneAmax     int           `json:"zone-amax,omitempty"`
 	Children     []Device      `json:"children,omitempty"`
 
-	// Module is the result of probing /device/driver/module
-	Module string `json:"module,omitempty"`
+	// KernelModule is the result of probing /device/driver/module
+	KernelModule string `json:"module,omitempty"`
 }
 
 type lsblkOutput struct {
@@ -111,7 +111,7 @@ func Scan() ([]*Device, error) {
 		}
 
 		println("setting module")
-		dev.Module = filepath.Base(path)
+		dev.KernelModule = filepath.Base(path)
 	}
 
 	return output.Devices, nil
