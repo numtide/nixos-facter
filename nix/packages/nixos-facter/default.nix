@@ -3,13 +3,14 @@ args@{
   inputs,
   system,
   pkgs,
+  pname,
   ...
 }:
 let
   inherit (pkgs) go lib;
 in
 inputs.gomod2nix.legacyPackages.${system}.buildGoApplication rec {
-  pname = "nixos-facter";
+  inherit pname;
   # there's no good way of tying in the version to a git tag or branch
   # so for simplicity's sake we set the version as the commit revision hash
   # we remove the `-dirty` suffix to avoid a lot of unnecessary rebuilds in local dev
@@ -23,7 +24,7 @@ inputs.gomod2nix.legacyPackages.${system}.buildGoApplication rec {
       filter = inputs.nix-filter.lib;
     in
     filter {
-      root = ../../.;
+      root = ../../../.;
       include = [
         "cmd"
         "pkg"

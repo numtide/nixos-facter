@@ -31,6 +31,7 @@
   outputs =
     inputs:
     inputs.blueprint {
+      prefix = "nix/";
       inherit inputs;
       systems = [
         "aarch64-linux"

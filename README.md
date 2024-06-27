@@ -1,6 +1,6 @@
 # nixos-facter
 
-* **Status: vaporware**
+-   **Status: vaporware**
 
 Instead of generating Nix code we would be generating a JSON-like data structure of facts about the machine.
 This can be recorded and loaded by Nix. Or added to the nixos-hardware repo.
@@ -11,8 +11,8 @@ It inverts the control where the NixOS module system can now make decisions on w
 
 The project has two parts:
 
-- The binary that scans the system and outputs JSON or TOML.
-- A NixOS module that can load that data and make decisions.
+-   The binary that scans the system and outputs JSON or TOML.
+-   A NixOS module that can load that data and make decisions.
 
 That's it.
 
