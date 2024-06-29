@@ -216,24 +216,41 @@ func (s *Slot) MarshalJSON() ([]byte, error) {
 
 // TODO UnmarshalJSON for Slot
 
+type DeviceNumber struct {
+	Type  int  `json:""`
+	Major uint `json:""`
+	Minor uint `json:""`
+	Range uint `json:""`
+}
+
 type Item struct {
 	// Index is a unique index, starting at 1
 	Index uint `json:""`
 	// Bus type (id and name)
-	Bus           *Id          `json:",omitempty"`
-	Slot          Slot         `json:",omitempty"`
-	BaseClass     *Id          `json:",omitempty"`
-	SubClass      *Id          `json:",omitempty"`
-	PciInterface  *Id          `json:",omitempty"`
-	Vendor        *Id          `json:",omitempty"`
-	SubVendor     *Id          `json:",omitempty"`
-	Device        *Id          `json:",omitempty"`
-	SubDevice     *Id          `json:",omitempty"`
-	Revision      *Id          `json:",omitempty"`
-	Serial        string       `json:",omitempty"`
-	CompatVendor  *Id          `json:",omitempty"`
-	CompatDevice  *Id          `json:",omitempty"`
-	HardwareClass HardwareItem `json:",omitempty"`
+	Bus               *Id           `json:",omitempty"`
+	Slot              Slot          `json:",omitempty"`
+	BaseClass         *Id           `json:",omitempty"`
+	SubClass          *Id           `json:",omitempty"`
+	PciInterface      *Id           `json:",omitempty"`
+	Vendor            *Id           `json:",omitempty"`
+	SubVendor         *Id           `json:",omitempty"`
+	Device            *Id           `json:",omitempty"`
+	SubDevice         *Id           `json:",omitempty"`
+	Revision          *Id           `json:",omitempty"`
+	Serial            string        `json:",omitempty"`
+	CompatVendor      *Id           `json:",omitempty"`
+	CompatDevice      *Id           `json:",omitempty"`
+	HardwareClass     HardwareItem  `json:",omitempty"`
+	Model             string        `json:",omitempty"`
+	AttachedTo        uint          `json:",omitempty"`
+	SysfsId           string        `json:",omitempty"`
+	SysfsBusId        string        `json:",omitempty"`
+	SysfsDeviceLink   string        `json:",omitempty"`
+	UnixDeviceName    string        `json:",omitempty"`
+	UnixDeviceNumber  *DeviceNumber `json:",omitempty"`
+	UnixDeviceNames   []string      `json:",omitempty"`
+	UnixDeviceName2   string        `json:","`
+	UnixDeviceNumber2 *DeviceNumber `json:",omitempty"`
 }
 
 func (i Item) String() string {

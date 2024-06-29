@@ -37,6 +37,16 @@ func Scan() (*Report, error) {
 		item.CompatVendor = parseId(hd.hd.compat_vendor)
 		item.CompatDevice = parseId(hd.hd.compat_device)
 		item.HardwareClass = HardwareItem(hd.hd.hw_class)
+		item.Model = C.GoString(hd.hd.model)
+		item.AttachedTo = uint(hd.hd.attached_to)
+		item.SysfsId = C.GoString(hd.hd.sysfs_id)
+		item.SysfsBusId = C.GoString(hd.hd.sysfs_bus_id)
+		item.SysfsDeviceLink = C.GoString(hd.hd.sysfs_device_link)
+		item.UnixDeviceName = C.GoString(hd.hd.unix_dev_name)
+		item.UnixDeviceNumber = parseDeviceNumber(hd.hd.unix_dev_num)
+		// todo unix dev names
+		item.UnixDeviceName2 = C.GoString(hd.hd.unix_dev_name2)
+		item.UnixDeviceNumber2 = parseDeviceNumber(hd.hd.unix_dev_num2)
 
 		report.Items = append(report.Items, &item)
 
@@ -57,5 +67,18 @@ func parseId(id C.hd_id_t) *Id {
 		return nil
 	}
 
+	return &result
+}
+
+func parseDeviceNumber(num C.hd_dev_num_t) *DeviceNumber {
+	result := DeviceNumber{}
+	result.Type = int(num._type)
+	result.Major = uint(num.major)
+	result.Minor = uint(num.minor)
+	result.Range = uint(num._range)
+
+	if result.Type == 0 && result.Major == 0 && result.Minor == 0 && result.Range == 0 {
+		return nil
+	}
 	return &result
 }
