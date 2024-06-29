@@ -39,6 +39,8 @@ mkShell {
   packages = lib.mkMerge [
     (with pkgs; [
       go
+      gotools
+      enumer
       delve
       pprof
       graphviz

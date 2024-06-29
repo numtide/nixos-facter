@@ -3,11 +3,10 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 */
 package main
 
-import "github.com/numtide/nixos-facter/pkg/hwinfo"
+import (
+	"github.com/numtide/nixos-facter/cmd"
+)
 
 func main() {
-
-	hwinfo.Scan()
-
-	//cmd.Execute()
+	cmd.Execute()
 }

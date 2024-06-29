@@ -5,8 +5,12 @@ package hwinfo
 #include <hd.h>
 */
 import "C"
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+)
 
+//go:generate enumer -type=ProbeFeature
 type ProbeFeature int
 
 const (
@@ -107,19 +111,97 @@ const (
 	ProbeFeatureAll
 )
 
-func (pf ProbeFeature) Set(data *hdData) {
-	C.hd_set_probe_feature(data, C.enum_probe_feature(pf))
+//go:generate enumer -type=HardwareItem
+type HardwareItem int
+
+const (
+	HardwareItemNone HardwareItem = iota
+	HardwareItemSys
+	HardwareItemCpu
+	HardwareItemKeyboard
+	HardwareItemBraille
+	HardwareItemMouse
+
+	HardwareItemJoystick
+	HardwareItemPrinter
+	HardwareItemScanner
+	HardwareItemChipcard
+	HardwareItemMonitor
+	HardwareItemTv
+
+	HardwareItemDisplay
+	HardwareItemFramebuffer
+	HardwareItemCamera
+	HardwareItemSound
+	HardwareItemStorageCtrl
+
+	HardwareItemNetworkCtrl
+	HardwareItemIsdn
+	HardwareItemModem
+	HardwareItemNetwork
+	HardwareItemDisk
+	HardwareItemPartition
+
+	HardwareItemCdrom
+	HardwareItemFloppy
+	HardwareItemManual
+	HardwareItemUsbCtrl
+	HardwareItemUsb
+	HardwareItemBios
+	HardwareItemPci
+
+	HardwareItemIsapnp
+	HardwareItemBridge
+	HardwareItemHub
+	HardwareItemScsi
+	HardwareItemIde
+	HardwareItemMemory
+	HardwareItemDvb
+
+	HardwareItemPcmcia
+	HardwareItemPcmciaCtrl
+	HardwareItemIeee1394
+	HardwareItemIeee1394Ctrl
+	HardwareItemHotplug
+
+	HardwareItemHotplugCtrl
+	HardwareItemZip
+	HardwareItemPppoe
+	HardwareItemWlan
+	HardwareItemRedasd
+	HardwareItemDsl
+	HardwareItemBlock
+
+	HardwareItemTape
+	HardwareItemVbe
+	HardwareItemBluetooth
+	HardwareItemFingerprint
+	HardwareItemMmcCtrl
+	HardwareItemNvme
+
+	/** append new entries here */
+	HardwareItemUnknown
+	HardwareItemAll
+)
+
+func (hw HardwareItem) MarshalJSON() ([]byte, error) {
+	return json.Marshal(hw.String())
 }
 
-func (pf ProbeFeature) Clear(data *hdData) {
-	C.hd_clear_probe_feature(data, C.enum_probe_feature(pf))
+func (hw *HardwareItem) UnmarshalJSON(b []byte) error {
+	enum, err := HardwareItemString(string(b))
+	if err != nil {
+		return err
+	}
+	*hw = enum
+	return nil
 }
 
 type Id struct {
 	// Id is a numeric id
-	Id uint
+	Id uint `json:""`
 	// Name (if any)
-	Name string
+	Name string `json:""`
 }
 
 func (i Id) String() string {
@@ -130,45 +212,52 @@ func (i Id) String() string {
 // Bits 0-7: slot number, 8-31 bus number
 type Slot uint
 
-func (s Slot) Slot() byte {
-	return byte(s & 0xFF)
+func (s *Slot) Slot() byte {
+	return byte(*s & 0xFF)
 }
 
-func (s Slot) Bus() uint {
-	return uint(s & 0xFFFFFF)
+func (s *Slot) Bus() uint {
+	return uint(*s & 0xFFFFFF)
 }
 
-func (s Slot) String() string {
+func (s *Slot) String() string {
 	return fmt.Sprintf("%d:%d", s.Slot(), s.Bus())
 }
 
-type HardwareItem struct {
-	// Index is a unique index, starting at 1
-	Index uint
-	// Bus type (id and name)
-	Bus          *Id
-	Slot         Slot
-	BaseClass    *Id
-	SubClass     *Id
-	PciInterface *Id
-	Vendor       *Id
-	SubVendor    *Id
-	Device       *Id
-	SubDevice    *Id
-	Revision     *Id
-	Serial       string
-	CompatVendor *Id
-	CompatDevice *Id
+func (s *Slot) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf("\"%d:%d\"", s.Slot(), s.Bus())), nil
 }
 
-func (i HardwareItem) String() string {
+// TODO UnmarshalJSON for Slot
+
+type Item struct {
+	// Index is a unique index, starting at 1
+	Index uint `json:""`
+	// Bus type (id and name)
+	Bus           *Id          `json:",omitempty"`
+	Slot          Slot         `json:",omitempty"`
+	BaseClass     *Id          `json:",omitempty"`
+	SubClass      *Id          `json:",omitempty"`
+	PciInterface  *Id          `json:",omitempty"`
+	Vendor        *Id          `json:",omitempty"`
+	SubVendor     *Id          `json:",omitempty"`
+	Device        *Id          `json:",omitempty"`
+	SubDevice     *Id          `json:",omitempty"`
+	Revision      *Id          `json:",omitempty"`
+	Serial        string       `json:",omitempty"`
+	CompatVendor  *Id          `json:",omitempty"`
+	CompatDevice  *Id          `json:",omitempty"`
+	HardwareClass HardwareItem `json:",omitempty"`
+}
+
+func (i Item) String() string {
 	return fmt.Sprintf("bus = %v, name = %v", i.Bus.Id, i.Bus.Name)
 }
 
-type HardwareData struct {
-	Items []HardwareItem
+type Report struct {
+	Items []*Item `json:""`
 
 	// Log contains all messages logged during hardware probing
-	Log   string
-	Debug uint
+	Log   string `json:",omitempty"`
+	Debug uint   `json:",omitempty"`
 }

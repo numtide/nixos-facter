@@ -7,28 +7,21 @@ package hwinfo
 */
 import "C"
 import (
-	"fmt"
 	"unsafe"
 )
 
-type hdData = C.hd_data_t
-type hdId = C.hd_id_t
-type hd = C.hd_t
+func Scan() (*Report, error) {
+	hd := (*C.hd_data_t)(unsafe.Pointer(C.calloc(1, C.size_t(unsafe.Sizeof(C.hd_data_t{})))))
 
-func Scan() {
-	hd := (*hdData)(unsafe.Pointer(C.calloc(1, C.size_t(unsafe.Sizeof(hdData{})))))
-
-	ProbeFeatureAll.Set(hd)
+	C.hd_set_probe_feature(hd, C.enum_probe_feature(ProbeFeatureAll))
 	C.hd_scan(hd)
 
-	fmt.Println("Scan complete")
-
-	data := HardwareData{}
-	data.Log = C.GoString(hd.log)
-	data.Debug = uint(hd.debug)
+	report := Report{}
+	report.Log = C.GoString(hd.log)
+	report.Debug = uint(hd.debug)
 
 	for hd.hd != nil {
-		item := HardwareItem{}
+		item := Item{}
 		item.Index = uint(hd.hd.idx)
 		item.Bus = parseId(hd.hd.bus)
 		item.Slot = Slot(hd.hd.slot)
@@ -43,33 +36,26 @@ func Scan() {
 		item.Serial = C.GoString(hd.hd.serial)
 		item.CompatVendor = parseId(hd.hd.compat_vendor)
 		item.CompatDevice = parseId(hd.hd.compat_device)
+		item.HardwareClass = HardwareItem(hd.hd.hw_class)
 
-		data.Items = append(data.Items, item)
+		report.Items = append(report.Items, &item)
+
 		hd.hd = hd.hd.next
 	}
 
 	defer C.hd_free_hd_data(hd)
 
-	for _, item := range data.Items {
-		fmt.Printf("New item: %d\n", item.Index)
-		fmt.Printf("Bus = %v\n", item.Bus)
-		fmt.Printf("Slot = %v\n", item.Slot)
-		fmt.Printf("Base Class = %v\n", item.BaseClass)
-		fmt.Printf("Sub Class = %v\n", item.SubClass)
-		fmt.Printf("PCI Interface = %v\n", item.PciInterface)
-		fmt.Printf("Vendor = %v\n", item.Vendor)
-		fmt.Printf("Sub Vendor = %v\n", item.SubVendor)
-		fmt.Printf("Device = %v\n", item.Device)
-		fmt.Printf("Sub Device = %v\n", item.SubDevice)
-		fmt.Printf("Revision = %v\n", item.Revision)
-		fmt.Printf("Serial = %v\n", item.Serial)
-		fmt.Println()
-	}
+	return &report, nil
 }
 
-func parseId(id hdId) *Id {
+func parseId(id C.hd_id_t) *Id {
 	result := Id{}
 	result.Id = uint(id.id)
 	result.Name = C.GoString(id.name)
+
+	if result.Id == 0 && result.Name == "" {
+		return nil
+	}
+
 	return &result
 }
