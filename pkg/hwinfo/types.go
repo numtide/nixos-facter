@@ -6,11 +6,10 @@ package hwinfo
 */
 import "C"
 import (
-	"encoding/json"
 	"fmt"
 )
 
-//go:generate enumer -type=ProbeFeature
+//go:generate enumer -type=ProbeFeature -json -trimprefix ProbeFeature
 type ProbeFeature int
 
 const (
@@ -111,7 +110,7 @@ const (
 	ProbeFeatureAll
 )
 
-//go:generate enumer -type=HardwareItem
+//go:generate enumer -type=HardwareItem -json -trimprefix HardwareItem
 type HardwareItem int
 
 const (
@@ -183,19 +182,6 @@ const (
 	HardwareItemUnknown
 	HardwareItemAll
 )
-
-func (hw HardwareItem) MarshalJSON() ([]byte, error) {
-	return json.Marshal(hw.String())
-}
-
-func (hw *HardwareItem) UnmarshalJSON(b []byte) error {
-	enum, err := HardwareItemString(string(b))
-	if err != nil {
-		return err
-	}
-	*hw = enum
-	return nil
-}
 
 type Id struct {
 	// Id is a numeric id
