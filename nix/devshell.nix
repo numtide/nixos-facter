@@ -47,6 +47,7 @@ mkShell {
       pkg-config
       util-linux.dev
       pciutils
+      hwinfo
     ])
   ];
 
