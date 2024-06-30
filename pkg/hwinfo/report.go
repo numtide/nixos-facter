@@ -198,6 +198,17 @@ func (i Id) String() string {
 	return fmt.Sprintf("%d:%s", i.Id, i.Name)
 }
 
+func NewId(id C.hd_id_t) *Id {
+	result := Id{
+		Id:   uint(id.id),
+		Name: C.GoString(id.name),
+	}
+	if result.IsEmpty() {
+		return nil
+	}
+	return &result
+}
+
 // Slot represents a slot and bus number.
 // Bits 0-7: slot number, 8-31 bus number
 type Slot uint
@@ -229,6 +240,19 @@ type DeviceNumber struct {
 
 func (d DeviceNumber) IsEmpty() bool {
 	return d.Type == 0 && d.Major == 0 && d.Minor == 0 && d.Range == 0
+}
+
+func NewDeviceNumber(num C.hd_dev_num_t) *DeviceNumber {
+	result := DeviceNumber{
+		Type:  int(num._type),
+		Major: uint(num.major),
+		Minor: uint(num.minor),
+		Range: uint(num._range),
+	}
+	if result.IsEmpty() {
+		return nil
+	}
+	return &result
 }
 
 type Item struct {
@@ -279,10 +303,59 @@ func (i Item) String() string {
 	return fmt.Sprintf("bus = %v, name = %v", i.Bus.Id, i.Bus.Name)
 }
 
+func NewItem(hd *C.hd_t) *Item {
+	if hd == nil {
+		return nil
+	}
+	return &Item{
+		Index:            uint(hd.idx),
+		Bus:              NewId(hd.bus),
+		Slot:             Slot(hd.slot),
+		BaseClass:        NewId(hd.base_class),
+		SubClass:         NewId(hd.sub_class),
+		PciInterface:     NewId(hd.prog_if),
+		Vendor:           NewId(hd.vendor),
+		SubVendor:        NewId(hd.sub_vendor),
+		Device:           NewId(hd.device),
+		SubDevice:        NewId(hd.sub_device),
+		Revision:         NewId(hd.revision),
+		Serial:           C.GoString(hd.serial),
+		CompatVendor:     NewId(hd.compat_vendor),
+		CompatDevice:     NewId(hd.compat_device),
+		HardwareClass:    HardwareItem(hd.hw_class),
+		Model:            C.GoString(hd.model),
+		AttachedTo:       uint(hd.attached_to),
+		SysfsId:          C.GoString(hd.sysfs_id),
+		SysfsBusId:       C.GoString(hd.sysfs_bus_id),
+		SysfsDeviceLink:  C.GoString(hd.sysfs_device_link),
+		UnixDeviceName:   C.GoString(hd.unix_dev_name),
+		UnixDeviceNumber: NewDeviceNumber(hd.unix_dev_num),
+		// todo unix dev names
+		UnixDeviceName2:   C.GoString(hd.unix_dev_name2),
+		UnixDeviceNumber2: NewDeviceNumber(hd.unix_dev_num2),
+		RomId:             C.GoString(hd.rom_id),
+		Udi:               C.GoString(hd.udi),
+		ParentUdi:         C.GoString(hd.parent_udi),
+		UniqueId:          C.GoString(hd.unique_id),
+		UniqueIds:         readStringList(hd.unique_ids),
+	}
+}
+
 type Report struct {
 	Items []*Item `json:""`
 
 	// Log contains all messages logged during hardware probing
 	Log   string `json:",omitempty"`
 	Debug uint   `json:",omitempty"`
+}
+
+func readStringList(list *C.str_list_t) (result []string) {
+	if list == nil {
+		return nil
+	}
+	for entry := list; entry != nil; entry = entry.next {
+		result = append(result, C.GoString(list.str))
+		entry = entry.next
+	}
+	return result
 }
