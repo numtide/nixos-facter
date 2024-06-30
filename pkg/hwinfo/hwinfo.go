@@ -11,54 +11,57 @@ import (
 )
 
 func Scan() (*Report, error) {
-	hd := (*C.hd_data_t)(unsafe.Pointer(C.calloc(1, C.size_t(unsafe.Sizeof(C.hd_data_t{})))))
+	data := (*C.hd_data_t)(unsafe.Pointer(C.calloc(1, C.size_t(unsafe.Sizeof(C.hd_data_t{})))))
 
-	C.hd_set_probe_feature(hd, C.enum_probe_feature(ProbeFeatureAll))
-	C.hd_scan(hd)
+	C.hd_set_probe_feature(data, C.enum_probe_feature(ProbeFeatureAll))
+	C.hd_scan(data)
+	defer C.hd_free_hd_data(data)
 
 	report := Report{}
-	report.Log = C.GoString(hd.log)
-	report.Debug = uint(hd.debug)
+	report.Log = C.GoString(data.log)
+	report.Debug = uint(data.debug)
 
-	for hd.hd != nil {
+	// get first item in the list
+	hd := data.hd
+
+	for hd != nil {
 		item := Item{}
-		item.Index = uint(hd.hd.idx)
-		item.Bus = parseId(hd.hd.bus)
-		item.Slot = Slot(hd.hd.slot)
-		item.BaseClass = parseId(hd.hd.base_class)
-		item.SubClass = parseId(hd.hd.sub_class)
-		item.PciInterface = parseId(hd.hd.prog_if)
-		item.Vendor = parseId(hd.hd.vendor)
-		item.SubVendor = parseId(hd.hd.sub_vendor)
-		item.Device = parseId(hd.hd.device)
-		item.SubDevice = parseId(hd.hd.sub_device)
-		item.Revision = parseId(hd.hd.revision)
-		item.Serial = C.GoString(hd.hd.serial)
-		item.CompatVendor = parseId(hd.hd.compat_vendor)
-		item.CompatDevice = parseId(hd.hd.compat_device)
-		item.HardwareClass = HardwareItem(hd.hd.hw_class)
-		item.Model = C.GoString(hd.hd.model)
-		item.AttachedTo = uint(hd.hd.attached_to)
-		item.SysfsId = C.GoString(hd.hd.sysfs_id)
-		item.SysfsBusId = C.GoString(hd.hd.sysfs_bus_id)
-		item.SysfsDeviceLink = C.GoString(hd.hd.sysfs_device_link)
-		item.UnixDeviceName = C.GoString(hd.hd.unix_dev_name)
-		item.UnixDeviceNumber = parseDeviceNumber(hd.hd.unix_dev_num)
+		item.Index = uint(hd.idx)
+		item.Bus = readId(hd.bus)
+		item.Slot = Slot(hd.slot)
+		item.BaseClass = readId(hd.base_class)
+		item.SubClass = readId(hd.sub_class)
+		item.PciInterface = readId(hd.prog_if)
+		item.Vendor = readId(hd.vendor)
+		item.SubVendor = readId(hd.sub_vendor)
+		item.Device = readId(hd.device)
+		item.SubDevice = readId(hd.sub_device)
+		item.Revision = readId(hd.revision)
+		item.Serial = C.GoString(hd.serial)
+		item.CompatVendor = readId(hd.compat_vendor)
+		item.CompatDevice = readId(hd.compat_device)
+		item.HardwareClass = HardwareItem(hd.hw_class)
+		item.Model = C.GoString(hd.model)
+		item.AttachedTo = uint(hd.attached_to)
+		item.SysfsId = C.GoString(hd.sysfs_id)
+		item.SysfsBusId = C.GoString(hd.sysfs_bus_id)
+		item.SysfsDeviceLink = C.GoString(hd.sysfs_device_link)
+		item.UnixDeviceName = C.GoString(hd.unix_dev_name)
+		item.UnixDeviceNumber = readDeviceNumber(hd.unix_dev_num)
 		// todo unix dev names
-		item.UnixDeviceName2 = C.GoString(hd.hd.unix_dev_name2)
-		item.UnixDeviceNumber2 = parseDeviceNumber(hd.hd.unix_dev_num2)
+		item.UnixDeviceName2 = C.GoString(hd.unix_dev_name2)
+		item.UnixDeviceNumber2 = readDeviceNumber(hd.unix_dev_num2)
 
 		report.Items = append(report.Items, &item)
 
-		hd.hd = hd.hd.next
+		// get next item in the list
+		hd = hd.next
 	}
-
-	defer C.hd_free_hd_data(hd)
 
 	return &report, nil
 }
 
-func parseId(id C.hd_id_t) *Id {
+func readId(id C.hd_id_t) *Id {
 	result := Id{}
 	result.Id = uint(id.id)
 	result.Name = C.GoString(id.name)
@@ -70,7 +73,7 @@ func parseId(id C.hd_id_t) *Id {
 	return &result
 }
 
-func parseDeviceNumber(num C.hd_dev_num_t) *DeviceNumber {
+func readDeviceNumber(num C.hd_dev_num_t) *DeviceNumber {
 	result := DeviceNumber{}
 	result.Type = int(num._type)
 	result.Major = uint(num.major)
