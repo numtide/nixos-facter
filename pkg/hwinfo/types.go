@@ -185,9 +185,13 @@ const (
 
 type Id struct {
 	// Id is a numeric id
-	Id uint `json:""`
+	Id uint `json:",omitempty"`
 	// Name (if any)
-	Name string `json:""`
+	Name string `json:",omitempty"`
+}
+
+func (i Id) IsEmpty() bool {
+	return i.Id == 0 && i.Name == ""
 }
 
 func (i Id) String() string {
@@ -223,6 +227,10 @@ type DeviceNumber struct {
 	Range uint `json:""`
 }
 
+func (d DeviceNumber) IsEmpty() bool {
+	return d.Type == 0 && d.Major == 0 && d.Minor == 0 && d.Range == 0
+}
+
 type Item struct {
 	// Index is a unique index, starting at 1
 	Index uint `json:""`
@@ -249,8 +257,22 @@ type Item struct {
 	UnixDeviceName    string        `json:",omitempty"`
 	UnixDeviceNumber  *DeviceNumber `json:",omitempty"`
 	UnixDeviceNames   []string      `json:",omitempty"`
-	UnixDeviceName2   string        `json:","`
+	UnixDeviceName2   string        `json:",omitempty"`
 	UnixDeviceNumber2 *DeviceNumber `json:",omitempty"`
+	RomId             string        `json:",omitempty"`
+	Udi               string        `json:",omitempty"`
+	ParentUdi         string        `json:",omitempty"`
+
+	/*
+		UniqueId is a unique string identifying this hardware.
+		The string consists of two parts separated by a dot (".").
+		The part before the dot describes the location (where the hardware is attached in the system).
+		The part after the dot identifies the hardware itself.
+		The string must not contain slashes ("/") because we're going to create files with this id as name.
+		Apart from this, there are no restrictions on the form of this string.
+	*/
+	UniqueId  string   `json:",omitempty"`
+	UniqueIds []string `json:",omitempty"`
 }
 
 func (i Item) String() string {

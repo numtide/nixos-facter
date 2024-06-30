@@ -21,10 +21,7 @@ func Scan() (*Report, error) {
 	report.Log = C.GoString(data.log)
 	report.Debug = uint(data.debug)
 
-	// get first item in the list
-	hd := data.hd
-
-	for hd != nil {
+	for hd := data.hd; hd != nil; hd = hd.next {
 		item := Item{}
 		item.Index = uint(hd.idx)
 		item.Bus = readId(hd.bus)
@@ -51,6 +48,11 @@ func Scan() (*Report, error) {
 		// todo unix dev names
 		item.UnixDeviceName2 = C.GoString(hd.unix_dev_name2)
 		item.UnixDeviceNumber2 = readDeviceNumber(hd.unix_dev_num2)
+		item.RomId = C.GoString(hd.rom_id)
+		item.Udi = C.GoString(hd.udi)
+		item.ParentUdi = C.GoString(hd.parent_udi)
+		item.UniqueId = C.GoString(hd.unique_id)
+		item.UniqueIds = readStringList(hd.unique_ids)
 
 		report.Items = append(report.Items, &item)
 
@@ -66,7 +68,7 @@ func readId(id C.hd_id_t) *Id {
 	result.Id = uint(id.id)
 	result.Name = C.GoString(id.name)
 
-	if result.Id == 0 && result.Name == "" {
+	if result.IsEmpty() {
 		return nil
 	}
 
@@ -80,8 +82,19 @@ func readDeviceNumber(num C.hd_dev_num_t) *DeviceNumber {
 	result.Minor = uint(num.minor)
 	result.Range = uint(num._range)
 
-	if result.Type == 0 && result.Major == 0 && result.Minor == 0 && result.Range == 0 {
+	if result.IsEmpty() {
 		return nil
 	}
 	return &result
+}
+
+func readStringList(list *C.str_list_t) (result []string) {
+	if list == nil {
+		return nil
+	}
+	for entry := list; entry != nil; entry = entry.next {
+		result = append(result, C.GoString(list.str))
+		entry = entry.next
+	}
+	return result
 }
