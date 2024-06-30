@@ -297,6 +297,8 @@ type Item struct {
 	*/
 	UniqueId  string   `json:",omitempty"`
 	UniqueIds []string `json:",omitempty"`
+
+	Resources []Resource `json:""`
 }
 
 func (i Item) String() string {
@@ -338,6 +340,7 @@ func NewItem(hd *C.hd_t) *Item {
 		ParentUdi:         C.GoString(hd.parent_udi),
 		UniqueId:          C.GoString(hd.unique_id),
 		UniqueIds:         readStringList(hd.unique_ids),
+		Resources:         readResources(hd),
 	}
 }
 
