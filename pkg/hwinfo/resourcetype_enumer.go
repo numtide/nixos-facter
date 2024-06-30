@@ -8,11 +8,11 @@ import (
 	"strings"
 )
 
-const _ResourceTypeName = "ResourceAnyResourcePhysMemResourceMemResourceIoResourceIrqResourceDmaResourceMonitorResourceSizeResourceDisk_geoResourceCacheResourceBaudResourceInitStringsResourcePppdOptionResourceFramebufferResourceHwaddrResourceLinkResourceWlanResourceFcResourcePhwaddr"
+const _ResourceTypeName = "AnyPhysMemMemIoIrqDmaMonitorSizeDiskGeoCacheBaudInitStringsPppdOptionFramebufferHwaddrLinkWlanFcPhwaddr"
 
-var _ResourceTypeIndex = [...]uint16{0, 11, 26, 37, 47, 58, 69, 84, 96, 112, 125, 137, 156, 174, 193, 207, 219, 231, 241, 256}
+var _ResourceTypeIndex = [...]uint8{0, 3, 10, 13, 15, 18, 21, 28, 32, 39, 44, 48, 59, 69, 80, 86, 90, 94, 96, 103}
 
-const _ResourceTypeLowerName = "resourceanyresourcephysmemresourcememresourceioresourceirqresourcedmaresourcemonitorresourcesizeresourcedisk_georesourcecacheresourcebaudresourceinitstringsresourcepppdoptionresourceframebufferresourcehwaddrresourcelinkresourcewlanresourcefcresourcephwaddr"
+const _ResourceTypeLowerName = "anyphysmemmemioirqdmamonitorsizediskgeocachebaudinitstringspppdoptionframebufferhwaddrlinkwlanfcphwaddr"
 
 func (i ResourceType) String() string {
 	if i < 0 || i >= ResourceType(len(_ResourceTypeIndex)-1) {
@@ -25,90 +25,90 @@ func (i ResourceType) String() string {
 // Re-run the stringer command to generate them again.
 func _ResourceTypeNoOp() {
 	var x [1]struct{}
-	_ = x[ResourceAny-(0)]
-	_ = x[ResourcePhysMem-(1)]
-	_ = x[ResourceMem-(2)]
-	_ = x[ResourceIo-(3)]
-	_ = x[ResourceIrq-(4)]
-	_ = x[ResourceDma-(5)]
-	_ = x[ResourceMonitor-(6)]
-	_ = x[ResourceSize-(7)]
-	_ = x[ResourceDisk_geo-(8)]
-	_ = x[ResourceCache-(9)]
-	_ = x[ResourceBaud-(10)]
-	_ = x[ResourceInitStrings-(11)]
-	_ = x[ResourcePppdOption-(12)]
-	_ = x[ResourceFramebuffer-(13)]
-	_ = x[ResourceHwaddr-(14)]
-	_ = x[ResourceLink-(15)]
-	_ = x[ResourceWlan-(16)]
-	_ = x[ResourceFc-(17)]
-	_ = x[ResourcePhwaddr-(18)]
+	_ = x[ResourceTypeAny-(0)]
+	_ = x[ResourceTypePhysMem-(1)]
+	_ = x[ResourceTypeMem-(2)]
+	_ = x[ResourceTypeIo-(3)]
+	_ = x[ResourceTypeIrq-(4)]
+	_ = x[ResourceTypeDma-(5)]
+	_ = x[ResourceTypeMonitor-(6)]
+	_ = x[ResourceTypeSize-(7)]
+	_ = x[ResourceTypeDiskGeo-(8)]
+	_ = x[ResourceTypeCache-(9)]
+	_ = x[ResourceTypeBaud-(10)]
+	_ = x[ResourceTypeInitStrings-(11)]
+	_ = x[ResourceTypePppdOption-(12)]
+	_ = x[ResourceTypeFramebuffer-(13)]
+	_ = x[ResourceTypeHwaddr-(14)]
+	_ = x[ResourceTypeLink-(15)]
+	_ = x[ResourceTypeWlan-(16)]
+	_ = x[ResourceTypeFc-(17)]
+	_ = x[ResourceTypePhwaddr-(18)]
 }
 
-var _ResourceTypeValues = []ResourceType{ResourceAny, ResourcePhysMem, ResourceMem, ResourceIo, ResourceIrq, ResourceDma, ResourceMonitor, ResourceSize, ResourceDisk_geo, ResourceCache, ResourceBaud, ResourceInitStrings, ResourcePppdOption, ResourceFramebuffer, ResourceHwaddr, ResourceLink, ResourceWlan, ResourceFc, ResourcePhwaddr}
+var _ResourceTypeValues = []ResourceType{ResourceTypeAny, ResourceTypePhysMem, ResourceTypeMem, ResourceTypeIo, ResourceTypeIrq, ResourceTypeDma, ResourceTypeMonitor, ResourceTypeSize, ResourceTypeDiskGeo, ResourceTypeCache, ResourceTypeBaud, ResourceTypeInitStrings, ResourceTypePppdOption, ResourceTypeFramebuffer, ResourceTypeHwaddr, ResourceTypeLink, ResourceTypeWlan, ResourceTypeFc, ResourceTypePhwaddr}
 
 var _ResourceTypeNameToValueMap = map[string]ResourceType{
-	_ResourceTypeName[0:11]:         ResourceAny,
-	_ResourceTypeLowerName[0:11]:    ResourceAny,
-	_ResourceTypeName[11:26]:        ResourcePhysMem,
-	_ResourceTypeLowerName[11:26]:   ResourcePhysMem,
-	_ResourceTypeName[26:37]:        ResourceMem,
-	_ResourceTypeLowerName[26:37]:   ResourceMem,
-	_ResourceTypeName[37:47]:        ResourceIo,
-	_ResourceTypeLowerName[37:47]:   ResourceIo,
-	_ResourceTypeName[47:58]:        ResourceIrq,
-	_ResourceTypeLowerName[47:58]:   ResourceIrq,
-	_ResourceTypeName[58:69]:        ResourceDma,
-	_ResourceTypeLowerName[58:69]:   ResourceDma,
-	_ResourceTypeName[69:84]:        ResourceMonitor,
-	_ResourceTypeLowerName[69:84]:   ResourceMonitor,
-	_ResourceTypeName[84:96]:        ResourceSize,
-	_ResourceTypeLowerName[84:96]:   ResourceSize,
-	_ResourceTypeName[96:112]:       ResourceDisk_geo,
-	_ResourceTypeLowerName[96:112]:  ResourceDisk_geo,
-	_ResourceTypeName[112:125]:      ResourceCache,
-	_ResourceTypeLowerName[112:125]: ResourceCache,
-	_ResourceTypeName[125:137]:      ResourceBaud,
-	_ResourceTypeLowerName[125:137]: ResourceBaud,
-	_ResourceTypeName[137:156]:      ResourceInitStrings,
-	_ResourceTypeLowerName[137:156]: ResourceInitStrings,
-	_ResourceTypeName[156:174]:      ResourcePppdOption,
-	_ResourceTypeLowerName[156:174]: ResourcePppdOption,
-	_ResourceTypeName[174:193]:      ResourceFramebuffer,
-	_ResourceTypeLowerName[174:193]: ResourceFramebuffer,
-	_ResourceTypeName[193:207]:      ResourceHwaddr,
-	_ResourceTypeLowerName[193:207]: ResourceHwaddr,
-	_ResourceTypeName[207:219]:      ResourceLink,
-	_ResourceTypeLowerName[207:219]: ResourceLink,
-	_ResourceTypeName[219:231]:      ResourceWlan,
-	_ResourceTypeLowerName[219:231]: ResourceWlan,
-	_ResourceTypeName[231:241]:      ResourceFc,
-	_ResourceTypeLowerName[231:241]: ResourceFc,
-	_ResourceTypeName[241:256]:      ResourcePhwaddr,
-	_ResourceTypeLowerName[241:256]: ResourcePhwaddr,
+	_ResourceTypeName[0:3]:         ResourceTypeAny,
+	_ResourceTypeLowerName[0:3]:    ResourceTypeAny,
+	_ResourceTypeName[3:10]:        ResourceTypePhysMem,
+	_ResourceTypeLowerName[3:10]:   ResourceTypePhysMem,
+	_ResourceTypeName[10:13]:       ResourceTypeMem,
+	_ResourceTypeLowerName[10:13]:  ResourceTypeMem,
+	_ResourceTypeName[13:15]:       ResourceTypeIo,
+	_ResourceTypeLowerName[13:15]:  ResourceTypeIo,
+	_ResourceTypeName[15:18]:       ResourceTypeIrq,
+	_ResourceTypeLowerName[15:18]:  ResourceTypeIrq,
+	_ResourceTypeName[18:21]:       ResourceTypeDma,
+	_ResourceTypeLowerName[18:21]:  ResourceTypeDma,
+	_ResourceTypeName[21:28]:       ResourceTypeMonitor,
+	_ResourceTypeLowerName[21:28]:  ResourceTypeMonitor,
+	_ResourceTypeName[28:32]:       ResourceTypeSize,
+	_ResourceTypeLowerName[28:32]:  ResourceTypeSize,
+	_ResourceTypeName[32:39]:       ResourceTypeDiskGeo,
+	_ResourceTypeLowerName[32:39]:  ResourceTypeDiskGeo,
+	_ResourceTypeName[39:44]:       ResourceTypeCache,
+	_ResourceTypeLowerName[39:44]:  ResourceTypeCache,
+	_ResourceTypeName[44:48]:       ResourceTypeBaud,
+	_ResourceTypeLowerName[44:48]:  ResourceTypeBaud,
+	_ResourceTypeName[48:59]:       ResourceTypeInitStrings,
+	_ResourceTypeLowerName[48:59]:  ResourceTypeInitStrings,
+	_ResourceTypeName[59:69]:       ResourceTypePppdOption,
+	_ResourceTypeLowerName[59:69]:  ResourceTypePppdOption,
+	_ResourceTypeName[69:80]:       ResourceTypeFramebuffer,
+	_ResourceTypeLowerName[69:80]:  ResourceTypeFramebuffer,
+	_ResourceTypeName[80:86]:       ResourceTypeHwaddr,
+	_ResourceTypeLowerName[80:86]:  ResourceTypeHwaddr,
+	_ResourceTypeName[86:90]:       ResourceTypeLink,
+	_ResourceTypeLowerName[86:90]:  ResourceTypeLink,
+	_ResourceTypeName[90:94]:       ResourceTypeWlan,
+	_ResourceTypeLowerName[90:94]:  ResourceTypeWlan,
+	_ResourceTypeName[94:96]:       ResourceTypeFc,
+	_ResourceTypeLowerName[94:96]:  ResourceTypeFc,
+	_ResourceTypeName[96:103]:      ResourceTypePhwaddr,
+	_ResourceTypeLowerName[96:103]: ResourceTypePhwaddr,
 }
 
 var _ResourceTypeNames = []string{
-	_ResourceTypeName[0:11],
-	_ResourceTypeName[11:26],
-	_ResourceTypeName[26:37],
-	_ResourceTypeName[37:47],
-	_ResourceTypeName[47:58],
-	_ResourceTypeName[58:69],
-	_ResourceTypeName[69:84],
-	_ResourceTypeName[84:96],
-	_ResourceTypeName[96:112],
-	_ResourceTypeName[112:125],
-	_ResourceTypeName[125:137],
-	_ResourceTypeName[137:156],
-	_ResourceTypeName[156:174],
-	_ResourceTypeName[174:193],
-	_ResourceTypeName[193:207],
-	_ResourceTypeName[207:219],
-	_ResourceTypeName[219:231],
-	_ResourceTypeName[231:241],
-	_ResourceTypeName[241:256],
+	_ResourceTypeName[0:3],
+	_ResourceTypeName[3:10],
+	_ResourceTypeName[10:13],
+	_ResourceTypeName[13:15],
+	_ResourceTypeName[15:18],
+	_ResourceTypeName[18:21],
+	_ResourceTypeName[21:28],
+	_ResourceTypeName[28:32],
+	_ResourceTypeName[32:39],
+	_ResourceTypeName[39:44],
+	_ResourceTypeName[44:48],
+	_ResourceTypeName[48:59],
+	_ResourceTypeName[59:69],
+	_ResourceTypeName[69:80],
+	_ResourceTypeName[80:86],
+	_ResourceTypeName[86:90],
+	_ResourceTypeName[90:94],
+	_ResourceTypeName[94:96],
+	_ResourceTypeName[96:103],
 }
 
 // ResourceTypeString retrieves an enum value from the enum constants string name.
