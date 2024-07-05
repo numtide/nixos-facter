@@ -3,7 +3,7 @@ package generate
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/numtide/nixos-facter/pkg/scan"
+	"github.com/numtide/nixos-facter/pkg/hwinfo"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -17,7 +17,7 @@ var reportCmd = &cobra.Command{
 	Short: "Scan the system and produce a report",
 	// todo add Long description
 	RunE: func(cmd *cobra.Command, args []string) error {
-		report, err := scan.Run()
+		report, err := hwinfo.Scan()
 		if err != nil {
 			return err
 		}

@@ -3,8 +3,8 @@ package generate
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/numtide/nixos-facter/pkg/hwinfo"
 	"github.com/numtide/nixos-facter/pkg/nix"
-	"github.com/numtide/nixos-facter/pkg/scan"
 	"github.com/spf13/cobra"
 	"io"
 	"os"
@@ -19,10 +19,10 @@ var moduleCmd = &cobra.Command{
 	// todo add Long description
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 
-		var report *scan.Report
+		var report *hwinfo.Report
 
 		if ReportPath == "" {
-			if report, err = scan.Run(); err != nil {
+			if report, err = hwinfo.Scan(); err != nil {
 				return fmt.Errorf("failed to scan hardware: %w", err)
 			}
 		} else {

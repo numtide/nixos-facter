@@ -36,7 +36,10 @@ inputs.gomod2nix.legacyPackages.${system}.buildGoApplication rec {
 
   modules = ./gomod2nix.toml;
 
-  buildInputs = [ pkgs.libusb1 ];
+  buildInputs = [
+    pkgs.libusb1
+    pkgs.hwinfo
+  ];
 
   nativeBuildInputs = with pkgs; [
     gcc

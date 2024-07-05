@@ -3,11 +3,8 @@ module github.com/numtide/nixos-facter
 go 1.22.3
 
 require (
-	github.com/google/gousb v1.1.3
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/viper v1.19.0
-	github.com/u-root/u-root v0.14.0
-	github.com/ungerik/go-sysfs v0.0.0-20210209091351-68e6f4d6bff9
 )
 
 require (

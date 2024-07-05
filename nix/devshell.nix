@@ -39,6 +39,8 @@ mkShell {
   packages = lib.mkMerge [
     (with pkgs; [
       go
+      gotools
+      enumer
       delve
       pprof
       graphviz
@@ -47,6 +49,7 @@ mkShell {
       pkg-config
       util-linux.dev
       pciutils
+      hwinfo
     ])
   ];
 
