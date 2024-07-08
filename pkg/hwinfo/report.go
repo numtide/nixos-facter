@@ -110,77 +110,77 @@ const (
 	ProbeFeatureAll
 )
 
-//go:generate enumer -type=HardwareItem -json -transform=snake -trimprefix HardwareItem -output=./report_enum_hardware_item.go
-type HardwareItem uint
+//go:generate enumer -type=HardwareClass -json -transform=snake -trimprefix HardwareClass -output=./report_enum_hardware_class.go
+type HardwareClass uint
 
 const (
-	HardwareItemNone HardwareItem = iota
-	HardwareItemSys
-	HardwareItemCpu
-	HardwareItemKeyboard
-	HardwareItemBraille
-	HardwareItemMouse
+	HardwareClassNone HardwareClass = iota
+	HardwareClassSys
+	HardwareClassCpu
+	HardwareClassKeyboard
+	HardwareClassBraille
+	HardwareClassMouse
 
-	HardwareItemJoystick
-	HardwareItemPrinter
-	HardwareItemScanner
-	HardwareItemChipcard
-	HardwareItemMonitor
-	HardwareItemTv
+	HardwareClassJoystick
+	HardwareClassPrinter
+	HardwareClassScanner
+	HardwareClassChipcard
+	HardwareClassMonitor
+	HardwareClassTv
 
-	HardwareItemDisplay
-	HardwareItemFramebuffer
-	HardwareItemCamera
-	HardwareItemSound
-	HardwareItemStorageCtrl
+	HardwareClassDisplay
+	HardwareClassFramebuffer
+	HardwareClassCamera
+	HardwareClassSound
+	HardwareClassStorageCtrl
 
-	HardwareItemNetworkCtrl
-	HardwareItemIsdn
-	HardwareItemModem
-	HardwareItemNetwork
-	HardwareItemDisk
-	HardwareItemPartition
+	HardwareClassNetworkCtrl
+	HardwareClassIsdn
+	HardwareClassModem
+	HardwareClassNetwork
+	HardwareClassDisk
+	HardwareClassPartition
 
-	HardwareItemCdrom
-	HardwareItemFloppy
-	HardwareItemManual
-	HardwareItemUsbCtrl
-	HardwareItemUsb
-	HardwareItemBios
-	HardwareItemPci
+	HardwareClassCdrom
+	HardwareClassFloppy
+	HardwareClassManual
+	HardwareClassUsbCtrl
+	HardwareClassUsb
+	HardwareClassBios
+	HardwareClassPci
 
-	HardwareItemIsapnp
-	HardwareItemBridge
-	HardwareItemHub
-	HardwareItemScsi
-	HardwareItemIde
-	HardwareItemMemory
-	HardwareItemDvb
+	HardwareClassIsapnp
+	HardwareClassBridge
+	HardwareClassHub
+	HardwareClassScsi
+	HardwareClassIde
+	HardwareClassMemory
+	HardwareClassDvb
 
-	HardwareItemPcmcia
-	HardwareItemPcmciaCtrl
-	HardwareItemIeee1394
-	HardwareItemIeee1394Ctrl
-	HardwareItemHotplug
+	HardwareClassPcmcia
+	HardwareClassPcmciaCtrl
+	HardwareClassIeee1394
+	HardwareClassIeee1394Ctrl
+	HardwareClassHotplug
 
-	HardwareItemHotplugCtrl
-	HardwareItemZip
-	HardwareItemPppoe
-	HardwareItemWlan
-	HardwareItemRedasd
-	HardwareItemDsl
-	HardwareItemBlock
+	HardwareClassHotplugCtrl
+	HardwareClassZip
+	HardwareClassPppoe
+	HardwareClassWlan
+	HardwareClassRedasd
+	HardwareClassDsl
+	HardwareClassBlock
 
-	HardwareItemTape
-	HardwareItemVbe
-	HardwareItemBluetooth
-	HardwareItemFingerprint
-	HardwareItemMmcCtrl
-	HardwareItemNvme
+	HardwareClassTape
+	HardwareClassVbe
+	HardwareClassBluetooth
+	HardwareClassFingerprint
+	HardwareClassMmcCtrl
+	HardwareClassNvme
 
 	/** append new entries here */
-	HardwareItemUnknown
-	HardwareItemAll
+	HardwareClassUnknown
+	HardwareClassAll
 )
 
 // Slot represents a slot and bus number.
@@ -246,7 +246,7 @@ type Item struct {
 	Serial            string        `json:",omitempty"`
 	CompatVendor      *Id           `json:",omitempty"`
 	CompatDevice      *Id           `json:",omitempty"`
-	HardwareClass     HardwareItem  `json:",omitempty"`
+	HardwareClass     HardwareClass `json:",omitempty"`
 	Model             string        `json:",omitempty"`
 	AttachedTo        uint          `json:",omitempty"`
 	SysfsId           string        `json:",omitempty"`
@@ -334,7 +334,7 @@ func NewItem(hd *C.hd_t) (*Item, error) {
 		Serial:           C.GoString(hd.serial),
 		CompatVendor:     NewId(hd.compat_vendor),
 		CompatDevice:     NewId(hd.compat_device),
-		HardwareClass:    HardwareItem(hd.hw_class),
+		HardwareClass:    HardwareClass(hd.hw_class),
 		Model:            C.GoString(hd.model),
 		AttachedTo:       uint(hd.attached_to),
 		SysfsId:          C.GoString(hd.sysfs_id),
