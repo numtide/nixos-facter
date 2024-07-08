@@ -25,8 +25,6 @@ func Scan() (*Report, error) {
 			return nil, err
 		}
 		report.Items = append(report.Items, item)
-		// get the next item in the list
-		hd = hd.next
 	}
 
 	return &report, nil
