@@ -57,6 +57,7 @@ mkShell {
     { package = perSystem.gomod2nix.default; }
     { package = pkgs.golangci-lint; }
     { package = pkgs.cobra-cli; }
+    { package = perSystem.nix-unit.default; }
   ];
 
 }

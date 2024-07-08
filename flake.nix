@@ -25,6 +25,7 @@
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-unit.url = "github:nix-community/nix-unit";
   };
 
   # Keep the magic invocations to minimum.
