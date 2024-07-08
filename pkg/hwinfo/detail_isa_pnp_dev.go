@@ -9,6 +9,7 @@ package hwinfo
 bool hd_isapnp_card_get_broken(isapnp_card_t *card) { return card->broken; }
 */
 import "C"
+
 import (
 	"encoding/hex"
 	"unsafe"
@@ -34,7 +35,7 @@ func NewIsaPnpResource(res *C.isapnp_res_t) *IsaPnpResource {
 type IsaPnpCard struct {
 	Csn      int             `json:"csn"`
 	LogDevs  int             `json:"log_devs"` // todo full name?
-	Serial   string          `json:"serial"`
+	Serial   string          `json:"-"`
 	CardRegs string          `json:"card_regs"` // todo full name?
 	LdevRegs string          `json:"ldev_regs"` // todo full name? hex encoded
 	ResLen   int             `json:"res_len"`   // todo full name?
@@ -49,8 +50,8 @@ func NewIsaPnpCard(card *C.isapnp_card_t) (*IsaPnpCard, error) {
 	return &IsaPnpCard{
 		Csn:     int(card.csn),
 		LogDevs: int(card.log_devs),
-		//Serial:   C.GoString(card.serial),	todo
-		//CardRegs: C.GoString(card.card_regs), todo
+		// Serial:   C.GoString(card.serial),	todo
+		// CardRegs: C.GoString(card.card_regs), todo
 		LdevRegs: hex.EncodeToString(C.GoBytes(unsafe.Pointer(&card.ldev_regs), C.int(0xd0))),
 		ResLen:   int(card.res_len),
 		Broken:   bool(C.hd_isapnp_card_get_broken(card)),

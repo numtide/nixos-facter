@@ -10,6 +10,7 @@ hd_resource_types_t hd_res_get_type(hd_res_t *res) { return res->any.type; }
 res_any_t hd_res_get_any(hd_res_t *res) { return res->any; }
 */
 import "C"
+
 import (
 	"fmt"
 )

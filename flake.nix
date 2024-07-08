@@ -29,8 +29,7 @@
   };
 
   # Keep the magic invocations to minimum.
-  outputs =
-    inputs:
+  outputs = inputs:
     inputs.blueprint {
       prefix = "nix/";
       inherit inputs;

@@ -5,6 +5,7 @@ package hwinfo
 #include <hd.h>
 */
 import "C"
+
 import (
 	"encoding/hex"
 	"unsafe"
@@ -74,8 +75,8 @@ type DetailPci struct {
 	Label       string `json:"label,omitempty"`        // Consistent Device Name (CDN), pci firmware 3.1, chapter 4.6.7
 
 	// todo edid data
-	//EdidData   [6][0x80]byte `json:",omitempty"` // edid record
-	//EdidLength [6]uint       `json:",omitempty"` // edid record length
+	// EdidData   [6][0x80]byte `json:",omitempty"` // edid record
+	// EdidLength [6]uint       `json:",omitempty"` // edid record length
 }
 
 func (p DetailPci) DetailType() DetailType {
@@ -83,7 +84,6 @@ func (p DetailPci) DetailType() DetailType {
 }
 
 func NewDetailPci(pci C.hd_detail_pci_t) (Detail, error) {
-
 	data := pci.data
 
 	return DetailPci{

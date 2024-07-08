@@ -52,7 +52,7 @@ type DetailUsb struct {
 	Revision            uint        `json:"revision"`
 	Manufacturer        string      `json:"manufacturer,omitempty"`
 	Product             string      `json:"product,omitempty"`
-	Serial              string      `json:"serial,omitempty"`
+	Serial              string      `json:"-"`
 	Driver              string      `json:"driver,omitempty"`
 	RawDescriptor       MemoryRange `json:"raw_descriptor"`
 
@@ -72,7 +72,6 @@ func (d DetailUsb) DetailType() DetailType {
 }
 
 func NewDetailUsb(usb C.hd_detail_usb_t) (Detail, error) {
-
 	data := usb.data
 
 	if data.next != nil {

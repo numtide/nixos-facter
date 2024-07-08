@@ -6,6 +6,7 @@ package hwinfo
 #include <stdlib.h>
 */
 import "C"
+
 import (
 	"unsafe"
 )

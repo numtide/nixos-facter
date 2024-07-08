@@ -5,6 +5,7 @@ package hwinfo
 #include <hd.h>
 */
 import "C"
+
 import (
 	"fmt"
 	"slices"

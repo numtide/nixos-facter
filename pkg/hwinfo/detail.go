@@ -15,6 +15,7 @@ hd_detail_bios_t hd_detail_get_bios(hd_detail_t *det) { return det->bios; }
 
 */
 import "C"
+
 import (
 	"encoding/hex"
 	"unsafe"
@@ -69,7 +70,7 @@ func NewDetail(detail *C.hd_detail_t) (Detail, error) {
 		return NewDetailBios(C.hd_detail_get_bios(detail))
 	default:
 		return nil, nil
-		//return nil, fmt.Errorf("unexpected detail type: %v", detailType)
+		// return nil, fmt.Errorf("unexpected detail type: %v", detailType)
 	}
 
 	// todo cdrom, floppy, prom, sys, scsi, devtree, ccw, joystick

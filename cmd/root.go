@@ -3,8 +3,9 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/numtide/nixos-facter/pkg/facter"
 	"os"
+
+	"github.com/numtide/nixos-facter/pkg/facter"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -45,7 +46,7 @@ var rootCmd = &cobra.Command{
 				return fmt.Errorf("failed to write report to stdout: %w", err)
 			}
 			fmt.Println()
-		} else if err = os.WriteFile(outputPath, b, 0644); err != nil {
+		} else if err = os.WriteFile(outputPath, b, 0o644); err != nil {
 			return fmt.Errorf("failed to write report to output path: %w", err)
 		}
 

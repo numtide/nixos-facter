@@ -1,7 +1,5 @@
 {
-  flake,
   pkgs,
-  system,
   inputs,
   ...
 }:
@@ -9,26 +7,40 @@ inputs.treefmt-nix.lib.mkWrapper pkgs {
   projectRootFile = ".git/config";
 
   programs = {
+    alejandra.enable = true;
+    deadnix.enable = true;
+    gofumpt.enable = true;
     prettier.enable = true;
-    nixfmt-rfc-style.enable = true;
+    statix.enable = true;
   };
 
-  settings.formatter.prettier = {
-    options = [
-      "--tab-width"
-      "4"
+  settings = {
+    global.excludes = [
+      "LICENSE"
+      # unsupported extensions
+      "*.{gif,png,svg,tape,mts,lock,mod,sum,toml,env,envrc,gitignore}"
     ];
-    includes = [
-      "*.css"
-      "*.html"
-      "*.js"
-      "*.json"
-      "*.jsx"
-      "*.md"
-      "*.mdx"
-      "*.scss"
-      "*.ts"
-      "*.yaml"
-    ];
+
+    formatter = {
+      deadnix = {
+        priority = 1;
+      };
+
+      statix = {
+        priority = 2;
+      };
+
+      alejandra = {
+        priority = 3;
+      };
+
+      prettier = {
+        options = [
+          "--tab-width"
+          "4"
+        ];
+        includes = ["*.{css,html,js,json,jsx,md,mdx,scss,ts,yaml}"];
+      };
+    };
   };
 }

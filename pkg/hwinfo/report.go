@@ -5,6 +5,7 @@ package hwinfo
 #include <hd.h>
 */
 import "C"
+
 import (
 	"fmt"
 )
@@ -244,7 +245,7 @@ type HardwareItem struct {
 	Device            *Id           `json:"device,omitempty"`
 	SubDevice         *Id           `json:"sub_device,omitempty"`
 	Revision          *Id           `json:"revision,omitempty"`
-	Serial            string        `json:"serial,omitempty"`
+	Serial            string        `json:"-"` // exclude from json output
 	CompatVendor      *Id           `json:"compat_vendor,omitempty"`
 	CompatDevice      *Id           `json:"compat_device,omitempty"`
 	HardwareClass     HardwareClass `json:"hardware_class,omitempty"`
