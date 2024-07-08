@@ -7,20 +7,20 @@ package hwinfo
 import "C"
 
 type DriverInfoDisplay struct {
-	Type DriverInfoType `json:",omitempty"`
+	Type DriverInfoType `json:"type,omitempty"`
 	// actual driver database entries
-	DbEntry0 []string `json:",omitempty"`
-	DbEntry1 []string `json:",omitempty"`
+	DbEntry0 []string `json:"db_entry_0,omitempty"`
+	DbEntry1 []string `json:"db_entry_1,omitempty"`
 
-	Width                 uint        `json:""`
-	Height                uint        `json:""`
-	VerticalSync          SyncRange   `json:""`
-	HorizontalSync        SyncRange   `json:""`
-	Bandwidth             uint        `json:""`
-	HorizontalSyncTimings SyncTimings `json:""`
-	VerticalSyncTimings   SyncTimings `json:""`
-	HorizontalFlag        byte        `json:""`
-	VerticalFlag          byte        `json:""`
+	Width                 uint        `json:"width"`
+	Height                uint        `json:"height"`
+	VerticalSync          SyncRange   `json:"vertical_sync"`
+	HorizontalSync        SyncRange   `json:"horizontal_sync"`
+	Bandwidth             uint        `json:"bandwidth"`
+	HorizontalSyncTimings SyncTimings `json:"horizontal_sync_timings"`
+	VerticalSyncTimings   SyncTimings `json:"vertical_sync_timings"`
+	HorizontalFlag        byte        `json:"horizontal_flag"`
+	VerticalFlag          byte        `json:"vertical_flag"`
 }
 
 func (d DriverInfoDisplay) DriverInfoType() DriverInfoType {

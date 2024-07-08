@@ -7,13 +7,13 @@ package hwinfo
 import "C"
 
 type DriverInfoDsl struct {
-	Type DriverInfoType `json:",omitempty"`
+	Type DriverInfoType `json:"type,omitempty"`
 	// actual driver database entries
-	DbEntry0 []string `json:",omitempty"`
-	DbEntry1 []string `json:",omitempty"`
+	DbEntry0 []string `json:"db_entry_0,omitempty"`
+	DbEntry1 []string `json:"db_entry_1,omitempty"`
 
-	Mode string `json:",omitempty"` // DSL driver types
-	Name string `json:",omitempty"` // DSL driver name
+	Mode string `json:"mode,omitempty"` // DSL driver types
+	Name string `json:"name,omitempty"` // DSL driver name
 }
 
 func (d DriverInfoDsl) DriverInfoType() DriverInfoType {

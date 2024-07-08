@@ -36,35 +36,35 @@ const (
 )
 
 type DetailUsb struct {
-	Type                DetailType  `json:""`
-	Bus                 int         `json:""`
-	DeviceNumber        int         `json:""`
-	Lev                 int         `json:""` // TODO what is lev short for?
-	Parent              int         `json:""`
-	Port                int         `json:""`
-	Count               int         `json:""`
-	Connections         int         `json:""`
-	UsedConnections     int         `json:""`
-	InterfaceDescriptor int         `json:""`
-	Speed               uint        `json:""`
-	Vendor              uint        `json:""`
-	Device              uint        `json:""`
-	Revision            uint        `json:""`
-	Manufacturer        string      `json:",omitempty"`
-	Product             string      `json:",omitempty"`
-	Serial              string      `json:",omitempty"`
-	Driver              string      `json:",omitempty"`
-	RawDescriptor       MemoryRange `json:""`
+	Type                DetailType  `json:"type"`
+	Bus                 int         `json:"bus"`
+	DeviceNumber        int         `json:"device_number"`
+	Lev                 int         `json:"lev"` // TODO what is lev short for?
+	Parent              int         `json:"parent"`
+	Port                int         `json:"port"`
+	Count               int         `json:"count"`
+	Connections         int         `json:"connections"`
+	UsedConnections     int         `json:"used_connections"`
+	InterfaceDescriptor int         `json:"interface_descriptor"`
+	Speed               uint        `json:"speed"`
+	Vendor              uint        `json:"vendor"`
+	Device              uint        `json:"device"`
+	Revision            uint        `json:"revision"`
+	Manufacturer        string      `json:"manufacturer,omitempty"`
+	Product             string      `json:"product,omitempty"`
+	Serial              string      `json:"serial,omitempty"`
+	Driver              string      `json:"driver,omitempty"`
+	RawDescriptor       MemoryRange `json:"raw_descriptor"`
 
-	DeviceClass    UsbClass `json:",omitempty"`
-	DeviceSubclass int      `json:",omitempty"`
-	DeviceProtocol int      `json:",omitempty"`
+	DeviceClass    UsbClass `json:"device_class,omitempty"`
+	DeviceSubclass int      `json:"device_subclass,omitempty"`
+	DeviceProtocol int      `json:"device_protocol,omitempty"`
 
-	InterfaceClass    UsbClass `json:",omitempty"`
-	InterfaceSubclass int      `json:",omitempty"`
-	InterfaceProtocol int      `json:",omitempty"`
+	InterfaceClass    UsbClass `json:"interface_class,omitempty"`
+	InterfaceSubclass int      `json:"interface_subclass,omitempty"`
+	InterfaceProtocol int      `json:"interface_protocol,omitempty"`
 
-	Country uint `json:""`
+	Country uint `json:"country"`
 }
 
 func (d DetailUsb) DetailType() DetailType {

@@ -206,10 +206,10 @@ func (s *Slot) MarshalJSON() ([]byte, error) {
 // TODO UnmarshalJSON for Slot
 
 type DeviceNumber struct {
-	Type  int  `json:""`
-	Major uint `json:""`
-	Minor uint `json:""`
-	Range uint `json:""`
+	Type  int  `json:"type"`
+	Major uint `json:"major"`
+	Minor uint `json:"minor"`
+	Range uint `json:"range"`
 }
 
 func (d DeviceNumber) IsEmpty() bool {
@@ -229,37 +229,38 @@ func NewDeviceNumber(num C.hd_dev_num_t) *DeviceNumber {
 	return &result
 }
 
-type Item struct {
+type HardwareItem struct {
 	// Index is a unique index, starting at 1
-	Index uint `json:""`
+	Index uint `json:"index"`
+
 	// Bus type (id and name)
-	Bus               *Id           `json:",omitempty"`
-	Slot              Slot          `json:",omitempty"`
-	BaseClass         *Id           `json:",omitempty"`
-	SubClass          *Id           `json:",omitempty"`
-	PciInterface      *Id           `json:",omitempty"`
-	Vendor            *Id           `json:",omitempty"`
-	SubVendor         *Id           `json:",omitempty"`
-	Device            *Id           `json:",omitempty"`
-	SubDevice         *Id           `json:",omitempty"`
-	Revision          *Id           `json:",omitempty"`
-	Serial            string        `json:",omitempty"`
-	CompatVendor      *Id           `json:",omitempty"`
-	CompatDevice      *Id           `json:",omitempty"`
-	HardwareClass     HardwareClass `json:",omitempty"`
-	Model             string        `json:",omitempty"`
-	AttachedTo        uint          `json:",omitempty"`
-	SysfsId           string        `json:",omitempty"`
-	SysfsBusId        string        `json:",omitempty"`
-	SysfsDeviceLink   string        `json:",omitempty"`
-	UnixDeviceName    string        `json:",omitempty"`
-	UnixDeviceNumber  *DeviceNumber `json:",omitempty"`
-	UnixDeviceNames   []string      `json:",omitempty"`
-	UnixDeviceName2   string        `json:",omitempty"`
-	UnixDeviceNumber2 *DeviceNumber `json:",omitempty"`
-	RomId             string        `json:",omitempty"`
-	Udi               string        `json:",omitempty"`
-	ParentUdi         string        `json:",omitempty"`
+	Bus               *Id           `json:"bus,omitempty"`
+	Slot              Slot          `json:"slot,omitempty"`
+	BaseClass         *Id           `json:"base_class,omitempty"`
+	SubClass          *Id           `json:"sub_class,omitempty"`
+	PciInterface      *Id           `json:"pci_interface,omitempty"`
+	Vendor            *Id           `json:"vendor,omitempty"`
+	SubVendor         *Id           `json:"sub_vendor,omitempty"`
+	Device            *Id           `json:"device,omitempty"`
+	SubDevice         *Id           `json:"sub_device,omitempty"`
+	Revision          *Id           `json:"revision,omitempty"`
+	Serial            string        `json:"serial,omitempty"`
+	CompatVendor      *Id           `json:"compat_vendor,omitempty"`
+	CompatDevice      *Id           `json:"compat_device,omitempty"`
+	HardwareClass     HardwareClass `json:"hardware_class,omitempty"`
+	Model             string        `json:"model,omitempty"`
+	AttachedTo        uint          `json:"attached_tp,omitempty"`
+	SysfsId           string        `json:"sysfs_id,omitempty"`
+	SysfsBusId        string        `json:"sysfs_bus_id,omitempty"`
+	SysfsDeviceLink   string        `json:"sysfs_device_link,omitempty"`
+	UnixDeviceName    string        `json:"unix_device_name,omitempty"`
+	UnixDeviceNumber  *DeviceNumber `json:"unix_device_number,omitempty"`
+	UnixDeviceNames   []string      `json:"unix_device_names,omitempty"`
+	UnixDeviceName2   string        `json:"unix_device_name_2,omitempty"`
+	UnixDeviceNumber2 *DeviceNumber `json:"unix_device_number_2,omitempty"`
+	RomId             string        `json:"rom_id,omitempty"`
+	Udi               string        `json:"udi,omitempty"`
+	ParentUdi         string        `json:"parent_udi,omitempty"`
 
 	/*
 		UniqueId is a unique string identifying this hardware.
@@ -269,37 +270,33 @@ type Item struct {
 		The string must not contain slashes ("/") because we're going to create files with this id as name.
 		Apart from this, there are no restrictions on the form of this string.
 	*/
-	UniqueId  string   `json:",omitempty"`
-	UniqueIds []string `json:",omitempty"`
+	UniqueId  string   `json:"unique_id,omitempty"`
+	UniqueIds []string `json:"unique_ids,omitempty"`
 
-	Resources []Resource `json:",omitempty"`
-	Detail    Detail     `json:",omitempty"`
+	Resources []Resource `json:"resources,omitempty"`
+	Detail    Detail     `json:"detail,omitempty"`
 
 	// todo status
 	// todo config string
 	// todo hotplug
 	// todo hotplug_slot
 	// todo is?
-	Driver        string     `json:",omitempty"` // currently active driver
-	DriverModule  string     `json:",omitempty"` // currently active driver module (if any)
-	Drivers       []string   `json:",omitempty"` // list of currently active drivers
-	DriverModules []string   `json:",omitempty"` // list of currently active driver modules
-	DriverInfo    DriverInfo `json:",omitempty"` // device driver info
-	UsbGuid       string     `json:",omitempty"` // USB Global Unique Identifier.
-	Requires      []string   `json:",omitempty"` // packages/programs required for this hardware
+	Driver        string     `json:"driver,omitempty"`         // currently active driver
+	DriverModule  string     `json:"driver_module,omitempty"`  // currently active driver module (if any)
+	Drivers       []string   `json:"drivers,omitempty"`        // list of currently active drivers
+	DriverModules []string   `json:"driver_modules,omitempty"` // list of currently active driver modules
+	DriverInfo    DriverInfo `json:"driver_info,omitempty"`    // device driver info
+	UsbGuid       string     `json:"usb_guid,omitempty"`       // USB Global Unique Identifier.
+	Requires      []string   `json:",omitempty"`               // packages/programs required for this hardware
 
 	// todo hal_prop
 	// todo persistent_prop
 
-	ModuleAlias string `json:",omitempty"` // module alias
-	Label       string `json:",omitempty"` // Consistent Device Name (CDN), pci firmware spec 3.1, chapter 4.6.7
+	ModuleAlias string `json:"module_alias,omitempty"` // module alias
+	Label       string `json:"label,omitempty"`        // Consistent Device Name (CDN), pci firmware spec 3.1, chapter 4.6.7
 }
 
-func (i Item) String() string {
-	return fmt.Sprintf("bus = %v, name = %v", i.Bus.Value, i.Bus.Name)
-}
-
-func NewItem(hd *C.hd_t) (*Item, error) {
+func NewHardwareItem(hd *C.hd_t) (*HardwareItem, error) {
 	if hd == nil {
 		return nil, nil
 	}
@@ -319,7 +316,7 @@ func NewItem(hd *C.hd_t) (*Item, error) {
 		return nil, fmt.Errorf("failed to read driver info: %w", err)
 	}
 
-	return &Item{
+	return &HardwareItem{
 		Index:            uint(hd.idx),
 		Bus:              NewId(hd.bus),
 		Slot:             Slot(hd.slot),
@@ -362,12 +359,4 @@ func NewItem(hd *C.hd_t) (*Item, error) {
 		ModuleAlias:       C.GoString(hd.modalias),
 		Label:             C.GoString(hd.label),
 	}, nil
-}
-
-type Report struct {
-	Items []*Item `json:""`
-
-	// Log contains all messages logged during hardware probing
-	Log   string `json:",omitempty"`
-	Debug uint   `json:",omitempty"`
 }

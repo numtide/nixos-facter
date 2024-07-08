@@ -11,8 +11,8 @@ import "C"
 import "fmt"
 
 type ResourceCache struct {
-	Type ResourceType `json:""`
-	Size uint         `json:""`
+	Type ResourceType `json:"type"`
+	Size uint         `json:"size"`
 }
 
 func (r ResourceCache) ResourceType() ResourceType {

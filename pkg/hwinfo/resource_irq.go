@@ -15,10 +15,10 @@ import "C"
 import "fmt"
 
 type ResourceIrq struct {
-	Type      ResourceType `json:""`
-	Base      uint         `json:""`
-	Triggered uint         `json:""`
-	Enabled   bool         `json:""`
+	Type      ResourceType `json:"type"`
+	Base      uint         `json:"base"`
+	Triggered uint         `json:"triggered"`
+	Enabled   bool         `json:"enabled"`
 }
 
 func (r ResourceIrq) ResourceType() ResourceType {

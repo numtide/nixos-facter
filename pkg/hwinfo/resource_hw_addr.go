@@ -11,8 +11,8 @@ import "C"
 import "fmt"
 
 type ResourceHardwareAddress struct {
-	Type    ResourceType `json:""`
-	Address byte         `json:""`
+	Type    ResourceType `json:"type"`
+	Address byte         `json:"address"`
 }
 
 func (r ResourceHardwareAddress) ResourceType() ResourceType {

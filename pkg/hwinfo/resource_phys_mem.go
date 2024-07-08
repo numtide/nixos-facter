@@ -11,8 +11,8 @@ import "C"
 import "fmt"
 
 type ResourcePhysicalMemory struct {
-	Type  ResourceType `json:""`
-	Range uint64       `json:""`
+	Type  ResourceType `json:"type"`
+	Range uint64       `json:"range"`
 }
 
 func (r ResourcePhysicalMemory) ResourceType() ResourceType {

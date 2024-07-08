@@ -21,12 +21,12 @@ const (
 )
 
 type ResourceDiskGeo struct {
-	Type      ResourceType `json:""`
-	Cylinders uint         `json:""`
-	Heads     uint         `json:""`
-	Sectors   uint         `json:""`
-	Size      uint64       `json:""`
-	GeoType   GeoType      `json:""`
+	Type      ResourceType `json:"type"`
+	Cylinders uint         `json:"cylinders"`
+	Heads     uint         `json:"heads"`
+	Sectors   uint         `json:"sectors"`
+	Size      uint64       `json:"size"`
+	GeoType   GeoType      `json:"geo_type"`
 }
 
 func (r ResourceDiskGeo) ResourceType() ResourceType {

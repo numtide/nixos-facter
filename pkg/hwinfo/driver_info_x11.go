@@ -17,28 +17,28 @@ char driver_info_x11_colors_c32(driver_info_x11_t info) { return info.colors.c32
 import "C"
 
 type DriverInfoX11 struct {
-	Type DriverInfoType `json:",omitempty"`
+	Type DriverInfoType `json:"type,omitempty"`
 	// actual driver database entries
-	DbEntry0 []string `json:",omitempty"`
-	DbEntry1 []string `json:",omitempty"`
+	DbEntry0 []string `json:"db_entry_0,omitempty"`
+	DbEntry1 []string `json:"db_entry_1,omitempty"`
 
-	Server      string `json:",omitempty"` // the server/module name
-	XF86Version string `json:",omitempty"` // XFree86 version (3 or 4)
-	Supports3D  bool   `json:""`           // has 3D support
+	Server      string `json:"server,omitempty"`       // the server/module name
+	XF86Version string `json:"xf86_version,omitempty"` // XFree86 version (3 or 4)
+	Supports3D  bool   `json:"supports_3d"`            // has 3D support
 	Colors      struct {
 		// the next 5 entries combined
-		All byte `json:""`
-		C8  byte `json:""`
-		C15 byte `json:""`
-		C16 byte `json:""`
-		C24 byte `json:""`
-		C32 byte `json:""`
+		All byte `json:"all"`
+		C8  byte `json:"c8"`
+		C15 byte `json:"c15"`
+		C16 byte `json:"c16"`
+		C24 byte `json:"c24"`
+		C32 byte `json:"c32"`
 	} `json:",omitempty"`
-	DacSpeed   uint     `json:""`           // max. ramdac clock
-	Extensions []string `json:",omitempty"` // additional X extensions to load ('Module' section)
-	Options    []string `json:",omitempty"` // special server options
-	Raw        []string `json:",omitempty"` // extra info to add to XF86Config
-	Script     string   `json:","`          // 3d script to run
+	DacSpeed   uint     `json:"dac_speed"`            // max. ramdac clock
+	Extensions []string `json:"extensions,omitempty"` // additional X extensions to load ('Module' section)
+	Options    []string `json:"options,omitempty"`    // special server options
+	Raw        []string `json:"raw,omitempty"`        // extra info to add to XF86Config
+	Script     string   `json:"script,"`              // 3d script to run
 }
 
 func (d DriverInfoX11) DriverInfoType() DriverInfoType {

@@ -18,14 +18,14 @@ import "fmt"
 
 // todo what is FC?
 type ResourceFc struct {
-	Type         ResourceType `json:""`
-	WwpnOk       bool         `json:""`
-	FcpLunOk     bool         `json:""`
-	PortIdOk     bool         `json:""`
-	Wwpn         uint64       `json:""`
-	FcpLun       uint64       `json:""`
-	PortId       uint         `json:""`
-	ControllerId byte         `json:""`
+	Type         ResourceType `json:"type"`
+	WwpnOk       bool         `json:"wwpn_ok"`
+	FcpLunOk     bool         `json:"fcp_lun_ok"`
+	PortIdOk     bool         `json:"port_id_ok"`
+	Wwpn         uint64       `json:"wwpn"`
+	FcpLun       uint64       `json:"fcp_lun"`
+	PortId       uint         `json:"port_id"`
+	ControllerId byte         `json:"controller_id"`
 }
 
 func (r ResourceFc) ResourceType() ResourceType {

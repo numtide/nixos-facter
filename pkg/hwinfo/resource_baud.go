@@ -11,12 +11,12 @@ import "C"
 import "fmt"
 
 type ResourceBaud struct {
-	Type      ResourceType `json:""`
-	Speed     uint         `json:""`
-	Bits      uint         `json:""`
-	StopBits  uint         `json:""`
-	Parity    byte         `json:""`
-	Handshake byte         `json:""`
+	Type      ResourceType `json:"type"`
+	Speed     uint         `json:"speed"`
+	Bits      uint         `json:"bits"`
+	StopBits  uint         `json:"stop_bits"`
+	Parity    byte         `json:"parity"`
+	Handshake byte         `json:"handshake"`
 }
 
 func (r ResourceBaud) ResourceType() ResourceType {

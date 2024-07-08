@@ -41,12 +41,12 @@ type Resource interface {
 }
 
 type ResourceMemory struct {
-	Type     ResourceType `json:""`
-	Base     uint64       `json:""`
-	Range    uint64       `json:""`
-	Enabled  bool         `json:""`
-	Access   AccessFlags  `json:""`
-	Prefetch YesNoFlags   `json:""`
+	Type     ResourceType `json:"type"`
+	Base     uint64       `json:"base"`
+	Range    uint64       `json:"range"`
+	Enabled  bool         `json:"enabled"`
+	Access   AccessFlags  `json:"access"`
+	Prefetch YesNoFlags   `json:"prefetch"`
 }
 
 func (r ResourceMemory) ResourceType() ResourceType {

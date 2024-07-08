@@ -3,7 +3,7 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/numtide/nixos-facter/pkg/hwinfo"
+	"github.com/numtide/nixos-facter/pkg/facter"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -23,7 +23,7 @@ var rootCmd = &cobra.Command{
 	// todo Long description
 	// todo add Long description
 	RunE: func(cmd *cobra.Command, args []string) error {
-		report, err := hwinfo.Scan()
+		report, err := facter.GenerateReport()
 		if err != nil {
 			return err
 		}
