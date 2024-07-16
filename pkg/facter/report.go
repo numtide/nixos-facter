@@ -4,11 +4,14 @@ import (
 	"fmt"
 	"slices"
 
+	"github.com/numtide/nixos-facter/pkg/virt"
+
 	"github.com/numtide/nixos-facter/pkg/hwinfo"
 )
 
 type Report struct {
-	Hardware []*hwinfo.HardwareItem `json:"hardware"`
+	Virtualization virt.Type              `json:"virtualization"`
+	Hardware       []*hwinfo.HardwareItem `json:"hardware"`
 }
 
 func (r *Report) AddHardwareItem(item *hwinfo.HardwareItem) {
@@ -28,6 +31,11 @@ func GenerateReport() (*Report, error) {
 		return nil
 	}); err != nil {
 		return nil, fmt.Errorf("failed to scan hardware: %w", err)
+	}
+
+	var err error
+	if report.Virtualization, err = virt.Detect(); err != nil {
+		return nil, fmt.Errorf("failed to detect virtualization: %w", err)
 	}
 
 	return &report, nil
