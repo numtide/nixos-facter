@@ -64,7 +64,7 @@ func _detectVmDmi() (Type, error) {
 				return TypeAmazon, nil
 			}
 			if strings.Contains(string(b), ".metal") {
-				log.Debugf("DMI product name has '.metal', assuming no virtualization")
+				log.Debugf("DMI product name has '.metal', assuming no virtualisation")
 				return TypeNone, nil
 			}
 

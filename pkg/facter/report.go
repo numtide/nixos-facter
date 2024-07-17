@@ -10,7 +10,7 @@ import (
 )
 
 type Report struct {
-	Virtualization virt.Type              `json:"virtualization"`
+	Virtualisation virt.Type              `json:"virtualisation"`
 	Hardware       []*hwinfo.HardwareItem `json:"hardware"`
 }
 
@@ -34,8 +34,8 @@ func GenerateReport() (*Report, error) {
 	}
 
 	var err error
-	if report.Virtualization, err = virt.Detect(); err != nil {
-		return nil, fmt.Errorf("failed to detect virtualization: %w", err)
+	if report.Virtualisation, err = virt.Detect(); err != nil {
+		return nil, fmt.Errorf("failed to detect virtualisation: %w", err)
 	}
 
 	return &report, nil

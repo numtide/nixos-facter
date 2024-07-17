@@ -9,12 +9,12 @@ import (
 func detectXen() (Type, error) {
 	_, err := os.Stat("/proc/xen")
 	if os.IsNotExist(err) {
-		log.Debug("Virtualization XEN not found, /proc/xen does not exist")
+		log.Debug("Virtualisation XEN not found, /proc/xen does not exist")
 		return TypeNone, nil
 	} else if err != nil {
 		return 0, err
 	}
-	log.Debug("Virtualization XEN found (/proc/xen exists)")
+	log.Debug("Virtualisation XEN found (/proc/xen exists)")
 	return TypeXen, nil
 }
 

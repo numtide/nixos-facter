@@ -17,7 +17,7 @@ func detectHypervisor() (Type, error) {
 	}
 
 	hvType := string(b)
-	log.Debug("Virtualization %s found in /sys/hypervisor/type", hvType)
+	log.Debug("Virtualisation %s found in /sys/hypervisor/type", hvType)
 
 	if hvType == "xen" {
 		return TypeXen, nil

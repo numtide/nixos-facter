@@ -31,7 +31,7 @@ func _detectVmDeviceTree() (Type, error) {
 
 		for _, entry := range entries {
 			if strings.Contains(entry.Name(), "fw-cfg") {
-				log.Debug("Virtualization QEMU: \"fw-cfg\" present in /proc/device-tree/%s", entry.Name())
+				log.Debug("Virtualisation QEMU: \"fw-cfg\" present in /proc/device-tree/%s", entry.Name())
 				return TypeQemu, nil
 			}
 		}
@@ -40,18 +40,18 @@ func _detectVmDeviceTree() (Type, error) {
 		if err != nil {
 			return 0, err
 		} else if string(b) == "qemu,pseries" {
-			log.Debug("Virtualization %s found in /proc/device-tree/compatible", string(b))
+			log.Debug("Virtualisation %s found in /proc/device-tree/compatible", string(b))
 			return TypeQemu, nil
 		}
 
-		log.Debug("No virtualization found in /proc/device-tree/*")
+		log.Debug("No virtualisation found in /proc/device-tree/*")
 		return TypeNone, nil
 
 	} else if err != nil {
 		return 0, err
 	}
 
-	log.Debug("Virtualization %s found in /proc/device-tree/hypervisor/compatible", string(b))
+	log.Debug("Virtualisation %s found in /proc/device-tree/hypervisor/compatible", string(b))
 
 	switch string(b) {
 	case "linux,kvm":

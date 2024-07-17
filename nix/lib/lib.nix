@@ -61,6 +61,16 @@ in rec {
     )
   ];
 
+  isCpuAmd = {hardware, ...}:
+    builtins.filter
+    (device: device.hardware_class == "cpu" && device.detail.vendor_name == "AuthenticAMD")
+    hardware;
+
+  isCpuIntel = {hardware, ...}:
+    builtins.filter
+    (device: device.hardware_class == "cpu" && device.detail.vendor_name == "GenuineIntel")
+    hardware;
+
   canonicalize = attrs:
     mapAttrsRecursive (_: value:
       if builtins.isList value

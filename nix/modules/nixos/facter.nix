@@ -2,7 +2,7 @@
   imports = [
     ./boot.nix
     ./networking
-    ./virtualization.nix
+    ./virtualisation.nix
   ];
 
   options.facter = with lib; {
