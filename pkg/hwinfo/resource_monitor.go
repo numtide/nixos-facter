@@ -15,11 +15,11 @@ import "C"
 import "fmt"
 
 type ResourceMonitor struct {
-	Type              ResourceType `json:""`
-	Width             uint         `json:""`
-	Height            uint         `json:""`
-	VerticalFrequency uint         `json:""`
-	Interlaced        bool         `json:""`
+	Type              ResourceType `json:"type"`
+	Width             uint         `json:"width"`
+	Height            uint         `json:"height"`
+	VerticalFrequency uint         `json:"vertical_frequency"`
+	Interlaced        bool         `json:"interlaced"`
 }
 
 func (r ResourceMonitor) ResourceType() ResourceType {

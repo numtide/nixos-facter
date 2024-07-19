@@ -12,8 +12,8 @@ import "fmt"
 
 type ResourceInitStrings struct {
 	Type  ResourceType
-	Init1 string `json:",omitempty"`
-	Init2 string `json:",omitempty"`
+	Init1 string `json:"init_1,omitempty"`
+	Init2 string `json:"init_2,omitempty"`
 }
 
 func (r ResourceInitStrings) ResourceType() ResourceType {

@@ -11,12 +11,12 @@ import "C"
 import "fmt"
 
 type ResourceWlan struct {
-	Type        ResourceType `json:""`
-	Channels    []string     `json:",omitempty"`
-	Frequencies []string     `json:",omitempty"`
-	BitRates    []string     `json:",omitempty"`
-	AuthModes   []string     `json:",omitempty"`
-	EncModes    []string     `json:",omitempty"`
+	Type        ResourceType `json:"type"`
+	Channels    []string     `json:"channels,omitempty"`
+	Frequencies []string     `json:"frequencies,omitempty"`
+	BitRates    []string     `json:"bit_rates,omitempty"`
+	AuthModes   []string     `json:"auth_modes,omitempty"`
+	EncModes    []string     `json:"enc_modes,omitempty"`
 }
 
 func (r ResourceWlan) ResourceType() ResourceType {

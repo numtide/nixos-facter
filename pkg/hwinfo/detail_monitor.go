@@ -7,35 +7,36 @@ package hwinfo
 import "C"
 
 type SyncRange struct {
-	Min uint `json:""`
-	Max uint `json:""`
+	Min uint `json:"min"`
+	Max uint `json:"max"`
 }
 
 type SyncTimings struct {
-	Disp      uint `json:""` // todo what's the proper name for this?
-	SyncStart uint `json:""`
-	SyncEnd   uint `json:""`
-	Total     uint `json:""` // todo what's a better name for this?
+	Disp      uint `json:"disp"` // todo what's the proper name for this?
+	SyncStart uint `json:"sync_start"`
+	SyncEnd   uint `json:"sync_end"`
+	Total     uint `json:"total"` // todo what's a better name for this?
 }
 
 type DetailMonitor struct {
-	Type                  DetailType  `json:""`
-	ManufactureYear       uint        `json:""`
-	ManufactureWeek       uint        `json:""`
-	VerticalSync          SyncRange   `json:""`
-	HorizontalSync        SyncRange   `json:""`
-	HorizontalSyncTimings SyncTimings `json:""`
-	VerticalSyncTimings   SyncTimings `json:""`
-	Clock                 uint        `json:""`
-	Width                 uint        `json:""`
-	Height                uint        `json:""`
-	WidthMillimetres      uint        `json:""`
-	HeightMillimetres     uint        `json:""`
-	HorizontalFlag        byte        `json:""`
-	VerticalFlag          byte        `json:""`
-	Vendor                string      `json:""`
-	Name                  string      `json:""`
-	Serial                string      `json:""`
+	Type                  DetailType  `json:"type"`
+	ManufactureYear       uint        `json:"manufacture_year"`
+	ManufactureWeek       uint        `json:"manufacture_week"`
+	VerticalSync          SyncRange   `json:"vertical_sync"`
+	HorizontalSync        SyncRange   `json:"horizontal_sync"`
+	HorizontalSyncTimings SyncTimings `json:"horizontal_sync_timings"`
+	VerticalSyncTimings   SyncTimings `json:"vertical_sync_timings"`
+	Clock                 uint        `json:"clock"`
+	Width                 uint        `json:"width"`
+	Height                uint        `json:"height"`
+	WidthMillimetres      uint        `json:"width_millimetres"`
+	HeightMillimetres     uint        `json:"height_millimetres"`
+	HorizontalFlag        byte        `json:"horizontal_flag"`
+	VerticalFlag          byte        `json:"vertical_flag"`
+	Vendor                string      `json:"vendor"`
+	Name                  string      `json:"name"`
+
+	Serial string `json:"-"`
 }
 
 func (d DetailMonitor) DetailType() DetailType {

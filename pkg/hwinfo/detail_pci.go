@@ -5,6 +5,7 @@ package hwinfo
 #include <hd.h>
 */
 import "C"
+
 import (
 	"encoding/hex"
 	"unsafe"
@@ -29,53 +30,53 @@ func ParsePciFlags(flags uint) (result []PciFlag) {
 }
 
 type DetailPci struct {
-	Type          DetailType `json:""`
-	Data          string     `json:""` // the PCI data, hex encoded
-	DataLength    uint       `json:""` // holds the actual length of Data
-	DataExtLength uint       `json:""` // max. accessed config byte
+	Type          DetailType `json:"type"`
+	Data          string     `json:"data"`            // the PCI data, hex encoded
+	DataLength    uint       `json:"data_length"`     // holds the actual length of Data
+	DataExtLength uint       `json:"data_ext_length"` // max. accessed config byte
 
 	Log string `json:""` // log messages
 
-	Flags []PciFlag `json:",omitempty"` //
+	Flags []PciFlag `json:"flags,omitempty"` //
 	// todo map pci constants from pci.h?
-	Command      uint `json:""` // PCI_COMMAND
-	HeaderType   uint `json:""` // PCI_HEADER_TYPE
-	SecondaryBus uint `json:""` // > 0 for PCI & CB bridges
+	Command      uint `json:"command"`       // PCI_COMMAND
+	HeaderType   uint `json:"header_type"`   // PCI_HEADER_TYPE
+	SecondaryBus uint `json:"secondary_bus"` // > 0 for PCI & CB bridges
 
-	Bus      uint `json:""` // PCI bus number
-	Slot     uint `json:""`
-	Function uint `json:""`
+	Bus      uint `json:"bus"` // PCI bus number
+	Slot     uint `json:"slot"`
+	Function uint `json:"function"`
 
 	// PCI device classes
-	BaseClass uint `json:""`
-	SubClass  uint `json:""`
-	ProgIf    uint `json:""`
+	BaseClass uint `json:"base_class"`
+	SubClass  uint `json:"sub_class"`
+	ProgIf    uint `json:"prog_if"`
 
 	// Vendor and device ids
-	Device    uint `json:""`
-	Vendor    uint `json:""`
-	SubDevice uint `json:""`
-	SubVendor uint `json:""`
-	Revision  uint `json:""`
+	Device    uint `json:"device"`
+	Vendor    uint `json:"vendor"`
+	SubDevice uint `json:"sub_device"`
+	SubVendor uint `json:"sub_vendor"`
+	Revision  uint `json:"revision"`
 
 	// used irq if any
-	Irq uint `json:""`
+	Irq uint `json:"irq"`
 
-	BaseAddress  [7]uint64 `json:""` // I/O or memory base
-	BaseLength   [7]uint64 `json:""` // I/O or memory ranges
-	AddressFlags [7]uint   `json:""` // I/O or memory address flags
+	BaseAddress  [7]uint64 `json:"base_address"`  // I/O or memory base
+	BaseLength   [7]uint64 `json:"base_length"`   // I/O or memory ranges
+	AddressFlags [7]uint   `json:"address_flags"` // I/O or memory address flags
 
-	RomBaseAddress uint64 `json:""` // memory base for card ROM
-	RomBaseLength  uint64 `json:""` // memory range for card ROM
+	RomBaseAddress uint64 `json:"rom_base_address"` // memory base for card ROM
+	RomBaseLength  uint64 `json:"rom_base_length"`  // memory range for card ROM
 
-	SysfsId     string `json:",omitempty"` // sysfs path
-	SysfsBusId  string `json:",omitempty"` // sysfs bus id
-	ModuleAlias string `json:",omitempty"` // module alias
-	Label       string `json:",omitempty"` // Consistent Device Name (CDN), pci firmware 3.1, chapter 4.6.7
+	SysfsId     string `json:"sysfs_id,omitempty"`     // sysfs path
+	SysfsBusId  string `json:"sysfs_bus_id,omitempty"` // sysfs bus id
+	ModuleAlias string `json:"module_alias,omitempty"` // module alias
+	Label       string `json:"label,omitempty"`        // Consistent Device Name (CDN), pci firmware 3.1, chapter 4.6.7
 
 	// todo edid data
-	//EdidData   [6][0x80]byte `json:",omitempty"` // edid record
-	//EdidLength [6]uint       `json:",omitempty"` // edid record length
+	// EdidData   [6][0x80]byte `json:",omitempty"` // edid record
+	// EdidLength [6]uint       `json:",omitempty"` // edid record length
 }
 
 func (p DetailPci) DetailType() DetailType {
@@ -83,7 +84,6 @@ func (p DetailPci) DetailType() DetailType {
 }
 
 func NewDetailPci(pci C.hd_detail_pci_t) (Detail, error) {
-
 	data := pci.data
 
 	return DetailPci{

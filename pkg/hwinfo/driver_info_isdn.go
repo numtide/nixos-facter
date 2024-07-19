@@ -7,14 +7,14 @@ package hwinfo
 import "C"
 
 type DriverInfoIsdn struct {
-	Type DriverInfoType `json:",omitempty"`
+	Type DriverInfoType `json:"type,omitempty"`
 	// actual driver database entries
-	DbEntry0 []string `json:",omitempty"`
-	DbEntry1 []string `json:",omitempty"`
+	DbEntry0 []string `json:"db_entry_0,omitempty"`
+	DbEntry1 []string `json:"db_entry_1,omitempty"`
 
-	I4lType    int    `json:""`
-	I4lSubtype int    `json:""`
-	I4lName    string `json:",omitempty"`
+	I4lType    int    `json:"i4l_type"`
+	I4lSubtype int    `json:"i4l_sub_type"`
+	I4lName    string `json:"i4l_name,omitempty"`
 	// todo isdn params
 }
 

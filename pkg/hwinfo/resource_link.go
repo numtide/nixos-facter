@@ -15,8 +15,8 @@ import "C"
 import "fmt"
 
 type ResourceLink struct {
-	Type      ResourceType `json:""`
-	Connected bool         `json:""`
+	Type      ResourceType `json:"Type"`
+	Connected bool         `json:"connected"`
 }
 
 func (r ResourceLink) ResourceType() ResourceType {

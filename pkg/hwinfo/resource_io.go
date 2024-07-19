@@ -16,11 +16,11 @@ import "C"
 import "fmt"
 
 type ResourceIO struct {
-	Type    ResourceType `json:""`
-	Base    uint64       `json:""`
-	Range   uint64       `json:""`
-	Enabled bool         `json:""`
-	Access  AccessFlags  `json:""`
+	Type    ResourceType `json:"type"`
+	Base    uint64       `json:"base"`
+	Range   uint64       `json:"range"`
+	Enabled bool         `json:"enabled"`
+	Access  AccessFlags  `json:"access"`
 }
 
 func (r ResourceIO) ResourceType() ResourceType {

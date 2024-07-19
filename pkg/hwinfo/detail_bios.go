@@ -13,32 +13,32 @@ bool bios_info_has_lba_support(bios_info_t *info) { return info->lba_support; }
 import "C"
 
 type ApmInfo struct {
-	Supported  bool `json:""`
-	Enabled    bool `json:""`
-	Version    uint `json:""`
-	SubVersion uint `json:""`
-	BiosFlags  uint `json:""`
+	Supported  bool `json:"supported"`
+	Enabled    bool `json:"enabled"`
+	Version    uint `json:"version"`
+	SubVersion uint `json:"sub_version"`
+	BiosFlags  uint `json:"bios_flags"`
 }
 
 type VbeInfo struct {
-	Version     uint `json:""`
-	VideoMemory uint `json:""`
+	Version     uint `json:"version"`
+	VideoMemory uint `json:"video_memory"`
 }
 
 type DetailBios struct {
-	Type    DetailType `json:""`
-	ApmInfo ApmInfo    `json:""`
-	VbeInfo VbeInfo    `json:""`
+	Type    DetailType `json:"type"`
+	ApmInfo ApmInfo    `json:"apm_info"`
+	VbeInfo VbeInfo    `json:"vbe_info"`
 
 	// todo par and ser ports
-	PnP           bool `json:""`
-	PnPId         uint `json:""` // it is still in big endian format
-	LbaSupport    bool `json:""`
-	LowMemorySize uint `json:""`
+	PnP           bool `json:"pnp"`
+	PnPId         uint `json:"pnp_id"` // it is still in big endian format
+	LbaSupport    bool `json:"lba_support"`
+	LowMemorySize uint `json:"low_memory_size"`
 	// todo smp info
 	// todo vbe info
 
-	SmbiosVersion uint `json:""`
+	SmbiosVersion uint `json:"smbios_version"`
 
 	// todo lcd
 	// todo mouse

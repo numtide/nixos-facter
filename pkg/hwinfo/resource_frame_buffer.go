@@ -11,12 +11,12 @@ import "C"
 import "fmt"
 
 type ResourceFrameBuffer struct {
-	Type         ResourceType `json:""`
-	Width        uint         `json:""`
-	Height       uint         `json:""`
-	BytesPerLine uint         `json:""`
-	ColorBits    uint         `json:""`
-	Mode         uint         `json:""`
+	Type         ResourceType `json:"type"`
+	Width        uint         `json:"width"`
+	Height       uint         `json:"height"`
+	BytesPerLine uint         `json:"bytes_per_line"`
+	ColorBits    uint         `json:"color_bits"`
+	Mode         uint         `json:"mode"`
 }
 
 func (r ResourceFrameBuffer) ResourceType() ResourceType {

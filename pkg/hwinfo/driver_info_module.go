@@ -12,15 +12,16 @@ bool driver_info_module_is_modprobe(driver_info_module_t info) { return info.mod
 import "C"
 
 type DriverInfoModule struct {
-	Type DriverInfoType `json:",omitempty"`
+	Type DriverInfoType `json:"type,omitempty"`
 	// actual driver database entries
-	DbEntry0   []string `json:",omitempty"`
-	DbEntry1   []string `json:",omitempty"`
-	Active     bool     `json:""` // if the module is currently active
-	Modprobe   bool     `json:""` // modprobe or insmod
-	Names      []string `json:""` // (ordered) list of module names
-	ModuleArgs []string `json:""` // list of module args (corresponds to the module name list)
-	Conf       string   `json:""` // conf.modules entry, if any (e.g., for sb.o)
+	DbEntry0 []string `json:"db_entry_0,omitempty"`
+	DbEntry1 []string `json:"db_entry_1,omitempty"`
+
+	Active     bool     `json:"active"`      // if the module is currently active
+	Modprobe   bool     `json:"modprobe"`    // modprobe or insmod
+	Names      []string `json:"names"`       // (ordered) list of module names
+	ModuleArgs []string `json:"module_args"` // list of module args (corresponds to the module name list)
+	Conf       string   `json:"conf"`        // conf.modules entry, if any (e.g., for sb.o)
 }
 
 func (d DriverInfoModule) DriverInfoType() DriverInfoType {

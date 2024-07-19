@@ -30,19 +30,19 @@ const (
 )
 
 type DetailCpu struct {
-	Type         DetailType `json:""`
-	Architecture CpuArch    `json:""`
-	Family       uint       `json:""`
-	Model        uint       `json:""`
-	Stepping     uint       `json:""`
-	Cache        uint       `json:""`
-	Clock        uint       `json:""`
-	Units        uint       `json:""`
-	VendorName   string     `json:""`
-	ModelName    string     `json:""`
-	Platform     string     `json:""`
-	Features     []string   `json:""`
-	Bogo         float64    `json:""`
+	Type         DetailType `json:"type"`
+	Architecture CpuArch    `json:"architecture"`
+	Family       uint       `json:"family"`
+	Model        uint       `json:"model"`
+	Stepping     uint       `json:"stepping"`
+	Cache        uint       `json:"cache"`
+	Clock        uint       `json:"clock"`
+	Units        uint       `json:"units"`
+	VendorName   string     `json:"vendor_name"`
+	ModelName    string     `json:"model_name"`
+	Platform     string     `json:"platform"`
+	Features     []string   `json:"features"`
+	Bogo         float64    `json:"bogo"`
 }
 
 func NewDetailCpu(cpu C.hd_detail_cpu_t) (Detail, error) {

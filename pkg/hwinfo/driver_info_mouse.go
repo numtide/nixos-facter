@@ -7,15 +7,15 @@ package hwinfo
 import "C"
 
 type DriverInfoMouse struct {
-	Type DriverInfoType `json:",omitempty"`
+	Type DriverInfoType `json:"type,omitempty"`
 	// actual driver database entries
-	DbEntry0 []string `json:",omitempty"`
-	DbEntry1 []string `json:",omitempty"`
+	DbEntry0 []string `json:"db_entry_0,omitempty"`
+	DbEntry1 []string `json:"db_entry_1,omitempty"`
 
-	XF86    string `json:",omitempty"` // XF86 protocol name
-	GPM     string `json:",omitempty"` // dto, gpm
-	Buttons int    `json:",omitempty"` // number of buttons, -1 -> unknown
-	Wheels  int    `json:",omitempty"` // dto, wheels
+	XF86    string `json:"xf86,omitempty"`    // XF86 protocol name
+	GPM     string `json:"gpm,omitempty"`     // dto, gpm
+	Buttons int    `json:"buttons,omitempty"` // number of buttons, -1 -> unknown
+	Wheels  int    `json:"wheels,omitempty"`  // dto, wheels
 }
 
 func (d DriverInfoMouse) DriverInfoType() DriverInfoType {

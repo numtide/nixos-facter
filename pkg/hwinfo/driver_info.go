@@ -14,6 +14,7 @@ driver_info_isdn_t driver_info_get_isdn(driver_info_t *info) { return info->isdn
 driver_info_x11_t driver_info_get_x11(driver_info_t *info) { return info->x11; }
 */
 import "C"
+
 import (
 	"errors"
 )

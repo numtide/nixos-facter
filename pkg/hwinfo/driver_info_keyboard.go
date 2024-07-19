@@ -7,15 +7,15 @@ package hwinfo
 import "C"
 
 type DriverInfoKeyboard struct {
-	Type DriverInfoType `json:",omitempty"`
+	Type DriverInfoType `json:"type,omitempty"`
 	// actual driver database entries
-	DbEntry0 []string `json:",omitempty"`
-	DbEntry1 []string `json:",omitempty"`
+	DbEntry0 []string `json:"db_entry_0,omitempty"`
+	DbEntry1 []string `json:"db_entry_1,omitempty"`
 
-	XkbRules  string `json:",omitempty"`
-	XkbModel  string `json:",omitempty"`
-	XkbLayout string `json:",omitempty"`
-	Keymap    string `json:",omitempty"`
+	XkbRules  string `json:"xkb_rules,omitempty"`
+	XkbModel  string `json:"xkb_model,omitempty"`
+	XkbLayout string `json:"xkb_layout,omitempty"`
+	Keymap    string `json:"keymap,omitempty"`
 }
 
 func (d DriverInfoKeyboard) DriverInfoType() DriverInfoType {

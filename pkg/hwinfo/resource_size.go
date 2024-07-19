@@ -27,10 +27,10 @@ const (
 )
 
 type ResourceSize struct {
-	Type   ResourceType `json:""`
-	Unit   SizeUnit     `json:""`
-	Value1 uint64       `json:""`
-	Value2 uint64       `json:",omitempty"`
+	Type   ResourceType `json:"type"`
+	Unit   SizeUnit     `json:"unit"`
+	Value1 uint64       `json:"value_1"`
+	Value2 uint64       `json:"value_2,omitempty"`
 }
 
 func (r ResourceSize) ResourceType() ResourceType {

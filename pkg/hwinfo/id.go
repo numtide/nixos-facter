@@ -5,6 +5,7 @@ package hwinfo
 #include <hd.h>
 */
 import "C"
+
 import (
 	"fmt"
 	"slices"
@@ -60,14 +61,14 @@ const (
 )
 
 type Id struct {
-	Tag   IdTag  `json:",omitempty"`
-	Value uint16 `json:",omitempty"`
+	Type  IdTag  `json:"type,omitempty"`
+	Value uint16 `json:"value,omitempty"`
 	// Name (if any)
-	Name string `json:",omitempty"`
+	Name string `json:"name,omitempty"`
 }
 
 func (i Id) IsEmpty() bool {
-	return i.Tag == 0 && i.Value == 0 && i.Name == ""
+	return i.Type == 0 && i.Value == 0 && i.Name == ""
 }
 
 func (i Id) String() string {
@@ -93,7 +94,7 @@ func NewId(id C.hd_id_t) *Id {
 			 	Id is actually a combination of some tag to differentiate the various id types and the real id.
 				We do the same thing as the ID_VALUE macro in hd.h to get the true value.
 		*/
-		Tag:   IdTag((id.id >> 16) & 0xf),
+		Type:  IdTag((id.id >> 16) & 0xf),
 		Value: uint16(id.id),
 		Name:  C.GoString(id.name),
 	}

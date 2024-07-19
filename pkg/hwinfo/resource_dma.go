@@ -16,9 +16,9 @@ import "C"
 import "fmt"
 
 type ResourceDma struct {
-	Type    ResourceType `json:""`
-	Base    uint         `json:""`
-	Enabled bool         `json:""`
+	Type    ResourceType `json:"type"`
+	Base    uint         `json:"base"`
+	Enabled bool         `json:"enabled"`
 }
 
 func (r ResourceDma) ResourceType() ResourceType {

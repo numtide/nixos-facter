@@ -11,8 +11,8 @@ import "C"
 import "fmt"
 
 type ResourcePppdOption struct {
-	Type   ResourceType `json:""`
-	Option byte         `json:""`
+	Type   ResourceType `json:"type"`
+	Option byte         `json:"option"`
 }
 
 func (r ResourcePppdOption) ResourceType() ResourceType {
