@@ -1,4 +1,4 @@
-//go:build (386 || amd64) && !noasm && !appengine
+//go:build 386 || amd64
 
 package virt
 

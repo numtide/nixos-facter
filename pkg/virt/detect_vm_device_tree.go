@@ -1,6 +1,13 @@
-//go:build (arm || arm64 || ppc || ppc64 || riscv) && !noasm && !appengine
+//go:build arm || arm64 || ppc || ppc64 || riscv
 
 package virt
+
+import (
+	"os"
+	"strings"
+
+	"github.com/charmbracelet/log"
+)
 
 func init() {
 	detectVmDeviceTree = _detectVmDeviceTree

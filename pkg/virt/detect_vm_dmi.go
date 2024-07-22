@@ -1,4 +1,4 @@
-//go:build (386 || amd64 || arm || arm64 || loong64 || riscv) && !noasm && !appengine
+//go:build 386 || amd64 || arm || arm64 || loong64 || riscv
 
 package virt
 
