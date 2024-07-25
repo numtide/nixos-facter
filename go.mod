@@ -3,6 +3,7 @@ module github.com/numtide/nixos-facter
 go 1.22.3
 
 require (
+	github.com/charmbracelet/log v0.4.0
 	github.com/klauspost/cpuid/v2 v2.2.8
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/viper v1.19.0
@@ -11,7 +12,6 @@ require (
 require (
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/charmbracelet/lipgloss v0.10.0 // indirect
-	github.com/charmbracelet/log v0.4.0 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/go-logfmt/logfmt v0.6.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
@@ -40,4 +40,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/klauspost/cpuid/v2 => github.com/numtide/cpuid/v2 v2.0.0-20240716111839-5b430fac63c8
+replace github.com/klauspost/cpuid/v2 => github.com/numtide/cpuid/v2 v2.0.0-20240610094756-95e762693806
