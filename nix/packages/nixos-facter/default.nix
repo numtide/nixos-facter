@@ -19,7 +19,6 @@ in
     # ensure we are using the same version of go to build with
     inherit go;
 
-
     src = fs.toSource {
       root = ../../..;
       fileset = fs.unions [

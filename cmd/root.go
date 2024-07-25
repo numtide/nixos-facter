@@ -12,8 +12,8 @@ import (
 )
 
 var (
-	cfgFile     string
-	outputPath  string
+	cfgFile    string
+	outputPath string
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -29,7 +29,6 @@ var rootCmd = &cobra.Command{
 		}
 
 		bytes, err := json.MarshalIndent(report, "", "  ")
-
 		if err != nil {
 			return fmt.Errorf("failed to marshal report to json: %w", err)
 		}
