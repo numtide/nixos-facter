@@ -51,8 +51,9 @@ in
     ldflags = [
       "-s"
       "-w"
-      "-X git.numtide.com/numtide/nixos-facter/build.Name=${pname}"
-      "-X git.numtide.com/numtide/nixos-facter/build.Version=v${version}"
+      "-X github.com/numtide/nixos-facter/pkg/build.Name=${pname}"
+      "-X github.com/numtide/nixos-facter/pkg/build.Version=v${version}"
+      "-X github.com/numtide/nixos-facter/pkg/build.System=${pkgs.stdenv.hostPlatform.system}"
     ];
 
     passthru.tests = (import ./tests) args;
