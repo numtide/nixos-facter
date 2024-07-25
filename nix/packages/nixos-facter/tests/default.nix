@@ -15,7 +15,7 @@ in
         environment.systemPackages = [nixos-facter];
       };
       testScript = ''
-        machine.succeed("nixos-facter generate report -p -o /report.json")
+        machine.succeed("nixos-facter generate report -o /report.json")
       '';
     };
   }
