@@ -7,6 +7,7 @@ args @ {
   ...
 }: let
   inherit (pkgs) go lib;
+  fs = lib.fileset;
 in
   inputs.gomod2nix.legacyPackages.${system}.buildGoApplication rec {
     inherit pname;
@@ -18,19 +19,17 @@ in
     # ensure we are using the same version of go to build with
     inherit go;
 
-    src = let
-      filter = inputs.nix-filter.lib;
-    in
-      filter {
-        root = ../../../.;
-        include = [
-          "cmd"
-          "pkg"
-          "go.mod"
-          "go.sum"
-          "main.go"
-        ];
-      };
+
+    src = fs.toSource {
+      root = ../../..;
+      fileset = fs.unions [
+        ../../../cmd
+        ../../../go.mod
+        ../../../go.sum
+        ../../../main.go
+        ../../../pkg
+      ];
+    };
 
     modules = ./gomod2nix.toml;
 
