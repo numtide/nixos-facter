@@ -5,13 +5,15 @@ import (
 	"slices"
 
 	"github.com/numtide/nixos-facter/pkg/virt"
-
 	"github.com/numtide/nixos-facter/pkg/hwinfo"
+	"github.com/numtide/nixos-facter/pkg/build"
 )
+
 
 type Report struct {
 	Virtualisation virt.Type              `json:"virtualisation"`
 	Hardware       []*hwinfo.HardwareItem `json:"hardware"`
+	System         string                 `json:"system"`
 }
 
 func (r *Report) AddHardwareItem(item *hwinfo.HardwareItem) {
@@ -25,6 +27,11 @@ func (r *Report) AddHardwareItem(item *hwinfo.HardwareItem) {
 
 func GenerateReport() (*Report, error) {
 	report := Report{}
+
+	if build.System == "" {
+		return nil, fmt.Errorf("system is not set")
+	}
+	report.System = build.System
 
 	if err := hwinfo.Scan(func(item *hwinfo.HardwareItem) error {
 		report.AddHardwareItem(item)
