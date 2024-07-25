@@ -61,6 +61,5 @@ in
       {package = perSystem.gomod2nix.default;}
       {package = pkgs.golangci-lint;}
       {package = pkgs.cobra-cli;}
-      {package = pkgs.nix-unit;}
     ];
   }
