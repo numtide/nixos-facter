@@ -3,11 +3,10 @@
   pkgs,
   flake,
   inputs,
-  perSystem,
   ...
 }:
 pkgs.runCommandLocal pname {
-  nativeBuildInputs = [perSystem.nix-unit.default];
+  nativeBuildInputs = [pkgs.nix-unit];
 } ''
   export HOME="$(realpath .)"
   find ${flake} -type f -name "*.unit.nix" \
