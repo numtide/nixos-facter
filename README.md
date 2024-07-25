@@ -12,7 +12,7 @@ It inverts the control where the NixOS module system can now make decisions on w
 The project has two parts:
 
 -   The binary that scans the system and outputs JSON or TOML.
--   A NixOS module that can load that data and make decisions.
+-   A series of [NixOS modules](https://github.com/numtide/nixos-facter-modules) that can load that data and make decisions.
 
 That's it.
 
