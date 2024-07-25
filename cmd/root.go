@@ -14,7 +14,6 @@ import (
 var (
 	cfgFile     string
 	outputPath  string
-	prettyPrint bool
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -29,12 +28,7 @@ var rootCmd = &cobra.Command{
 			return err
 		}
 
-		var b []byte
-		if prettyPrint {
-			b, err = json.MarshalIndent(report, "", "  ")
-		} else {
-			b, err = json.Marshal(report)
-		}
+		bytes, err := json.MarshalIndent(report, "", "  ")
 
 		if err != nil {
 			return fmt.Errorf("failed to marshal report to json: %w", err)
@@ -42,11 +36,11 @@ var rootCmd = &cobra.Command{
 
 		// if a file path is provided write the report to it, otherwise output the report on stdout
 		if outputPath == "" {
-			if _, err = os.Stdout.Write(b); err != nil {
+			if _, err = os.Stdout.Write(bytes); err != nil {
 				return fmt.Errorf("failed to write report to stdout: %w", err)
 			}
 			fmt.Println()
-		} else if err = os.WriteFile(outputPath, b, 0o644); err != nil {
+		} else if err = os.WriteFile(outputPath, bytes, 0o644); err != nil {
 			return fmt.Errorf("failed to write report to output path: %w", err)
 		}
 
@@ -75,7 +69,6 @@ func init() {
 	// when this action is called directly.
 	f := rootCmd.Flags()
 	f.StringVarP(&outputPath, "output", "o", "", "Path to write the report")
-	f.BoolVarP(&prettyPrint, "pretty-print", "p", false, "Pretty print json")
 }
 
 // initConfig reads in config file and ENV variables if set.
