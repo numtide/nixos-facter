@@ -4,11 +4,10 @@ import (
 	"fmt"
 	"slices"
 
-	"github.com/numtide/nixos-facter/pkg/virt"
-	"github.com/numtide/nixos-facter/pkg/hwinfo"
 	"github.com/numtide/nixos-facter/pkg/build"
+	"github.com/numtide/nixos-facter/pkg/hwinfo"
+	"github.com/numtide/nixos-facter/pkg/virt"
 )
-
 
 type Report struct {
 	Virtualisation virt.Type              `json:"virtualisation"`
