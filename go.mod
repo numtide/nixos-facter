@@ -40,4 +40,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/klauspost/cpuid/v2 => github.com/numtide/cpuid/v2 v2.0.0-20240729135509-23632be66920
+replace github.com/klauspost/cpuid/v2 => github.com/numtide/cpuid/v2 v2.0.0-20240716173021-d25825d28e33
