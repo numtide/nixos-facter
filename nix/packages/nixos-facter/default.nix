@@ -1,6 +1,7 @@
 args @ {
   flake,
   inputs,
+  perSystem,
   system,
   pkgs,
   pname,
@@ -9,7 +10,7 @@ args @ {
   inherit (pkgs) go lib;
   fs = lib.fileset;
 in
-  inputs.gomod2nix.legacyPackages.${system}.buildGoApplication rec {
+  perSystem.gomod2nix.buildGoApplication rec {
     inherit pname;
     # there's no good way of tying in the version to a git tag or branch
     # so for simplicity's sake we set the version as the commit revision hash
