@@ -1,0 +1,26 @@
+package hwinfo
+
+/*
+#cgo pkg-config: hwinfo
+#include <hd.h>
+*/
+import "C"
+
+// SmbiosOEMStrings captures OEM information.
+type SmbiosOEMStrings struct {
+	Type    SmbiosType `json:"type"`
+	Handle  int        `json:"handle"`
+	Strings []string   `json:"strings,omitempty"`
+}
+
+func (s SmbiosOEMStrings) SmbiosType() SmbiosType {
+	return s.Type
+}
+
+func NewSmbiosOEM(info C.smbios_oem_t) (Smbios, error) {
+	return SmbiosOEMStrings{
+		Type:    SmbiosTypeOEMStrings,
+		Handle:  int(info.handle),
+		Strings: ReadStringList(info.oem_strings),
+	}, nil
+}

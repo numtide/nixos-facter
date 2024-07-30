@@ -1,0 +1,28 @@
+package hwinfo
+
+/*
+#cgo pkg-config: hwinfo
+#include <hd.h>
+*/
+import "C"
+
+// SmbiosLanguage captures language information.
+type SmbiosLanguage struct {
+	Type            SmbiosType `json:"type"`
+	Handle          int        `json:"handle"`
+	Languages       []string   `json:"languages,omitempty"`
+	CurrentLanguage string     `json:"current_language"`
+}
+
+func (s SmbiosLanguage) SmbiosType() SmbiosType {
+	return s.Type
+}
+
+func NewSmbiosLang(info C.smbios_lang_t) (Smbios, error) {
+	return SmbiosLanguage{
+		Type:            SmbiosTypeLanguage,
+		Handle:          int(info.handle),
+		Languages:       ReadStringList(info.strings),
+		CurrentLanguage: C.GoString(info.current),
+	}, nil
+}

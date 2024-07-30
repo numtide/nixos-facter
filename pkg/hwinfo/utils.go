@@ -34,6 +34,17 @@ func ReadUintArray(arr unsafe.Pointer, length int) []uint {
 	return result
 }
 
+func ReadIntArray(arr unsafe.Pointer, length int) []int {
+	// TODO see if we can use generics to combine some of these methods
+	start := uintptr(arr)
+	result := make([]int, length)
+	for i := range result {
+		next := start + uintptr(i*C.sizeof_uint)
+		result[i] = *((*int)(unsafe.Pointer(next)))
+	}
+	return result
+}
+
 func ReadByteArray(arr unsafe.Pointer, length int) []byte {
 	start := uintptr(arr)
 	result := make([]byte, length)
