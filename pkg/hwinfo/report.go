@@ -250,7 +250,7 @@ type HardwareItem struct {
 	CompatDevice      *Id           `json:"compat_device,omitempty"`
 	HardwareClass     HardwareClass `json:"hardware_class,omitempty"`
 	Model             string        `json:"model,omitempty"`
-	AttachedTo        uint          `json:"attached_tp,omitempty"`
+	AttachedTo        uint          `json:"attached_to,omitempty"`
 	SysfsId           string        `json:"sysfs_id,omitempty"`
 	SysfsBusId        string        `json:"sysfs_bus_id,omitempty"`
 	SysfsDeviceLink   string        `json:"sysfs_device_link,omitempty"`
