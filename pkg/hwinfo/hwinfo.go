@@ -15,10 +15,16 @@ import (
 	"unsafe"
 )
 
-func Scan() ([]Smbios, []*HardwareItem, error) {
+func Scan(probes []ProbeFeature) ([]Smbios, []*HardwareItem, error) {
+	// initialise the struct to hold scan data
 	data := (*C.hd_data_t)(unsafe.Pointer(C.calloc(1, C.size_t(unsafe.Sizeof(C.hd_data_t{})))))
 
-	C.hd_set_probe_feature(data, C.enum_probe_feature(ProbeFeatureAll))
+	// set the hardware probes to run
+	for _, probe := range probes {
+		C.hd_set_probe_feature(data, C.enum_probe_feature(probe))
+	}
+
+	// scan
 	C.hd_scan(data)
 	defer C.hd_free_hd_data(data)
 

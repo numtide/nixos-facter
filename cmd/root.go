@@ -4,6 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"strings"
+
+	"github.com/numtide/nixos-facter/pkg/hwinfo"
 
 	"github.com/numtide/nixos-facter/pkg/facter"
 
@@ -12,8 +15,9 @@ import (
 )
 
 var (
-	cfgFile    string
-	outputPath string
+	cfgFile          string
+	outputPath       string
+	hardwareFeatures []string
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -23,7 +27,17 @@ var rootCmd = &cobra.Command{
 	// todo Long description
 	// todo add Long description
 	RunE: func(cmd *cobra.Command, args []string) error {
-		report, err := facter.GenerateReport()
+		// convert the hardware features into probe features
+		var hardwareProbes []hwinfo.ProbeFeature
+		for _, str := range hardwareFeatures {
+			probe, err := hwinfo.ProbeFeatureString(str)
+			if err != nil {
+				return fmt.Errorf("invalid hardware feature: %w", err)
+			}
+			hardwareProbes = append(hardwareProbes, probe)
+		}
+
+		report, err := facter.GenerateReport(hardwareProbes)
 		if err != nil {
 			return err
 		}
@@ -64,10 +78,30 @@ func init() {
 	// will be global for your application.s
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.nixos-facter.yaml)")
 
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
+	// Cobra also supports local flags, which will only run when this action is called directly.
 	f := rootCmd.Flags()
 	f.StringVarP(&outputPath, "output", "o", "", "Path to write the report")
+
+	// We currently support all probe features at a high level as they share some generic information,
+	// but we do not have mappings for all of their detail sections.
+	// These will be added on a priority / need basis.
+
+	defaultFeatures := []string{
+		"memory", "pci", "net", "serial", "cpu", "bios", "monitor", "mouse", "scsi", "usb", "prom", "sbus", "sys",
+		"sysfs", "udev", "block", "wlan",
+	}
+
+	f.StringSliceVarP(
+		&hardwareFeatures,
+		"hardware-features",
+		"f",
+		defaultFeatures,
+		fmt.Sprintf(
+			"Hardware features to probe. Possible values are %s",
+			// we strip default from the feature list
+			strings.Replace(strings.Join(hwinfo.ProbeFeatureStrings(), ","), "default,", "", 1),
+		),
+	)
 }
 
 // initConfig reads in config file and ENV variables if set.

@@ -15,7 +15,7 @@ type Report struct {
 	Virtualisation virt.Type              `json:"virtualisation"`
 }
 
-func GenerateReport() (*Report, error) {
+func GenerateReport(probes []hwinfo.ProbeFeature) (*Report, error) {
 	report := Report{}
 
 	if build.System == "" {
@@ -24,7 +24,7 @@ func GenerateReport() (*Report, error) {
 	report.System = build.System
 
 	var err error
-	report.Smbios, report.Hardware, err = hwinfo.Scan()
+	report.Smbios, report.Hardware, err = hwinfo.Scan(probes)
 	if err != nil {
 		return nil, fmt.Errorf("failed to scan hardware: %w", err)
 	}
