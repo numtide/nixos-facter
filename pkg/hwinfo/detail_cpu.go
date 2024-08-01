@@ -5,6 +5,7 @@ package hwinfo
 #include <hd.h>
 */
 import "C"
+import "regexp"
 
 //go:generate enumer -type=CpuArch -json -transform=snake -trimprefix CpuArch -output=./detail_enum_cpu_arch.go
 type CpuArch uint
@@ -36,13 +37,21 @@ type DetailCpu struct {
 	Model        uint       `json:"model"`
 	Stepping     uint       `json:"stepping"`
 	Cache        uint       `json:"cache"`
-	Clock        uint       `json:"clock"`
-	Units        uint       `json:"units"`
-	VendorName   string     `json:"vendor_name"`
-	ModelName    string     `json:"model_name"`
-	Platform     string     `json:"platform"`
-	Features     []string   `json:"features"`
-	Bogo         float64    `json:"bogo"`
+	// This field changes as the CPU up/down scales, so we do not export it
+	Clock        uint       `json:"-"`
+	Units      uint     `json:"units"`
+	VendorName string   `json:"vendor_name"`
+	ModelName  string   `json:"model_name"`
+	Platform   string   `json:"platform"`
+	Features   []string `json:"features"`
+	Bogo       float64  `json:"bogo"`
+}
+
+var matchCPUFreq = regexp.MustCompile(`, %d MHz$`)
+
+func stripCpuFreq(s string) string {
+	// strip frequency of the model name as it is not stable.
+	return matchCPUFreq.ReplaceAllString(s, "")
 }
 
 func NewDetailCpu(cpu C.hd_detail_cpu_t) (Detail, error) {
@@ -56,12 +65,12 @@ func NewDetailCpu(cpu C.hd_detail_cpu_t) (Detail, error) {
 		Stepping:     uint(data.stepping),
 		Cache:        uint(data.cache),
 		Clock:        uint(data.clock),
-		Units:        uint(data.units),
-		VendorName:   C.GoString(data.vend_name),
-		ModelName:    C.GoString(data.model_name),
-		Platform:     C.GoString(data.platform),
-		Features:     ReadStringList(data.features),
-		Bogo:         float64(data.bogo),
+		Units:      uint(data.units),
+		VendorName: C.GoString(data.vend_name),
+		ModelName:  stripCpuFreq(C.GoString(data.model_name)),
+		Platform:   C.GoString(data.platform),
+		Features:   ReadStringList(data.features),
+		Bogo:       float64(data.bogo),
 	}, nil
 }
 

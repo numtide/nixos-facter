@@ -316,6 +316,11 @@ func NewHardwareItem(hd *C.hd_t) (*HardwareItem, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to read driver info: %w", err)
 	}
+	model := C.GoString(hd.model)
+	hwClass := HardwareClass(hd.hw_class)
+	if hwClass == HardwareClassCpu {
+		model = stripCpuFreq(model)
+	}
 
 	return &HardwareItem{
 		Index:            uint(hd.idx),
@@ -332,8 +337,8 @@ func NewHardwareItem(hd *C.hd_t) (*HardwareItem, error) {
 		Serial:           C.GoString(hd.serial),
 		CompatVendor:     NewId(hd.compat_vendor),
 		CompatDevice:     NewId(hd.compat_device),
-		HardwareClass:    HardwareClass(hd.hw_class),
-		Model:            C.GoString(hd.model),
+		HardwareClass:    hwClass,
+		Model:            model,
 		AttachedTo:       uint(hd.attached_to),
 		SysfsId:          C.GoString(hd.sysfs_id),
 		SysfsBusId:       C.GoString(hd.sysfs_bus_id),
