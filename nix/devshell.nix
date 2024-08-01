@@ -1,26 +1,22 @@
 {
-  pkgs,
   perSystem,
+  pkgs,
   ...
 }:
-pkgs.mkShell {
-  GOROOT = "${pkgs.go}/share/go";
-
-  packages = with pkgs; [
-    go
-    gotools
-    enumer
-    delve
-    pprof
-    graphviz
-    libusb1.dev
-    gcc
-    pkg-config
-    util-linux.dev
-    pciutils
-    hwinfo
-    perSystem.gomod2nix.default
-    golangci-lint
-    cobra-cli
-  ];
-}
+perSystem.self.nixos-facter.overrideAttrs (old: {
+  GOROOT = "${old.go}/share/go";
+  nativeBuildInputs =
+    old.nativeBuildInputs
+    ++ [
+      perSystem.gomod2nix.default
+      pkgs.enumer
+      pkgs.delve
+      pkgs.pprof
+      pkgs.golangci-lint
+      pkgs.cobra-cli
+    ];
+  shellHook = ''
+    # this is only needed for hermetic builds
+    unset GO_NO_VENDOR_CHECKS GOSUMDB GOPROXY GOFLAGS
+  '';
+})
