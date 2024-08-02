@@ -1,6 +1,7 @@
 # nixos-facter
 
--   **Status: vaporware**
+> [!NOTE] 
+> **Status: alpha**
 
 Instead of generating Nix code we would be generating a JSON-like data structure of facts about the machine.
 This can be recorded and loaded by Nix. Or added to the nixos-hardware repo.
