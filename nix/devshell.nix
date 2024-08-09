@@ -14,6 +14,7 @@ perSystem.self.nixos-facter.overrideAttrs (old: {
       pkgs.pprof
       pkgs.golangci-lint
       pkgs.cobra-cli
+      perSystem.self.hwinfo
     ];
   shellHook = ''
     # this is only needed for hermetic builds
