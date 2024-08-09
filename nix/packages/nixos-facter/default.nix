@@ -34,7 +34,7 @@ in
 
     buildInputs = [
       pkgs.libusb1
-      pkgs.hwinfo
+      perSystem.self.hwinfo
     ];
 
     nativeBuildInputs = with pkgs; [
