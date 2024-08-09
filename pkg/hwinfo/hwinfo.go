@@ -15,6 +15,18 @@ import (
 	"unsafe"
 )
 
+func excludeDevice(item *HardwareItem) bool {
+	if item.HardwareClass == HardwareClassNetwork {
+		for _, driver := range item.Drivers {
+			// devices that are not mapped to hardware should be not included in the hardware report
+			if virtualNetworkDevices[driver] {
+				return true
+			}
+		}
+	}
+	return false
+}
+
 func Scan(probes []ProbeFeature) ([]Smbios, []*HardwareItem, error) {
 	// initialise the struct to hold scan data
 	data := (*C.hd_data_t)(unsafe.Pointer(C.calloc(1, C.size_t(unsafe.Sizeof(C.hd_data_t{})))))
@@ -42,6 +54,9 @@ func Scan(probes []ProbeFeature) ([]Smbios, []*HardwareItem, error) {
 		if item, err := NewHardwareItem(hd); err != nil {
 			return nil, nil, err
 		} else {
+			if excludeDevice(item) {
+				continue
+			}
 			hardwareItems = append(hardwareItems, item)
 		}
 	}

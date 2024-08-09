@@ -5,11 +5,8 @@ package hwinfo
 #include <hd.h>
 */
 import "C"
-
-import (
-	"encoding/hex"
-	"unsafe"
-)
+import "encoding/hex"
+import "unsafe"
 
 //go:generate enumer -type=PciFlag -json -transform=snake -trimprefix PciFlag -output=./detail_enum_pci_flag.go
 type PciFlag uint
@@ -30,10 +27,11 @@ func ParsePciFlags(flags uint) (result []PciFlag) {
 }
 
 type DetailPci struct {
-	Type          DetailType `json:"type"`
-	Data          string     `json:"data"`            // the PCI data, hex encoded
-	DataLength    uint       `json:"data_length"`     // holds the actual length of Data
-	DataExtLength uint       `json:"data_ext_length"` // max. accessed config byte
+	Type DetailType `json:"type"`
+	// Not needed
+	Data          string `json:"-"` // the PCI data, hex encoded
+	DataLength    uint   `json:"-"` // holds the actual length of Data
+	DataExtLength uint   `json:"-"` // max. accessed config byte
 
 	Log string `json:""` // log messages
 
@@ -62,15 +60,16 @@ type DetailPci struct {
 	// used irq if any
 	Irq uint `json:"irq"`
 
-	BaseAddress  [7]uint64 `json:"base_address"`  // I/O or memory base
-	BaseLength   [7]uint64 `json:"base_length"`   // I/O or memory ranges
-	AddressFlags [7]uint   `json:"address_flags"` // I/O or memory address flags
+	BaseAddress  [7]uint64 `json:"-"` // I/O or memory base
+	BaseLength   [7]uint64 `json:"-"` // I/O or memory ranges
+	AddressFlags [7]uint   `json:"-"` // I/O or memory address flags
 
-	RomBaseAddress uint64 `json:"rom_base_address"` // memory base for card ROM
-	RomBaseLength  uint64 `json:"rom_base_length"`  // memory range for card ROM
+	RomBaseAddress uint64 `json:"-"` // memory base for card ROM
+	RomBaseLength  uint64 `json:"-"` // memory range for card ROM
 
-	SysfsId     string `json:"sysfs_id,omitempty"`     // sysfs path
-	SysfsBusId  string `json:"sysfs_bus_id,omitempty"` // sysfs bus id
+	// already included in the normal model
+	SysfsId     string `json:"-"`                      // sysfs path
+	SysfsBusId  string `json:"-"`                      // sysfs bus id
 	ModuleAlias string `json:"module_alias,omitempty"` // module alias
 	Label       string `json:"label,omitempty"`        // Consistent Device Name (CDN), pci firmware 3.1, chapter 4.6.7
 
@@ -87,36 +86,36 @@ func NewDetailPci(pci C.hd_detail_pci_t) (Detail, error) {
 	data := pci.data
 
 	return DetailPci{
-		Type:           DetailTypePci,
-		Data:           hex.EncodeToString(C.GoBytes(unsafe.Pointer(&data.data), 256)),
-		DataLength:     uint(data.data_len),
-		DataExtLength:  uint(data.data_ext_len),
-		Log:            C.GoString(data.log),
-		Flags:          ParsePciFlags(uint(data.flags)),
-		Command:        uint(data.cmd),
-		HeaderType:     uint(data.hdr_type),
-		SecondaryBus:   uint(data.secondary_bus),
-		Bus:            uint(data.bus),
-		Slot:           uint(data.slot),
-		Function:       uint(data._func),
-		BaseClass:      uint(data.base_class),
-		SubClass:       uint(data.sub_class),
-		ProgIf:         uint(data.prog_if),
-		Device:         uint(data.dev),
-		Vendor:         uint(data.vend),
-		SubDevice:      uint(data.sub_dev),
-		SubVendor:      uint(data.sub_vend),
-		Revision:       uint(data.rev),
-		Irq:            uint(data.irq),
+		Type:          DetailTypePci,
+		Data:          hex.EncodeToString(C.GoBytes(unsafe.Pointer(&data.data), 256)),
+		DataLength:    uint(data.data_len),
+		DataExtLength: uint(data.data_ext_len),
+		Log:           C.GoString(data.log),
+		Flags:         ParsePciFlags(uint(data.flags)),
+		Command:       uint(data.cmd),
+		HeaderType:    uint(data.hdr_type),
+		SecondaryBus:  uint(data.secondary_bus),
+		Bus:           uint(data.bus),
+		Slot:          uint(data.slot),
+		Function:      uint(data._func),
+		BaseClass:     uint(data.base_class),
+		SubClass:      uint(data.sub_class),
+		ProgIf:        uint(data.prog_if),
+		Device:        uint(data.dev),
+		Vendor:        uint(data.vend),
+		SubDevice:     uint(data.sub_dev),
+		SubVendor:     uint(data.sub_vend),
+		Revision:      uint(data.rev),
+		Irq:           uint(data.irq),
 		BaseAddress:    [7]uint64(ReadUint64Array(unsafe.Pointer(&data.base_addr), 7)),
 		BaseLength:     [7]uint64(ReadUint64Array(unsafe.Pointer(&data.base_len), 7)),
 		AddressFlags:   [7]uint(ReadUintArray(unsafe.Pointer(&data.addr_flags), 7)),
 		RomBaseAddress: uint64(data.rom_base_addr),
 		RomBaseLength:  uint64(data.rom_base_len),
-		SysfsId:        C.GoString(data.sysfs_id),
-		SysfsBusId:     C.GoString(data.sysfs_bus_id),
-		ModuleAlias:    C.GoString(data.modalias),
-		Label:          C.GoString(data.label),
+		SysfsId:     C.GoString(data.sysfs_id),
+		SysfsBusId:  C.GoString(data.sysfs_bus_id),
+		ModuleAlias: C.GoString(data.modalias),
+		Label:       C.GoString(data.label),
 		// todo edid data
 	}, nil
 }
