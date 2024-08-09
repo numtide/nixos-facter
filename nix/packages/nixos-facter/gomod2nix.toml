@@ -23,9 +23,8 @@ schema = 3
     version = "v1.1.0"
     hash = "sha256-XWlYH0c8IcxAwQTnIi6WYqq44nOKUylSWxWO/vi+8pE="
   [mod."github.com/klauspost/cpuid/v2"]
-    version = "v2.0.0-20240729135509-23632be66920"
-    hash = "sha256-meD7SbiElORwI1Z0MCfT/FB6hOVAA8DG0nZYnU8tszI="
-    replaced = "github.com/numtide/cpuid/v2"
+    version = "v2.2.9-0.20240805145549-92d5326f011e"
+    hash = "sha256-yCZS40L97G7WZHhy/A6I8ArEkyHi86DGAW43SziYPek="
   [mod."github.com/lucasb-eyer/go-colorful"]
     version = "v1.2.0"
     hash = "sha256-Gg9dDJFCTaHrKHRR1SrJgZ8fWieJkybljybkI9x0gyE="

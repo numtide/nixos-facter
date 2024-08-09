@@ -4,7 +4,7 @@ go 1.22.3
 
 require (
 	github.com/charmbracelet/log v0.4.0
-	github.com/klauspost/cpuid/v2 v2.2.8
+	github.com/klauspost/cpuid/v2 v2.2.9-0.20240805145549-92d5326f011e
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/viper v1.19.0
 )
@@ -39,5 +39,3 @@ require (
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
-
-replace github.com/klauspost/cpuid/v2 => github.com/numtide/cpuid/v2 v2.0.0-20240729135509-23632be66920
