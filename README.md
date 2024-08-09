@@ -1,6 +1,6 @@
 # nixos-facter
 
-> [!NOTE] 
+> [!NOTE]
 > **Status: alpha**
 
 Instead of generating Nix code we would be generating a JSON-like data structure of facts about the machine.
