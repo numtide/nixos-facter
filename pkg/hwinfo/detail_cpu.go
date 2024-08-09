@@ -38,7 +38,7 @@ type DetailCpu struct {
 	Stepping     uint       `json:"stepping"`
 	Cache        uint       `json:"cache"`
 	// This field changes as the CPU up/down scales, so we do not export it
-	Clock        uint       `json:"-"`
+	Clock      uint     `json:"-"`
 	Units      uint     `json:"units"`
 	VendorName string   `json:"vendor_name"`
 	ModelName  string   `json:"model_name"`
@@ -65,12 +65,12 @@ func NewDetailCpu(cpu C.hd_detail_cpu_t) (Detail, error) {
 		Stepping:     uint(data.stepping),
 		Cache:        uint(data.cache),
 		Clock:        uint(data.clock),
-		Units:      uint(data.units),
-		VendorName: C.GoString(data.vend_name),
-		ModelName:  stripCpuFreq(C.GoString(data.model_name)),
-		Platform:   C.GoString(data.platform),
-		Features:   ReadStringList(data.features),
-		Bogo:       float64(data.bogo),
+		Units:        uint(data.units),
+		VendorName:   C.GoString(data.vend_name),
+		ModelName:    stripCpuFreq(C.GoString(data.model_name)),
+		Platform:     C.GoString(data.platform),
+		Features:     ReadStringList(data.features),
+		Bogo:         float64(data.bogo),
 	}, nil
 }
 

@@ -1,6 +1,5 @@
 args @ {
   flake,
-  inputs,
   perSystem,
   system,
   pkgs,
