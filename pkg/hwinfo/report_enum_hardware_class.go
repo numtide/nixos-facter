@@ -8,11 +8,11 @@ import (
 	"strings"
 )
 
-const _HardwareClassName = "nonesyscpukeyboardbraillemousejoystickprinterscannerchipcardmonitortvdisplayframebuffercamerasoundstorage_ctrlnetwork_ctrlisdnmodemnetworkdiskpartitioncdromfloppymanualusb_ctrlusbbiospciisapnpbridgehubscsiidememorydvbpcmciapcmcia_ctrlieee1394ieee1394_ctrlhotplughotplug_ctrlzippppoewlanredasddslblocktapevbebluetoothfingerprintmmc_ctrlnvmeunknownall"
+const _HardwareClassName = "nonesystemcpukeyboardbraillemousejoystickprinterscannerchipcardmonitortv_cardgraphics_cardframebuffercamerasoundstorage_ctrlnetworkisdn_adaptermodemnetwork_interfacediskpartitioncdromfloppymanualusb_controllerusbbiospciisapnpbridgehubscsiidememorydvb_cardpcmciapcmcia_controllerfirewirefirewire_controllerhotplughotplug_controllerzippppoewlan_cardredasddsl_adapterblock_devicetapevesa_biosbluetoothfingerprintmmc_controllernvmeunknownall"
 
-var _HardwareClassIndex = [...]uint16{0, 4, 7, 10, 18, 25, 30, 38, 45, 52, 60, 67, 69, 76, 87, 93, 98, 110, 122, 126, 131, 138, 142, 151, 156, 162, 168, 176, 179, 183, 186, 192, 198, 201, 205, 208, 214, 217, 223, 234, 242, 255, 262, 274, 277, 282, 286, 292, 295, 300, 304, 307, 316, 327, 335, 339, 346, 349}
+var _HardwareClassIndex = [...]uint16{0, 4, 10, 13, 21, 28, 33, 41, 48, 55, 63, 70, 77, 90, 101, 107, 112, 124, 131, 143, 148, 165, 169, 178, 183, 189, 195, 209, 212, 216, 219, 225, 231, 234, 238, 241, 247, 255, 261, 278, 286, 305, 312, 330, 333, 338, 347, 353, 364, 376, 380, 389, 398, 409, 423, 427, 434, 437}
 
-const _HardwareClassLowerName = "nonesyscpukeyboardbraillemousejoystickprinterscannerchipcardmonitortvdisplayframebuffercamerasoundstorage_ctrlnetwork_ctrlisdnmodemnetworkdiskpartitioncdromfloppymanualusb_ctrlusbbiospciisapnpbridgehubscsiidememorydvbpcmciapcmcia_ctrlieee1394ieee1394_ctrlhotplughotplug_ctrlzippppoewlanredasddslblocktapevbebluetoothfingerprintmmc_ctrlnvmeunknownall"
+const _HardwareClassLowerName = "nonesystemcpukeyboardbraillemousejoystickprinterscannerchipcardmonitortv_cardgraphics_cardframebuffercamerasoundstorage_ctrlnetworkisdn_adaptermodemnetwork_interfacediskpartitioncdromfloppymanualusb_controllerusbbiospciisapnpbridgehubscsiidememorydvb_cardpcmciapcmcia_controllerfirewirefirewire_controllerhotplughotplug_controllerzippppoewlan_cardredasddsl_adapterblock_devicetapevesa_biosbluetoothfingerprintmmc_controllernvmeunknownall"
 
 func (i HardwareClass) String() string {
 	if i >= HardwareClass(len(_HardwareClassIndex)-1) {
@@ -26,7 +26,7 @@ func (i HardwareClass) String() string {
 func _HardwareClassNoOp() {
 	var x [1]struct{}
 	_ = x[HardwareClassNone-(0)]
-	_ = x[HardwareClassSys-(1)]
+	_ = x[HardwareClassSystem-(1)]
 	_ = x[HardwareClassCpu-(2)]
 	_ = x[HardwareClassKeyboard-(3)]
 	_ = x[HardwareClassBraille-(4)]
@@ -36,22 +36,22 @@ func _HardwareClassNoOp() {
 	_ = x[HardwareClassScanner-(8)]
 	_ = x[HardwareClassChipcard-(9)]
 	_ = x[HardwareClassMonitor-(10)]
-	_ = x[HardwareClassTv-(11)]
-	_ = x[HardwareClassDisplay-(12)]
+	_ = x[HardwareClassTvCard-(11)]
+	_ = x[HardwareClassGraphicsCard-(12)]
 	_ = x[HardwareClassFramebuffer-(13)]
 	_ = x[HardwareClassCamera-(14)]
 	_ = x[HardwareClassSound-(15)]
 	_ = x[HardwareClassStorageCtrl-(16)]
-	_ = x[HardwareClassNetworkCtrl-(17)]
-	_ = x[HardwareClassIsdn-(18)]
+	_ = x[HardwareClassNetwork-(17)]
+	_ = x[HardwareClassIsdnAdapter-(18)]
 	_ = x[HardwareClassModem-(19)]
-	_ = x[HardwareClassNetwork-(20)]
+	_ = x[HardwareClassNetworkInterface-(20)]
 	_ = x[HardwareClassDisk-(21)]
 	_ = x[HardwareClassPartition-(22)]
 	_ = x[HardwareClassCdrom-(23)]
 	_ = x[HardwareClassFloppy-(24)]
 	_ = x[HardwareClassManual-(25)]
-	_ = x[HardwareClassUsbCtrl-(26)]
+	_ = x[HardwareClassUsbController-(26)]
 	_ = x[HardwareClassUsb-(27)]
 	_ = x[HardwareClassBios-(28)]
 	_ = x[HardwareClassPci-(29)]
@@ -61,206 +61,206 @@ func _HardwareClassNoOp() {
 	_ = x[HardwareClassScsi-(33)]
 	_ = x[HardwareClassIde-(34)]
 	_ = x[HardwareClassMemory-(35)]
-	_ = x[HardwareClassDvb-(36)]
+	_ = x[HardwareClassDvbCard-(36)]
 	_ = x[HardwareClassPcmcia-(37)]
-	_ = x[HardwareClassPcmciaCtrl-(38)]
-	_ = x[HardwareClassIeee1394-(39)]
-	_ = x[HardwareClassIeee1394Ctrl-(40)]
+	_ = x[HardwareClassPcmciaController-(38)]
+	_ = x[HardwareClassFirewire-(39)]
+	_ = x[HardwareClassFirewireController-(40)]
 	_ = x[HardwareClassHotplug-(41)]
-	_ = x[HardwareClassHotplugCtrl-(42)]
+	_ = x[HardwareClassHotplugController-(42)]
 	_ = x[HardwareClassZip-(43)]
 	_ = x[HardwareClassPppoe-(44)]
-	_ = x[HardwareClassWlan-(45)]
+	_ = x[HardwareClassWlanCard-(45)]
 	_ = x[HardwareClassRedasd-(46)]
-	_ = x[HardwareClassDsl-(47)]
-	_ = x[HardwareClassBlock-(48)]
+	_ = x[HardwareClassDslAdapter-(47)]
+	_ = x[HardwareClassBlockDevice-(48)]
 	_ = x[HardwareClassTape-(49)]
-	_ = x[HardwareClassVbe-(50)]
+	_ = x[HardwareClassVesaBios-(50)]
 	_ = x[HardwareClassBluetooth-(51)]
 	_ = x[HardwareClassFingerprint-(52)]
-	_ = x[HardwareClassMmcCtrl-(53)]
+	_ = x[HardwareClassMmcController-(53)]
 	_ = x[HardwareClassNvme-(54)]
 	_ = x[HardwareClassUnknown-(55)]
 	_ = x[HardwareClassAll-(56)]
 }
 
-var _HardwareClassValues = []HardwareClass{HardwareClassNone, HardwareClassSys, HardwareClassCpu, HardwareClassKeyboard, HardwareClassBraille, HardwareClassMouse, HardwareClassJoystick, HardwareClassPrinter, HardwareClassScanner, HardwareClassChipcard, HardwareClassMonitor, HardwareClassTv, HardwareClassDisplay, HardwareClassFramebuffer, HardwareClassCamera, HardwareClassSound, HardwareClassStorageCtrl, HardwareClassNetworkCtrl, HardwareClassIsdn, HardwareClassModem, HardwareClassNetwork, HardwareClassDisk, HardwareClassPartition, HardwareClassCdrom, HardwareClassFloppy, HardwareClassManual, HardwareClassUsbCtrl, HardwareClassUsb, HardwareClassBios, HardwareClassPci, HardwareClassIsapnp, HardwareClassBridge, HardwareClassHub, HardwareClassScsi, HardwareClassIde, HardwareClassMemory, HardwareClassDvb, HardwareClassPcmcia, HardwareClassPcmciaCtrl, HardwareClassIeee1394, HardwareClassIeee1394Ctrl, HardwareClassHotplug, HardwareClassHotplugCtrl, HardwareClassZip, HardwareClassPppoe, HardwareClassWlan, HardwareClassRedasd, HardwareClassDsl, HardwareClassBlock, HardwareClassTape, HardwareClassVbe, HardwareClassBluetooth, HardwareClassFingerprint, HardwareClassMmcCtrl, HardwareClassNvme, HardwareClassUnknown, HardwareClassAll}
+var _HardwareClassValues = []HardwareClass{HardwareClassNone, HardwareClassSystem, HardwareClassCpu, HardwareClassKeyboard, HardwareClassBraille, HardwareClassMouse, HardwareClassJoystick, HardwareClassPrinter, HardwareClassScanner, HardwareClassChipcard, HardwareClassMonitor, HardwareClassTvCard, HardwareClassGraphicsCard, HardwareClassFramebuffer, HardwareClassCamera, HardwareClassSound, HardwareClassStorageCtrl, HardwareClassNetwork, HardwareClassIsdnAdapter, HardwareClassModem, HardwareClassNetworkInterface, HardwareClassDisk, HardwareClassPartition, HardwareClassCdrom, HardwareClassFloppy, HardwareClassManual, HardwareClassUsbController, HardwareClassUsb, HardwareClassBios, HardwareClassPci, HardwareClassIsapnp, HardwareClassBridge, HardwareClassHub, HardwareClassScsi, HardwareClassIde, HardwareClassMemory, HardwareClassDvbCard, HardwareClassPcmcia, HardwareClassPcmciaController, HardwareClassFirewire, HardwareClassFirewireController, HardwareClassHotplug, HardwareClassHotplugController, HardwareClassZip, HardwareClassPppoe, HardwareClassWlanCard, HardwareClassRedasd, HardwareClassDslAdapter, HardwareClassBlockDevice, HardwareClassTape, HardwareClassVesaBios, HardwareClassBluetooth, HardwareClassFingerprint, HardwareClassMmcController, HardwareClassNvme, HardwareClassUnknown, HardwareClassAll}
 
 var _HardwareClassNameToValueMap = map[string]HardwareClass{
 	_HardwareClassName[0:4]:          HardwareClassNone,
 	_HardwareClassLowerName[0:4]:     HardwareClassNone,
-	_HardwareClassName[4:7]:          HardwareClassSys,
-	_HardwareClassLowerName[4:7]:     HardwareClassSys,
-	_HardwareClassName[7:10]:         HardwareClassCpu,
-	_HardwareClassLowerName[7:10]:    HardwareClassCpu,
-	_HardwareClassName[10:18]:        HardwareClassKeyboard,
-	_HardwareClassLowerName[10:18]:   HardwareClassKeyboard,
-	_HardwareClassName[18:25]:        HardwareClassBraille,
-	_HardwareClassLowerName[18:25]:   HardwareClassBraille,
-	_HardwareClassName[25:30]:        HardwareClassMouse,
-	_HardwareClassLowerName[25:30]:   HardwareClassMouse,
-	_HardwareClassName[30:38]:        HardwareClassJoystick,
-	_HardwareClassLowerName[30:38]:   HardwareClassJoystick,
-	_HardwareClassName[38:45]:        HardwareClassPrinter,
-	_HardwareClassLowerName[38:45]:   HardwareClassPrinter,
-	_HardwareClassName[45:52]:        HardwareClassScanner,
-	_HardwareClassLowerName[45:52]:   HardwareClassScanner,
-	_HardwareClassName[52:60]:        HardwareClassChipcard,
-	_HardwareClassLowerName[52:60]:   HardwareClassChipcard,
-	_HardwareClassName[60:67]:        HardwareClassMonitor,
-	_HardwareClassLowerName[60:67]:   HardwareClassMonitor,
-	_HardwareClassName[67:69]:        HardwareClassTv,
-	_HardwareClassLowerName[67:69]:   HardwareClassTv,
-	_HardwareClassName[69:76]:        HardwareClassDisplay,
-	_HardwareClassLowerName[69:76]:   HardwareClassDisplay,
-	_HardwareClassName[76:87]:        HardwareClassFramebuffer,
-	_HardwareClassLowerName[76:87]:   HardwareClassFramebuffer,
-	_HardwareClassName[87:93]:        HardwareClassCamera,
-	_HardwareClassLowerName[87:93]:   HardwareClassCamera,
-	_HardwareClassName[93:98]:        HardwareClassSound,
-	_HardwareClassLowerName[93:98]:   HardwareClassSound,
-	_HardwareClassName[98:110]:       HardwareClassStorageCtrl,
-	_HardwareClassLowerName[98:110]:  HardwareClassStorageCtrl,
-	_HardwareClassName[110:122]:      HardwareClassNetworkCtrl,
-	_HardwareClassLowerName[110:122]: HardwareClassNetworkCtrl,
-	_HardwareClassName[122:126]:      HardwareClassIsdn,
-	_HardwareClassLowerName[122:126]: HardwareClassIsdn,
-	_HardwareClassName[126:131]:      HardwareClassModem,
-	_HardwareClassLowerName[126:131]: HardwareClassModem,
-	_HardwareClassName[131:138]:      HardwareClassNetwork,
-	_HardwareClassLowerName[131:138]: HardwareClassNetwork,
-	_HardwareClassName[138:142]:      HardwareClassDisk,
-	_HardwareClassLowerName[138:142]: HardwareClassDisk,
-	_HardwareClassName[142:151]:      HardwareClassPartition,
-	_HardwareClassLowerName[142:151]: HardwareClassPartition,
-	_HardwareClassName[151:156]:      HardwareClassCdrom,
-	_HardwareClassLowerName[151:156]: HardwareClassCdrom,
-	_HardwareClassName[156:162]:      HardwareClassFloppy,
-	_HardwareClassLowerName[156:162]: HardwareClassFloppy,
-	_HardwareClassName[162:168]:      HardwareClassManual,
-	_HardwareClassLowerName[162:168]: HardwareClassManual,
-	_HardwareClassName[168:176]:      HardwareClassUsbCtrl,
-	_HardwareClassLowerName[168:176]: HardwareClassUsbCtrl,
-	_HardwareClassName[176:179]:      HardwareClassUsb,
-	_HardwareClassLowerName[176:179]: HardwareClassUsb,
-	_HardwareClassName[179:183]:      HardwareClassBios,
-	_HardwareClassLowerName[179:183]: HardwareClassBios,
-	_HardwareClassName[183:186]:      HardwareClassPci,
-	_HardwareClassLowerName[183:186]: HardwareClassPci,
-	_HardwareClassName[186:192]:      HardwareClassIsapnp,
-	_HardwareClassLowerName[186:192]: HardwareClassIsapnp,
-	_HardwareClassName[192:198]:      HardwareClassBridge,
-	_HardwareClassLowerName[192:198]: HardwareClassBridge,
-	_HardwareClassName[198:201]:      HardwareClassHub,
-	_HardwareClassLowerName[198:201]: HardwareClassHub,
-	_HardwareClassName[201:205]:      HardwareClassScsi,
-	_HardwareClassLowerName[201:205]: HardwareClassScsi,
-	_HardwareClassName[205:208]:      HardwareClassIde,
-	_HardwareClassLowerName[205:208]: HardwareClassIde,
-	_HardwareClassName[208:214]:      HardwareClassMemory,
-	_HardwareClassLowerName[208:214]: HardwareClassMemory,
-	_HardwareClassName[214:217]:      HardwareClassDvb,
-	_HardwareClassLowerName[214:217]: HardwareClassDvb,
-	_HardwareClassName[217:223]:      HardwareClassPcmcia,
-	_HardwareClassLowerName[217:223]: HardwareClassPcmcia,
-	_HardwareClassName[223:234]:      HardwareClassPcmciaCtrl,
-	_HardwareClassLowerName[223:234]: HardwareClassPcmciaCtrl,
-	_HardwareClassName[234:242]:      HardwareClassIeee1394,
-	_HardwareClassLowerName[234:242]: HardwareClassIeee1394,
-	_HardwareClassName[242:255]:      HardwareClassIeee1394Ctrl,
-	_HardwareClassLowerName[242:255]: HardwareClassIeee1394Ctrl,
-	_HardwareClassName[255:262]:      HardwareClassHotplug,
-	_HardwareClassLowerName[255:262]: HardwareClassHotplug,
-	_HardwareClassName[262:274]:      HardwareClassHotplugCtrl,
-	_HardwareClassLowerName[262:274]: HardwareClassHotplugCtrl,
-	_HardwareClassName[274:277]:      HardwareClassZip,
-	_HardwareClassLowerName[274:277]: HardwareClassZip,
-	_HardwareClassName[277:282]:      HardwareClassPppoe,
-	_HardwareClassLowerName[277:282]: HardwareClassPppoe,
-	_HardwareClassName[282:286]:      HardwareClassWlan,
-	_HardwareClassLowerName[282:286]: HardwareClassWlan,
-	_HardwareClassName[286:292]:      HardwareClassRedasd,
-	_HardwareClassLowerName[286:292]: HardwareClassRedasd,
-	_HardwareClassName[292:295]:      HardwareClassDsl,
-	_HardwareClassLowerName[292:295]: HardwareClassDsl,
-	_HardwareClassName[295:300]:      HardwareClassBlock,
-	_HardwareClassLowerName[295:300]: HardwareClassBlock,
-	_HardwareClassName[300:304]:      HardwareClassTape,
-	_HardwareClassLowerName[300:304]: HardwareClassTape,
-	_HardwareClassName[304:307]:      HardwareClassVbe,
-	_HardwareClassLowerName[304:307]: HardwareClassVbe,
-	_HardwareClassName[307:316]:      HardwareClassBluetooth,
-	_HardwareClassLowerName[307:316]: HardwareClassBluetooth,
-	_HardwareClassName[316:327]:      HardwareClassFingerprint,
-	_HardwareClassLowerName[316:327]: HardwareClassFingerprint,
-	_HardwareClassName[327:335]:      HardwareClassMmcCtrl,
-	_HardwareClassLowerName[327:335]: HardwareClassMmcCtrl,
-	_HardwareClassName[335:339]:      HardwareClassNvme,
-	_HardwareClassLowerName[335:339]: HardwareClassNvme,
-	_HardwareClassName[339:346]:      HardwareClassUnknown,
-	_HardwareClassLowerName[339:346]: HardwareClassUnknown,
-	_HardwareClassName[346:349]:      HardwareClassAll,
-	_HardwareClassLowerName[346:349]: HardwareClassAll,
+	_HardwareClassName[4:10]:         HardwareClassSystem,
+	_HardwareClassLowerName[4:10]:    HardwareClassSystem,
+	_HardwareClassName[10:13]:        HardwareClassCpu,
+	_HardwareClassLowerName[10:13]:   HardwareClassCpu,
+	_HardwareClassName[13:21]:        HardwareClassKeyboard,
+	_HardwareClassLowerName[13:21]:   HardwareClassKeyboard,
+	_HardwareClassName[21:28]:        HardwareClassBraille,
+	_HardwareClassLowerName[21:28]:   HardwareClassBraille,
+	_HardwareClassName[28:33]:        HardwareClassMouse,
+	_HardwareClassLowerName[28:33]:   HardwareClassMouse,
+	_HardwareClassName[33:41]:        HardwareClassJoystick,
+	_HardwareClassLowerName[33:41]:   HardwareClassJoystick,
+	_HardwareClassName[41:48]:        HardwareClassPrinter,
+	_HardwareClassLowerName[41:48]:   HardwareClassPrinter,
+	_HardwareClassName[48:55]:        HardwareClassScanner,
+	_HardwareClassLowerName[48:55]:   HardwareClassScanner,
+	_HardwareClassName[55:63]:        HardwareClassChipcard,
+	_HardwareClassLowerName[55:63]:   HardwareClassChipcard,
+	_HardwareClassName[63:70]:        HardwareClassMonitor,
+	_HardwareClassLowerName[63:70]:   HardwareClassMonitor,
+	_HardwareClassName[70:77]:        HardwareClassTvCard,
+	_HardwareClassLowerName[70:77]:   HardwareClassTvCard,
+	_HardwareClassName[77:90]:        HardwareClassGraphicsCard,
+	_HardwareClassLowerName[77:90]:   HardwareClassGraphicsCard,
+	_HardwareClassName[90:101]:       HardwareClassFramebuffer,
+	_HardwareClassLowerName[90:101]:  HardwareClassFramebuffer,
+	_HardwareClassName[101:107]:      HardwareClassCamera,
+	_HardwareClassLowerName[101:107]: HardwareClassCamera,
+	_HardwareClassName[107:112]:      HardwareClassSound,
+	_HardwareClassLowerName[107:112]: HardwareClassSound,
+	_HardwareClassName[112:124]:      HardwareClassStorageCtrl,
+	_HardwareClassLowerName[112:124]: HardwareClassStorageCtrl,
+	_HardwareClassName[124:131]:      HardwareClassNetwork,
+	_HardwareClassLowerName[124:131]: HardwareClassNetwork,
+	_HardwareClassName[131:143]:      HardwareClassIsdnAdapter,
+	_HardwareClassLowerName[131:143]: HardwareClassIsdnAdapter,
+	_HardwareClassName[143:148]:      HardwareClassModem,
+	_HardwareClassLowerName[143:148]: HardwareClassModem,
+	_HardwareClassName[148:165]:      HardwareClassNetworkInterface,
+	_HardwareClassLowerName[148:165]: HardwareClassNetworkInterface,
+	_HardwareClassName[165:169]:      HardwareClassDisk,
+	_HardwareClassLowerName[165:169]: HardwareClassDisk,
+	_HardwareClassName[169:178]:      HardwareClassPartition,
+	_HardwareClassLowerName[169:178]: HardwareClassPartition,
+	_HardwareClassName[178:183]:      HardwareClassCdrom,
+	_HardwareClassLowerName[178:183]: HardwareClassCdrom,
+	_HardwareClassName[183:189]:      HardwareClassFloppy,
+	_HardwareClassLowerName[183:189]: HardwareClassFloppy,
+	_HardwareClassName[189:195]:      HardwareClassManual,
+	_HardwareClassLowerName[189:195]: HardwareClassManual,
+	_HardwareClassName[195:209]:      HardwareClassUsbController,
+	_HardwareClassLowerName[195:209]: HardwareClassUsbController,
+	_HardwareClassName[209:212]:      HardwareClassUsb,
+	_HardwareClassLowerName[209:212]: HardwareClassUsb,
+	_HardwareClassName[212:216]:      HardwareClassBios,
+	_HardwareClassLowerName[212:216]: HardwareClassBios,
+	_HardwareClassName[216:219]:      HardwareClassPci,
+	_HardwareClassLowerName[216:219]: HardwareClassPci,
+	_HardwareClassName[219:225]:      HardwareClassIsapnp,
+	_HardwareClassLowerName[219:225]: HardwareClassIsapnp,
+	_HardwareClassName[225:231]:      HardwareClassBridge,
+	_HardwareClassLowerName[225:231]: HardwareClassBridge,
+	_HardwareClassName[231:234]:      HardwareClassHub,
+	_HardwareClassLowerName[231:234]: HardwareClassHub,
+	_HardwareClassName[234:238]:      HardwareClassScsi,
+	_HardwareClassLowerName[234:238]: HardwareClassScsi,
+	_HardwareClassName[238:241]:      HardwareClassIde,
+	_HardwareClassLowerName[238:241]: HardwareClassIde,
+	_HardwareClassName[241:247]:      HardwareClassMemory,
+	_HardwareClassLowerName[241:247]: HardwareClassMemory,
+	_HardwareClassName[247:255]:      HardwareClassDvbCard,
+	_HardwareClassLowerName[247:255]: HardwareClassDvbCard,
+	_HardwareClassName[255:261]:      HardwareClassPcmcia,
+	_HardwareClassLowerName[255:261]: HardwareClassPcmcia,
+	_HardwareClassName[261:278]:      HardwareClassPcmciaController,
+	_HardwareClassLowerName[261:278]: HardwareClassPcmciaController,
+	_HardwareClassName[278:286]:      HardwareClassFirewire,
+	_HardwareClassLowerName[278:286]: HardwareClassFirewire,
+	_HardwareClassName[286:305]:      HardwareClassFirewireController,
+	_HardwareClassLowerName[286:305]: HardwareClassFirewireController,
+	_HardwareClassName[305:312]:      HardwareClassHotplug,
+	_HardwareClassLowerName[305:312]: HardwareClassHotplug,
+	_HardwareClassName[312:330]:      HardwareClassHotplugController,
+	_HardwareClassLowerName[312:330]: HardwareClassHotplugController,
+	_HardwareClassName[330:333]:      HardwareClassZip,
+	_HardwareClassLowerName[330:333]: HardwareClassZip,
+	_HardwareClassName[333:338]:      HardwareClassPppoe,
+	_HardwareClassLowerName[333:338]: HardwareClassPppoe,
+	_HardwareClassName[338:347]:      HardwareClassWlanCard,
+	_HardwareClassLowerName[338:347]: HardwareClassWlanCard,
+	_HardwareClassName[347:353]:      HardwareClassRedasd,
+	_HardwareClassLowerName[347:353]: HardwareClassRedasd,
+	_HardwareClassName[353:364]:      HardwareClassDslAdapter,
+	_HardwareClassLowerName[353:364]: HardwareClassDslAdapter,
+	_HardwareClassName[364:376]:      HardwareClassBlockDevice,
+	_HardwareClassLowerName[364:376]: HardwareClassBlockDevice,
+	_HardwareClassName[376:380]:      HardwareClassTape,
+	_HardwareClassLowerName[376:380]: HardwareClassTape,
+	_HardwareClassName[380:389]:      HardwareClassVesaBios,
+	_HardwareClassLowerName[380:389]: HardwareClassVesaBios,
+	_HardwareClassName[389:398]:      HardwareClassBluetooth,
+	_HardwareClassLowerName[389:398]: HardwareClassBluetooth,
+	_HardwareClassName[398:409]:      HardwareClassFingerprint,
+	_HardwareClassLowerName[398:409]: HardwareClassFingerprint,
+	_HardwareClassName[409:423]:      HardwareClassMmcController,
+	_HardwareClassLowerName[409:423]: HardwareClassMmcController,
+	_HardwareClassName[423:427]:      HardwareClassNvme,
+	_HardwareClassLowerName[423:427]: HardwareClassNvme,
+	_HardwareClassName[427:434]:      HardwareClassUnknown,
+	_HardwareClassLowerName[427:434]: HardwareClassUnknown,
+	_HardwareClassName[434:437]:      HardwareClassAll,
+	_HardwareClassLowerName[434:437]: HardwareClassAll,
 }
 
 var _HardwareClassNames = []string{
 	_HardwareClassName[0:4],
-	_HardwareClassName[4:7],
-	_HardwareClassName[7:10],
-	_HardwareClassName[10:18],
-	_HardwareClassName[18:25],
-	_HardwareClassName[25:30],
-	_HardwareClassName[30:38],
-	_HardwareClassName[38:45],
-	_HardwareClassName[45:52],
-	_HardwareClassName[52:60],
-	_HardwareClassName[60:67],
-	_HardwareClassName[67:69],
-	_HardwareClassName[69:76],
-	_HardwareClassName[76:87],
-	_HardwareClassName[87:93],
-	_HardwareClassName[93:98],
-	_HardwareClassName[98:110],
-	_HardwareClassName[110:122],
-	_HardwareClassName[122:126],
-	_HardwareClassName[126:131],
-	_HardwareClassName[131:138],
-	_HardwareClassName[138:142],
-	_HardwareClassName[142:151],
-	_HardwareClassName[151:156],
-	_HardwareClassName[156:162],
-	_HardwareClassName[162:168],
-	_HardwareClassName[168:176],
-	_HardwareClassName[176:179],
-	_HardwareClassName[179:183],
-	_HardwareClassName[183:186],
-	_HardwareClassName[186:192],
-	_HardwareClassName[192:198],
-	_HardwareClassName[198:201],
-	_HardwareClassName[201:205],
-	_HardwareClassName[205:208],
-	_HardwareClassName[208:214],
-	_HardwareClassName[214:217],
-	_HardwareClassName[217:223],
-	_HardwareClassName[223:234],
-	_HardwareClassName[234:242],
-	_HardwareClassName[242:255],
-	_HardwareClassName[255:262],
-	_HardwareClassName[262:274],
-	_HardwareClassName[274:277],
-	_HardwareClassName[277:282],
-	_HardwareClassName[282:286],
-	_HardwareClassName[286:292],
-	_HardwareClassName[292:295],
-	_HardwareClassName[295:300],
-	_HardwareClassName[300:304],
-	_HardwareClassName[304:307],
-	_HardwareClassName[307:316],
-	_HardwareClassName[316:327],
-	_HardwareClassName[327:335],
-	_HardwareClassName[335:339],
-	_HardwareClassName[339:346],
-	_HardwareClassName[346:349],
+	_HardwareClassName[4:10],
+	_HardwareClassName[10:13],
+	_HardwareClassName[13:21],
+	_HardwareClassName[21:28],
+	_HardwareClassName[28:33],
+	_HardwareClassName[33:41],
+	_HardwareClassName[41:48],
+	_HardwareClassName[48:55],
+	_HardwareClassName[55:63],
+	_HardwareClassName[63:70],
+	_HardwareClassName[70:77],
+	_HardwareClassName[77:90],
+	_HardwareClassName[90:101],
+	_HardwareClassName[101:107],
+	_HardwareClassName[107:112],
+	_HardwareClassName[112:124],
+	_HardwareClassName[124:131],
+	_HardwareClassName[131:143],
+	_HardwareClassName[143:148],
+	_HardwareClassName[148:165],
+	_HardwareClassName[165:169],
+	_HardwareClassName[169:178],
+	_HardwareClassName[178:183],
+	_HardwareClassName[183:189],
+	_HardwareClassName[189:195],
+	_HardwareClassName[195:209],
+	_HardwareClassName[209:212],
+	_HardwareClassName[212:216],
+	_HardwareClassName[216:219],
+	_HardwareClassName[219:225],
+	_HardwareClassName[225:231],
+	_HardwareClassName[231:234],
+	_HardwareClassName[234:238],
+	_HardwareClassName[238:241],
+	_HardwareClassName[241:247],
+	_HardwareClassName[247:255],
+	_HardwareClassName[255:261],
+	_HardwareClassName[261:278],
+	_HardwareClassName[278:286],
+	_HardwareClassName[286:305],
+	_HardwareClassName[305:312],
+	_HardwareClassName[312:330],
+	_HardwareClassName[330:333],
+	_HardwareClassName[333:338],
+	_HardwareClassName[338:347],
+	_HardwareClassName[347:353],
+	_HardwareClassName[353:364],
+	_HardwareClassName[364:376],
+	_HardwareClassName[376:380],
+	_HardwareClassName[380:389],
+	_HardwareClassName[389:398],
+	_HardwareClassName[398:409],
+	_HardwareClassName[409:423],
+	_HardwareClassName[423:427],
+	_HardwareClassName[427:434],
+	_HardwareClassName[434:437],
 }
 
 // HardwareClassString retrieves an enum value from the enum constants string name.
