@@ -116,7 +116,7 @@ type HardwareClass uint
 
 const (
 	HardwareClassNone HardwareClass = iota
-	HardwareClassSys
+	HardwareClassSystem
 	HardwareClassCpu
 	HardwareClassKeyboard
 	HardwareClassBraille
@@ -127,25 +127,25 @@ const (
 	HardwareClassScanner
 	HardwareClassChipcard
 	HardwareClassMonitor
-	HardwareClassTv
+	HardwareClassTvCard
 
-	HardwareClassDisplay
+	HardwareClassGraphicsCard
 	HardwareClassFramebuffer
 	HardwareClassCamera
 	HardwareClassSound
 	HardwareClassStorageCtrl
 
-	HardwareClassNetworkCtrl
-	HardwareClassIsdn
-	HardwareClassModem
 	HardwareClassNetwork
+	HardwareClassIsdnAdapter
+	HardwareClassModem
+	HardwareClassNetworkInterface
 	HardwareClassDisk
 	HardwareClassPartition
 
 	HardwareClassCdrom
 	HardwareClassFloppy
 	HardwareClassManual
-	HardwareClassUsbCtrl
+	HardwareClassUsbController
 	HardwareClassUsb
 	HardwareClassBios
 	HardwareClassPci
@@ -156,27 +156,27 @@ const (
 	HardwareClassScsi
 	HardwareClassIde
 	HardwareClassMemory
-	HardwareClassDvb
+	HardwareClassDvbCard
 
 	HardwareClassPcmcia
-	HardwareClassPcmciaCtrl
-	HardwareClassIeee1394
-	HardwareClassIeee1394Ctrl
+	HardwareClassPcmciaController
+	HardwareClassFirewire
+	HardwareClassFirewireController
 	HardwareClassHotplug
 
-	HardwareClassHotplugCtrl
+	HardwareClassHotplugController
 	HardwareClassZip
 	HardwareClassPppoe
-	HardwareClassWlan
+	HardwareClassWlanCard
 	HardwareClassRedasd
-	HardwareClassDsl
-	HardwareClassBlock
+	HardwareClassDslAdapter
+	HardwareClassBlockDevice
 
 	HardwareClassTape
-	HardwareClassVbe
+	HardwareClassVesaBios
 	HardwareClassBluetooth
 	HardwareClassFingerprint
-	HardwareClassMmcCtrl
+	HardwareClassMmcController
 	HardwareClassNvme
 
 	/** append new entries here */
