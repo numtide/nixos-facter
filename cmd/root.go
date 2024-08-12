@@ -19,6 +19,8 @@ var (
 	cfgFile          string
 	outputPath       string
 	hardwareFeatures []string
+
+	scanner = facter.Scanner{}
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -29,16 +31,15 @@ var rootCmd = &cobra.Command{
 	// todo add Long description
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// convert the hardware features into probe features
-		var hardwareProbes []hwinfo.ProbeFeature
 		for _, str := range hardwareFeatures {
 			probe, err := hwinfo.ProbeFeatureString(str)
 			if err != nil {
 				return fmt.Errorf("invalid hardware feature: %w", err)
 			}
-			hardwareProbes = append(hardwareProbes, probe)
+			scanner.Features = append(scanner.Features, probe)
 		}
 
-		report, err := facter.GenerateReport(hardwareProbes)
+		report, err := scanner.Scan()
 		if err != nil {
 			return err
 		}
@@ -81,7 +82,11 @@ func init() {
 
 	// Cobra also supports local flags, which will only run when this action is called directly.
 	f := rootCmd.Flags()
-	f.StringVarP(&outputPath, "output", "o", "", "Path to write the report")
+	f.StringVarP(&outputPath, "output", "o", "", "path to write the report")
+
+	// Options for optional ephemeral system properties.
+	f.BoolVarP(&scanner.Swap, "swap", "s", false, "capture swap entries")
+	f.BoolVarP(&scanner.Ephemeral, "ephemeral", "e", false, "capture all ephemeral properties e.g. swap, filesystems and so on")
 
 	// We currently support all probe features at a high level as they share some generic information,
 	// but we do not have mappings for all of their detail sections.
@@ -105,11 +110,11 @@ func init() {
 
 	f.StringSliceVarP(
 		&hardwareFeatures,
-		"hardware-features",
+		"hardware",
 		"f",
 		defaultFeatures,
 		fmt.Sprintf(
-			"Hardware features to probe. Possible values are %s",
+			"Hardware items to probe. Possible values are %s",
 			strings.Join(allFeatures, ","),
 		),
 	)

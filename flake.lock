@@ -10,16 +10,34 @@
         ]
       },
       "locked": {
-        "lastModified": 1721302656,
-        "narHash": "sha256-z6ALqJC9i6Ux/Ut/GUcBO4igbd21ZL0LvaAo21dAHrE=",
+        "lastModified": 1722503414,
+        "narHash": "sha256-JFMBd4cERlKd2lH1FuWgiwf2Q9PzPRPsdD4HV8Fs2IQ=",
         "owner": "numtide",
         "repo": "blueprint",
-        "rev": "e45b90a926b25264609710c9a7ad2df5756059d8",
+        "rev": "214500b4802d1e0149a51aa19340d6f1aefb33e8",
         "type": "github"
       },
       "original": {
         "owner": "numtide",
         "repo": "blueprint",
+        "type": "github"
+      }
+    },
+    "disko": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1723426710,
+        "narHash": "sha256-yrS9al6l3fYfFfvovnyBWnyELDQOdfKyai4K/jKgoBw=",
+        "owner": "nix-community",
+        "repo": "disko",
+        "rev": "0d510fe40b56ed74907a021d7e1ffd0042592914",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "disko",
         "type": "github"
       }
     },
@@ -68,6 +86,22 @@
     },
     "nixpkgs": {
       "locked": {
+        "lastModified": 1723221148,
+        "narHash": "sha256-7pjpeQlZUNQ4eeVntytU3jkw9dFK3k1Htgk2iuXjaD8=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "154bcb95ad51bc257c2ce4043a725de6ca700ef6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
         "lastModified": 1722062969,
         "narHash": "sha256-QOS0ykELUmPbrrUGmegAUlpmUFznDQeR4q7rFhl8eQg=",
         "owner": "nixos",
@@ -85,9 +119,10 @@
     "root": {
       "inputs": {
         "blueprint": "blueprint",
+        "disko": "disko",
         "flake-utils": "flake-utils",
         "gomod2nix": "gomod2nix",
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": "nixpkgs_2",
         "systems": "systems",
         "treefmt-nix": "treefmt-nix"
       }
