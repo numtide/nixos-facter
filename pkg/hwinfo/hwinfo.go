@@ -31,6 +31,10 @@ func Scan(probes []ProbeFeature) ([]Smbios, []*HardwareItem, error) {
 	// initialise the struct to hold scan data
 	data := (*C.hd_data_t)(unsafe.Pointer(C.calloc(1, C.size_t(unsafe.Sizeof(C.hd_data_t{})))))
 
+	// ProbeFeatureInt needs to always be set, otherwise we don't get pci and usb vendor id lookups.
+	// https://github.com/openSUSE/hwinfo/blob/c87f449f1d4882c71b0a1e6dc80638224a5baeed/src/hd/hd.c#L597-L605
+	C.hd_set_probe_feature(data, C.enum_probe_feature(ProbeFeatureInt))
+
 	// set the hardware probes to run
 	for _, probe := range probes {
 		C.hd_set_probe_feature(data, C.enum_probe_feature(probe))
