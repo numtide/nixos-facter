@@ -21,6 +21,7 @@
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    disko.url = "github:nix-community/disko";
   };
 
   # Keep the magic invocations to minimum.
