@@ -1,8 +1,49 @@
 package hwinfo
 
+import "C"
+
 /*
 #cgo pkg-config: hwinfo
 #include <hd.h>
+#include <stdbool.h>
+
+// custom getters to get around the problem with bitfields https://github.com/golang/go/issues/43261
+bool hd_is_agp(hd_t *hd) { return hd->is.agp; }
+bool hd_is_isapnp(hd_t *hd) { return hd->is.isapnp;}
+bool hd_is_notready(hd_t *hd) { return hd->is.notready;}
+bool hd_is_manual(hd_t *hd) { return hd->is.manual;}
+bool hd_is_softraiddisk(hd_t *hd) { return hd->is.softraiddisk;}
+bool hd_is_zip(hd_t *hd) { return hd->is.zip;}
+bool hd_is_cdr(hd_t *hd) { return hd->is.cdr;}
+bool hd_is_cdrw(hd_t *hd) { return hd->is.cdrw;}
+bool hd_is_dvd(hd_t *hd) { return hd->is.dvd;}
+bool hd_is_dvdr(hd_t *hd) { return hd->is.dvdr;}
+bool hd_is_dvdrw(hd_t *hd) { return hd->is.dvdrw;}
+bool hd_is_dvdrdl(hd_t *hd) { return hd->is.dvdrdl;}
+bool hd_is_dvdpr(hd_t *hd) { return hd->is.dvdpr;}
+bool hd_is_dvdprw(hd_t *hd) { return hd->is.dvdprw;}
+bool hd_is_dvdprdl(hd_t *hd) { return hd->is.dvdprdl;}
+bool hd_is_dvdprwdl(hd_t *hd) { return hd->is.dvdprwdl;}
+bool hd_is_bd(hd_t *hd) { return hd->is.bd;}
+bool hd_is_bdr(hd_t *hd) { return hd->is.bdr;}
+bool hd_is_bdre(hd_t *hd) { return hd->is.bdre;}
+bool hd_is_hd(hd_t *hd) { return hd->is.hd;}
+bool hd_is_hdr(hd_t *hd) { return hd->is.hdr;}
+bool hd_is_hdrw(hd_t *hd) { return hd->is.hdrw;}
+bool hd_is_dvdram(hd_t *hd) { return hd->is.dvdram;}
+bool hd_is_mo(hd_t *hd) { return hd->is.mo;}
+bool hd_is_mrw(hd_t *hd) { return hd->is.mrw;}
+bool hd_is_mrww(hd_t *hd) { return hd->is.mrww;}
+bool hd_is_pppoe(hd_t *hd) { return hd->is.pppoe;}
+bool hd_is_wlan(hd_t *hd) { return hd->is.wlan;}
+bool hd_is_with_acpi(hd_t *hd) { return hd->is.with_acpi;}
+bool hd_is_hotpluggable(hd_t *hd) { return hd->is.hotpluggable;}
+bool hd_is_dualport(hd_t *hd) { return hd->is.dualport;}
+bool hd_is_fcoe(hd_t *hd) { return hd->is.fcoe;}
+unsigned hd_is_fcoe_offload(hd_t *hd) { return hd->is.fcoe_offload;}
+unsigned hd_is_iscsi_offload(hd_t *hd) { return hd->is.iscsi_offload;}
+unsigned hd_is_storage_only(hd_t *hd) { return hd->is.storage_only;}
+
 */
 import "C"
 
@@ -243,6 +284,84 @@ const (
 	HotplugFirewire
 )
 
+type Is struct {
+	Agp          bool `json:"agp,omitempty"`            // AGP device
+	Isapnp       bool `json:"isapnp,omitempty"`         // ISA-PnP device
+	NotReady     bool `json:"not_ready,omitempty"`      // block devices: no medium, other: device not configured
+	Manual       bool `json:"manual,omitempty"`         // undetectable, manually configured hardware
+	SoftRaidDisk bool `json:"soft_raid_disk,omitempty"` // disk belongs to some soft raid array
+	Zip          bool `json:"zip,omitempty"`            // zip floppy
+	CdR          bool `json:"cd_r,omitempty"`           // CD-R
+	CdRW         bool `json:"cd_rw,omitempty"`          // CD-RW
+	Dvd          bool `json:"dvd,omitempty"`            // DVD
+	DvdR         bool `json:"dvd_r,omitempty"`          // DVD-R
+	DvdRW        bool `json:"dvd_rw,omitempty"`         // DVD-RW
+	DvdRDL       bool `json:"dvd_r_dl,omitempty"`       // DVD-R DL
+	DvdPR        bool `json:"dvd_pr,omitempty"`         // DVD+R
+	DvdPRW       bool `json:"dvd_prw,omitempty"`        // DVD+RW
+	DvdPRDL      bool `json:"dvd_prdl,omitempty"`       // DVD+R DL
+	DvdPRWDL     bool `json:"dvd_prwdl,omitempty"`      // DVD+RW DL
+	Bd           bool `json:"bd,omitempty"`             // BD
+	BdR          bool `json:"bd_r,omitempty"`           // BD-R
+	BdRE         bool `json:"bd_rw,omitempty"`          // BD-RE
+	Hd           bool `json:"hd,omitempty"`             // HD
+	HdR          bool `json:"hd_r,omitempty"`           // HD-R
+	HdRW         bool `json:"hd_rw,omitempty"`          // HD-RW
+	DvdRAM       bool `json:"dvd_ram,omitempty"`        // DVDRAM
+	Mo           bool `json:"md,omitempty"`             // MO
+	Mrw          bool `json:"mrw,omitempty"`            // MRW
+	MrwW         bool `json:"mrw_w,omitempty"`          // MRW-W
+	Pppoe        bool `json:"pppoe,omitempty"`          // PPPOE modem connected
+	Wlan         bool `json:"wlan,omitempty"`           // WLAN card
+	WithAcpi     bool `json:"with_acpi,omitempty"`      // acpi works fine
+	HotPluggable bool `json:"hot_pluggable,omitempty"`  // hotpluggable storage device
+	DualPort     bool `json:"dual_port,omitempty"`      // OSA Express device with two ports (S/390)
+	Fcoe         bool `json:"fcoe,omitempty"`           // fcoe device
+	FcoeOffload  uint `json:"fcoe_offload,omitempty"`   // fcoe offload capable device, 0 = unset, 1 = false, 2 = true
+	IscsiOffload uint `json:"iscsi_offload,omitempty"`  // iscsi offload capable device, 0 = unset, 1 = false, 2 = true
+	StorageOnly  uint `json:"storage_only,omitempty"`   // storage only network interface, 0 = unset, 1 = false, 2 = true
+}
+
+func NewIs(hd *C.hd_t) Is {
+	return Is{
+		Agp:          bool(C.hd_is_agp(hd)),
+		Isapnp:       bool(C.hd_is_isapnp(hd)),
+		NotReady:     bool(C.hd_is_notready(hd)),
+		Manual:       bool(C.hd_is_manual(hd)),
+		SoftRaidDisk: bool(C.hd_is_softraiddisk(hd)),
+		Zip:          bool(C.hd_is_zip(hd)),
+		CdR:          bool(C.hd_is_cdr(hd)),
+		CdRW:         bool(C.hd_is_cdrw(hd)),
+		Dvd:          bool(C.hd_is_dvd(hd)),
+		DvdR:         bool(C.hd_is_dvdr(hd)),
+		DvdRW:        bool(C.hd_is_dvdrw(hd)),
+		DvdRDL:       bool(C.hd_is_dvdrdl(hd)),
+		DvdPR:        bool(C.hd_is_dvdpr(hd)),
+		DvdPRW:       bool(C.hd_is_dvdprw(hd)),
+		DvdPRDL:      bool(C.hd_is_dvdprdl(hd)),
+		DvdPRWDL:     bool(C.hd_is_dvdprwdl(hd)),
+		Bd:           bool(C.hd_is_bd(hd)),
+		BdR:          bool(C.hd_is_bdr(hd)),
+		BdRE:         bool(C.hd_is_bdre(hd)),
+		Hd:           bool(C.hd_is_hd(hd)),
+		HdR:          bool(C.hd_is_hdr(hd)),
+		HdRW:         bool(C.hd_is_hdrw(hd)),
+		DvdRAM:       bool(C.hd_is_dvdram(hd)),
+		Mo:           bool(C.hd_is_mo(hd)),
+		Mrw:          bool(C.hd_is_mrw(hd)),
+		MrwW:         bool(C.hd_is_mrww(hd)),
+		Pppoe:        bool(C.hd_is_pppoe(hd)),
+		Wlan:         bool(C.hd_is_wlan(hd)),
+		WithAcpi:     bool(C.hd_is_with_acpi(hd)),
+		HotPluggable: bool(C.hd_is_hotpluggable(hd)),
+		DualPort:     bool(C.hd_is_dualport(hd)),
+		Fcoe:         bool(C.hd_is_fcoe(hd)),
+		FcoeOffload:  uint(C.hd_is_fcoe_offload(hd)),
+		IscsiOffload: uint(C.hd_is_iscsi_offload(hd)),
+		StorageOnly:  uint(C.hd_is_storage_only(hd)),
+	}
+}
+
 type HardwareDevice struct {
 	// Index is a unique index, starting at 1
 	Index uint `json:"index"`
@@ -293,7 +412,8 @@ type HardwareDevice struct {
 	Hotplug     Hotplug `json:"hotplug"`      // indicates what kind of hotplug device (if any) this is
 	HotplugSlot uint    `json:"hotplug_slot"` // slot the hotplug device is connected to (e.g. PCMCIA socket), count is 1-based (0: no info available)
 
-	// todo is?
+	Is Is `json:"is"` // high level device properties
+
 	Driver        string     `json:"driver,omitempty"`         // currently active driver
 	DriverModule  string     `json:"driver_module,omitempty"`  // currently active driver module (if any)
 	Drivers       []string   `json:"drivers,omitempty"`        // list of currently active drivers
@@ -378,5 +498,6 @@ func NewHardwareDevice(hd *C.hd_t) (*HardwareDevice, error) {
 		Label:             C.GoString(hd.label),
 		Hotplug:           Hotplug(hd.hotplug),
 		HotplugSlot:       uint(hd.hotplug_slot),
+		Is:                NewIs(hd),
 	}, nil
 }
