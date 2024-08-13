@@ -75,10 +75,6 @@ type DetailPci struct {
 	SysfsBusId  string `json:"-"`                      // sysfs bus id
 	ModuleAlias string `json:"module_alias,omitempty"` // module alias
 	Label       string `json:"label,omitempty"`        // Consistent Device Name (CDN), pci firmware 3.1, chapter 4.6.7
-
-	// todo edid data
-	// EdidData   [6][0x80]byte `json:",omitempty"` // edid record
-	// EdidLength [6]uint       `json:",omitempty"` // edid record length
 }
 
 func (p DetailPci) DetailType() DetailType {
@@ -119,6 +115,5 @@ func NewDetailPci(pci C.hd_detail_pci_t) (Detail, error) {
 		SysfsBusId:     C.GoString(data.sysfs_bus_id),
 		ModuleAlias:    C.GoString(data.modalias),
 		Label:          C.GoString(data.label),
-		// todo edid data
 	}, nil
 }
