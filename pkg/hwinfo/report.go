@@ -231,6 +231,18 @@ func NewDeviceNumber(num C.hd_dev_num_t) *DeviceNumber {
 	return &result
 }
 
+//go:generate enumer -type=Hotplug -json -transform=snake -trimprefix Hotplug -output=./report_enum_hotplug.go
+type Hotplug int
+
+const (
+	HotplugNone Hotplug = iota
+	HotplugPcmcia
+	HotplugCardbus
+	HotplugPci
+	HotplugUsb
+	HotplugFirewire
+)
+
 type HardwareDevice struct {
 	// Index is a unique index, starting at 1
 	Index uint `json:"index"`
@@ -278,10 +290,9 @@ type HardwareDevice struct {
 	Resources []Resource `json:"resources,omitempty"`
 	Detail    Detail     `json:"detail,omitempty"`
 
-	// todo status
-	// todo config string
-	// todo hotplug
-	// todo hotplug_slot
+	Hotplug     Hotplug `json:"hotplug"`      // indicates what kind of hotplug device (if any) this is
+	HotplugSlot uint    `json:"hotplug_slot"` // slot the hotplug device is connected to (e.g. PCMCIA socket), count is 1-based (0: no info available)
+
 	// todo is?
 	Driver        string     `json:"driver,omitempty"`         // currently active driver
 	DriverModule  string     `json:"driver_module,omitempty"`  // currently active driver module (if any)
@@ -365,5 +376,7 @@ func NewHardwareDevice(hd *C.hd_t) (*HardwareDevice, error) {
 		Requires:          ReadStringList(hd.requires),
 		ModuleAlias:       C.GoString(hd.modalias),
 		Label:             C.GoString(hd.label),
+		Hotplug:           Hotplug(hd.hotplug),
+		HotplugSlot:       uint(hd.hotplug_slot),
 	}, nil
 }
