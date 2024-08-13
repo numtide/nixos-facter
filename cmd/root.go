@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"slices"
 	"strings"
 
 	"github.com/numtide/nixos-facter/pkg/hwinfo"
@@ -91,6 +92,17 @@ func init() {
 		"sysfs", "udev", "block", "wlan",
 	}
 
+	// we strip default and int from the feature list
+	allFeatures := hwinfo.ProbeFeatureStrings()
+	slices.DeleteFunc(allFeatures, func(str string) bool {
+		switch str {
+		case "default", "int":
+			return true
+		default:
+			return false
+		}
+	})
+
 	f.StringSliceVarP(
 		&hardwareFeatures,
 		"hardware-features",
@@ -98,8 +110,7 @@ func init() {
 		defaultFeatures,
 		fmt.Sprintf(
 			"Hardware features to probe. Possible values are %s",
-			// we strip default from the feature list
-			strings.Replace(strings.Join(hwinfo.ProbeFeatureStrings(), ","), "default,", "", 1),
+			strings.Join(allFeatures, ","),
 		),
 	)
 }
