@@ -12,6 +12,7 @@ import (
 
 type Report struct {
 	Hardware       []*hwinfo.HardwareItem `json:"hardware"`
+	Mounts         []*ephem.MountInfo     `json:"mounts,omitempty"`
 	Smbios         []hwinfo.Smbios        `json:"smbios,omitempty"`
 	Swap           []*ephem.SwapEntry     `json:"swap,omitempty"`
 	System         string                 `json:"system"`
@@ -20,6 +21,7 @@ type Report struct {
 
 type Scanner struct {
 	Swap      bool
+	Mounts    bool
 	Ephemeral bool
 	Features  []hwinfo.ProbeFeature
 }
@@ -45,6 +47,12 @@ func (s *Scanner) Scan() (*Report, error) {
 	if s.Ephemeral || s.Swap {
 		if report.Swap, err = ephem.SwapEntries(); err != nil {
 			return nil, fmt.Errorf("failed to detect swap devices: %w", err)
+		}
+	}
+
+	if s.Ephemeral || s.Mounts {
+		if report.Mounts, err = ephem.Mounts(); err != nil {
+			return nil, fmt.Errorf("failed to detect mounts: %w", err)
 		}
 	}
 
