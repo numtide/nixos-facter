@@ -230,7 +230,7 @@ func NewDeviceNumber(num C.hd_dev_num_t) *DeviceNumber {
 	return &result
 }
 
-type HardwareItem struct {
+type HardwareDevice struct {
 	// Index is a unique index, starting at 1
 	Index uint `json:"index"`
 
@@ -297,7 +297,7 @@ type HardwareItem struct {
 	Label       string `json:"label,omitempty"`        // Consistent Device Name (CDN), pci firmware spec 3.1, chapter 4.6.7
 }
 
-func NewHardwareItem(hd *C.hd_t) (*HardwareItem, error) {
+func NewHardwareDevice(hd *C.hd_t) (*HardwareDevice, error) {
 	if hd == nil {
 		return nil, nil
 	}
@@ -322,7 +322,7 @@ func NewHardwareItem(hd *C.hd_t) (*HardwareItem, error) {
 		model = stripCpuFreq(model)
 	}
 
-	return &HardwareItem{
+	return &HardwareDevice{
 		Index:            uint(hd.idx),
 		Bus:              NewId(hd.bus),
 		Slot:             Slot(hd.slot),
