@@ -11,11 +11,14 @@ import (
 )
 
 type Report struct {
-	Hardware       []*hwinfo.HardwareDevice `json:"hardware"`
-	Smbios         []hwinfo.Smbios          `json:"smbios,omitempty"`
-	Swap           []*ephem.SwapEntry       `json:"swap,omitempty"`
-	System         string                   `json:"system"`
-	Virtualisation virt.Type                `json:"virtualisation"`
+	// monotonically increasing number, used to indicate breaking changes or new features in the report output
+	Version        uint      `json:"version"`
+	System         string    `json:"system"`
+	Virtualisation virt.Type `json:"virtualisation"`
+
+	Smbios   []hwinfo.Smbios          `json:"smbios,omitempty"`
+	Hardware []*hwinfo.HardwareDevice `json:"hardware"`
+	Swap     []*ephem.SwapEntry       `json:"swap,omitempty"`
 }
 
 type Scanner struct {
@@ -25,14 +28,16 @@ type Scanner struct {
 }
 
 func (s *Scanner) Scan() (*Report, error) {
-	report := Report{}
+	var err error
+	report := Report{
+		Version: build.ReportVersion,
+	}
 
 	if build.System == "" {
 		return nil, fmt.Errorf("system is not set")
 	}
 	report.System = build.System
 
-	var err error
 	report.Smbios, report.Hardware, err = hwinfo.Scan(s.Features)
 	if err != nil {
 		return nil, fmt.Errorf("failed to scan hardware: %w", err)
