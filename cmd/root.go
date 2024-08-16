@@ -92,7 +92,8 @@ func init() {
 
 	// Options for optional ephemeral system properties.
 	f.BoolVarP(&scanner.Swap, "swap", "s", false, "capture swap entries")
-	f.BoolVarP(&scanner.Ephemeral, "ephemeral", "e", false, "capture all ephemeral properties e.g. swap, filesystems and so on")
+	f.BoolVarP(&scanner.Mounts, "mounts", "m", false, "capture filesystem mounts")
+	f.BoolVarP(&scanner.Ephemeral, "ephemeral", "e", false, "capture all ephemeral properties e.g. swap, mounts and so on")
 
 	// We currently support all probe features at a high level as they share some generic information,
 	// but we do not have mappings for all of their detail sections.
