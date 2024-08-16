@@ -54,6 +54,7 @@ func NewDetailBios(dev C.hd_detail_bios_t) (Detail, error) {
 	data := dev.data
 
 	return &DetailBios{
+		Type: DetailTypeBios,
 		ApmInfo: ApmInfo{
 			Supported:  bool(C.bios_info_is_apm_supported(data)),
 			Enabled:    bool(C.bios_info_is_apm_enabled(data)),
