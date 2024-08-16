@@ -15,7 +15,7 @@ import (
 	"unsafe"
 )
 
-func excludeDevice(item *HardwareItem) bool {
+func excludeDevice(item *HardwareDevice) bool {
 	if item.HardwareClass == HardwareClassNetworkInterface {
 		for _, driver := range item.Drivers {
 			// devices that are not mapped to hardware should be not included in the hardware report
@@ -27,7 +27,7 @@ func excludeDevice(item *HardwareItem) bool {
 	return false
 }
 
-func Scan(probes []ProbeFeature) ([]Smbios, []*HardwareItem, error) {
+func Scan(probes []ProbeFeature) ([]Smbios, []*HardwareDevice, error) {
 	// initialise the struct to hold scan data
 	data := (*C.hd_data_t)(unsafe.Pointer(C.calloc(1, C.size_t(unsafe.Sizeof(C.hd_data_t{})))))
 
@@ -53,9 +53,9 @@ func Scan(probes []ProbeFeature) ([]Smbios, []*HardwareItem, error) {
 		smbiosItems = append(smbiosItems, item)
 	}
 
-	var hardwareItems []*HardwareItem
+	var hardwareItems []*HardwareDevice
 	for hd := data.hd; hd != nil; hd = hd.next {
-		if item, err := NewHardwareItem(hd); err != nil {
+		if item, err := NewHardwareDevice(hd); err != nil {
 			return nil, nil, err
 		} else {
 			if excludeDevice(item) {
@@ -66,7 +66,7 @@ func Scan(probes []ProbeFeature) ([]Smbios, []*HardwareItem, error) {
 	}
 
 	// canonically sort by device index
-	slices.SortFunc(hardwareItems, func(a, b *HardwareItem) int {
+	slices.SortFunc(hardwareItems, func(a, b *HardwareDevice) int {
 		return int(a.Index) - int(b.Index)
 	})
 

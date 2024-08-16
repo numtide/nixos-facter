@@ -30,6 +30,12 @@ var rootCmd = &cobra.Command{
 	// todo Long description
 	// todo add Long description
 	RunE: func(cmd *cobra.Command, args []string) error {
+		// check the effective user id is 0 e.g. root
+		if os.Geteuid() != 0 {
+			cmd.SilenceUsage = true
+			return fmt.Errorf("you must run this program as root")
+		}
+
 		// convert the hardware features into probe features
 		for _, str := range hardwareFeatures {
 			probe, err := hwinfo.ProbeFeatureString(str)
@@ -93,13 +99,13 @@ func init() {
 	// These will be added on a priority / need basis.
 
 	defaultFeatures := []string{
-		"memory", "pci", "net", "serial", "cpu", "bios", "monitor", "mouse", "scsi", "usb", "prom", "sbus", "sys",
-		"sysfs", "udev", "block", "wlan",
+		"memory", "pci", "net", "serial", "cpu", "bios", "monitor", "scsi", "usb", "prom", "sbus", "sys", "sysfs",
+		"udev", "block", "wlan",
 	}
 
 	// we strip default and int from the feature list
-	allFeatures := hwinfo.ProbeFeatureStrings()
-	slices.DeleteFunc(allFeatures, func(str string) bool {
+	probeFeatures := hwinfo.ProbeFeatureStrings()
+	slices.DeleteFunc(probeFeatures, func(str string) bool {
 		switch str {
 		case "default", "int":
 			return true
@@ -115,7 +121,7 @@ func init() {
 		defaultFeatures,
 		fmt.Sprintf(
 			"Hardware items to probe. Possible values are %s",
-			strings.Join(allFeatures, ","),
+			strings.Join(probeFeatures, ","),
 		),
 	)
 }
