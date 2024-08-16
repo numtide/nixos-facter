@@ -7,6 +7,7 @@ package hwinfo
 import "C"
 
 import (
+	"encoding/json"
 	"fmt"
 )
 
@@ -179,7 +180,6 @@ const (
 	HardwareClassMmcController
 	HardwareClassNvme
 
-	/** append new entries here */
 	HardwareClassUnknown
 	HardwareClassAll
 )
@@ -193,7 +193,7 @@ func (s *Slot) Slot() byte {
 }
 
 func (s *Slot) Bus() uint {
-	return uint(*s & 0xFFFFFF)
+	return uint((*s & 0xFFFFFF00) >> 8)
 }
 
 func (s *Slot) String() string {
@@ -201,10 +201,11 @@ func (s *Slot) String() string {
 }
 
 func (s *Slot) MarshalJSON() ([]byte, error) {
-	return []byte(fmt.Sprintf("\"%d:%d\"", s.Slot(), s.Bus())), nil
+	return json.Marshal(map[string]any{
+		"bus":    s.Bus(),
+		"number": s.Slot(),
+	})
 }
-
-// TODO UnmarshalJSON for Slot
 
 type DeviceNumber struct {
 	Type  int  `json:"type"`
