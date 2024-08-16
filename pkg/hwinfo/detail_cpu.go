@@ -47,7 +47,7 @@ type DetailCpu struct {
 	Bogo       float64  `json:"bogo"`
 }
 
-var matchCPUFreq = regexp.MustCompile(`, %d MHz$`)
+var matchCPUFreq = regexp.MustCompile(`, \d+ MHz$`)
 
 func stripCpuFreq(s string) string {
 	// strip frequency of the model name as it is not stable.
