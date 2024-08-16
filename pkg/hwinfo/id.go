@@ -68,7 +68,7 @@ type Id struct {
 }
 
 func (i Id) IsEmpty() bool {
-	return i.Type == 0 && i.Value == 0 && i.Name == ""
+	return i.Type == 0 && i.Value == 0 && (i.Name == "" || i.Name == "None")
 }
 
 func (i Id) String() string {
