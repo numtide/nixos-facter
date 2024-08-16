@@ -30,6 +30,12 @@ var rootCmd = &cobra.Command{
 	// todo Long description
 	// todo add Long description
 	RunE: func(cmd *cobra.Command, args []string) error {
+		// check the effective user id is 0 e.g. root
+		if os.Geteuid() != 0 {
+			cmd.SilenceUsage = true
+			return fmt.Errorf("you must run this program as root")
+		}
+
 		// convert the hardware features into probe features
 		for _, str := range hardwareFeatures {
 			probe, err := hwinfo.ProbeFeatureString(str)
