@@ -403,8 +403,8 @@ type HardwareDevice struct {
 		The string must not contain slashes ("/") because we're going to create files with this id as name.
 		Apart from this, there are no restrictions on the form of this string.
 	*/
-	UniqueId  string   `json:"unique_id,omitempty"`
-	UniqueIds []string `json:"unique_ids,omitempty"`
+	UniqueId  string   `json:"-"`
+	UniqueIds []string `json:"-"`
 
 	Resources []Resource `json:"resources,omitempty"`
 	Detail    Detail     `json:"detail,omitempty"`
