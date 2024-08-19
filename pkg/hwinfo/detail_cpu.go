@@ -31,7 +31,7 @@ const (
 )
 
 type DetailCpu struct {
-	Type         DetailType `json:"type"`
+	Type         DetailType `json:"-"`
 	Architecture CpuArch    `json:"architecture"`
 	Family       uint       `json:"family"`
 	Model        uint       `json:"model"`

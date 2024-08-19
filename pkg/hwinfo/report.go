@@ -167,7 +167,7 @@ const (
 	HardwareClassJoystick
 	HardwareClassPrinter
 	HardwareClassScanner
-	HardwareClassChipcard
+	HardwareClassChipCard
 	HardwareClassMonitor
 	HardwareClassTvCard
 
@@ -175,9 +175,9 @@ const (
 	HardwareClassFramebuffer
 	HardwareClassCamera
 	HardwareClassSound
-	HardwareClassStorageCtrl
+	HardwareClassStorageController
 
-	HardwareClassNetwork
+	HardwareClassNetworkController
 	HardwareClassIsdnAdapter
 	HardwareClassModem
 	HardwareClassNetworkInterface
@@ -380,7 +380,7 @@ type HardwareDevice struct {
 	Serial            string        `json:"-"` // exclude from json output
 	CompatVendor      *Id           `json:"compat_vendor,omitempty"`
 	CompatDevice      *Id           `json:"compat_device,omitempty"`
-	HardwareClass     HardwareClass `json:"hardware_class,omitempty"`
+	HardwareClass     HardwareClass `json:"-"`
 	Model             string        `json:"model,omitempty"`
 	AttachedTo        uint          `json:"attached_to,omitempty"`
 	SysfsId           string        `json:"sysfs_id,omitempty"`

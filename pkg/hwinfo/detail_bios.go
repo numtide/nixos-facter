@@ -26,7 +26,7 @@ type VbeInfo struct {
 }
 
 type DetailBios struct {
-	Type    DetailType `json:"type"`
+	Type    DetailType `json:"-"`
 	ApmInfo ApmInfo    `json:"apm_info"`
 	VbeInfo VbeInfo    `json:"vbe_info"`
 

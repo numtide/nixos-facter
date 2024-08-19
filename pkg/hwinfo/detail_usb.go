@@ -36,7 +36,7 @@ const (
 )
 
 type DetailUsb struct {
-	Type                DetailType `json:"type"`
+	Type                DetailType `json:"-"`
 	Bus                 int        `json:"bus"`
 	DeviceNumber        int        `json:"device_number"`
 	Lev                 int        `json:"lev"` // TODO what is lev short for?

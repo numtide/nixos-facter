@@ -19,7 +19,7 @@ type SyncTimings struct {
 }
 
 type DetailMonitor struct {
-	Type                  DetailType  `json:"type"`
+	Type                  DetailType  `json:"-"`
 	ManufactureYear       uint        `json:"manufacture_year"`
 	ManufactureWeek       uint        `json:"manufacture_week"`
 	VerticalSync          SyncRange   `json:"vertical_sync"`

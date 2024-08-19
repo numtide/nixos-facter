@@ -16,9 +16,16 @@ type Report struct {
 	System         string    `json:"system"`
 	Virtualisation virt.Type `json:"virtualisation"`
 
-	Smbios   []hwinfo.Smbios          `json:"smbios,omitempty"`
-	Hardware []*hwinfo.HardwareDevice `json:"hardware"`
-	Swap     []*ephem.SwapEntry       `json:"swap,omitempty"`
+	Smbios []hwinfo.Smbios    `json:"smbios,omitempty"`
+	Swap   []*ephem.SwapEntry `json:"swap,omitempty"`
+
+	// grouped by hardware class
+	Hardware map[string][]*hwinfo.HardwareDevice `json:"hardware,omitempty"`
+}
+
+func (r Report) addDevice(device *hwinfo.HardwareDevice) {
+	key := device.HardwareClass.String()
+	r.Hardware[key] = append(r.Hardware[key], device)
 }
 
 type Scanner struct {
@@ -30,7 +37,8 @@ type Scanner struct {
 func (s *Scanner) Scan() (*Report, error) {
 	var err error
 	report := Report{
-		Version: build.ReportVersion,
+		Version:  build.ReportVersion,
+		Hardware: make(map[string][]*hwinfo.HardwareDevice),
 	}
 
 	if build.System == "" {
@@ -38,9 +46,14 @@ func (s *Scanner) Scan() (*Report, error) {
 	}
 	report.System = build.System
 
-	report.Smbios, report.Hardware, err = hwinfo.Scan(s.Features)
+	var devices []*hwinfo.HardwareDevice
+	report.Smbios, devices, err = hwinfo.Scan(s.Features)
 	if err != nil {
 		return nil, fmt.Errorf("failed to scan hardware: %w", err)
+	}
+
+	for idx := range devices {
+		report.addDevice(devices[idx])
 	}
 
 	if report.Virtualisation, err = virt.Detect(); err != nil {

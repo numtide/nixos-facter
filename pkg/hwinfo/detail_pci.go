@@ -30,7 +30,7 @@ func ParsePciFlags(flags uint) (result []PciFlag) {
 }
 
 type DetailPci struct {
-	Type DetailType `json:"type"`
+	Type DetailType `json:"-"`
 
 	Flags    []PciFlag `json:"flags,omitempty"` //
 	Function uint      `json:"function"`
