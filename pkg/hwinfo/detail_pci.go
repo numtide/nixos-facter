@@ -74,7 +74,6 @@ type DetailPci struct {
 	DataLength    uint   `json:"-"` // holds the actual length of Data
 	DataExtLength uint   `json:"-"` // max. accessed config byte
 	Log           string `json:"-"` // log messages
-
 }
 
 func (p DetailPci) DetailType() DetailType {

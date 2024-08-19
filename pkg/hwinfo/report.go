@@ -238,7 +238,7 @@ func (s *Slot) Bus() uint {
 }
 
 func (s *Slot) String() string {
-	return fmt.Sprintf("%d:%d", s.Slot(), s.Bus())
+	return fmt.Sprintf("%d:%d", s.Bus(), s.Slot())
 }
 
 func (s *Slot) MarshalJSON() ([]byte, error) {
@@ -368,7 +368,7 @@ type HardwareDevice struct {
 
 	// Bus type (id and name)
 	BusType           *Id           `json:"bus_type,omitempty"`
-	Slot              Slot          `json:"slot,omitempty"`
+	Slot              Slot          `json:"slot"`
 	BaseClass         *Id           `json:"base_class,omitempty"`
 	SubClass          *Id           `json:"sub_class,omitempty"`
 	PciInterface      *Id           `json:"pci_interface,omitempty"`
