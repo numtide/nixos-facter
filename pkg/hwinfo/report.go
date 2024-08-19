@@ -363,8 +363,8 @@ func NewIs(hd *C.hd_t) Is {
 }
 
 type HardwareDevice struct {
-	// Index is a unique index, starting at 1
-	Index uint `json:"index"`
+	// Index is a unique index provided by hwinfo, starting at 1
+	Index uint `json:"-"`
 
 	// Bus type (id and name)
 	BusType           *Id           `json:"bus_type,omitempty"`
