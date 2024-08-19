@@ -36,25 +36,22 @@ const (
 )
 
 type DetailUsb struct {
-	Type                DetailType  `json:"type"`
-	Bus                 int         `json:"bus"`
-	DeviceNumber        int         `json:"device_number"`
-	Lev                 int         `json:"lev"` // TODO what is lev short for?
-	Parent              int         `json:"parent"`
-	Port                int         `json:"port"`
-	Count               int         `json:"count"`
-	Connections         int         `json:"connections"`
-	UsedConnections     int         `json:"used_connections"`
-	InterfaceDescriptor int         `json:"interface_descriptor"`
-	Speed               uint        `json:"speed"`
-	Vendor              uint        `json:"vendor"`
-	Device              uint        `json:"device"`
-	Revision            uint        `json:"revision"`
-	Manufacturer        string      `json:"manufacturer,omitempty"`
-	Product             string      `json:"product,omitempty"`
-	Serial              string      `json:"-"`
-	Driver              string      `json:"driver,omitempty"`
-	RawDescriptor       MemoryRange `json:"raw_descriptor"`
+	Type                DetailType `json:"type"`
+	Bus                 int        `json:"bus"`
+	DeviceNumber        int        `json:"device_number"`
+	Lev                 int        `json:"lev"` // TODO what is lev short for?
+	Parent              int        `json:"parent"`
+	Port                int        `json:"port"`
+	Count               int        `json:"count"`
+	Connections         int        `json:"connections"`
+	UsedConnections     int        `json:"used_connections"`
+	InterfaceDescriptor int        `json:"interface_descriptor"`
+	Speed               uint       `json:"speed"`
+
+	Manufacturer string `json:"manufacturer,omitempty"`
+	Product      string `json:"product,omitempty"`
+
+	Driver string `json:"driver,omitempty"`
 
 	DeviceClass    UsbClass `json:"device_class,omitempty"`
 	DeviceSubclass int      `json:"device_subclass,omitempty"`
@@ -65,6 +62,17 @@ type DetailUsb struct {
 	InterfaceProtocol int      `json:"interface_protocol,omitempty"`
 
 	Country uint `json:"country"`
+
+	// already included in the parent model, so we omit from JSON output
+	Vendor   uint `json:"-"`
+	Device   uint `json:"-"`
+	Revision uint `json:"-"`
+
+	// Seems empty and not really needed, omit for now
+	RawDescriptor MemoryRange `json:"-"`
+
+	// Sensitive, omit from JSON output
+	Serial string `json:"-"`
 }
 
 func (d DetailUsb) DetailType() DetailType {
