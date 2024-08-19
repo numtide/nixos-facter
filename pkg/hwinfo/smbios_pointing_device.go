@@ -8,7 +8,7 @@ import "C"
 
 // SmbiosPointingDevice captures pointing device (aka 'mouse') information.
 type SmbiosPointingDevice struct {
-	Type      SmbiosType `json:"type"`
+	Type      SmbiosType `json:"-"`
 	Handle    int        `json:"handle"`
 	MouseType *Id        `json:"mouse_type"`
 	Interface *Id        `json:"interface"`

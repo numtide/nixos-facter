@@ -8,7 +8,7 @@ import "C"
 
 // SmbiosLanguage captures language information.
 type SmbiosLanguage struct {
-	Type            SmbiosType `json:"type"`
+	Type            SmbiosType `json:"-"`
 	Handle          int        `json:"handle"`
 	Languages       []string   `json:"languages,omitempty"`
 	CurrentLanguage string     `json:"current_language"`

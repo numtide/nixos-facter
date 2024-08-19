@@ -8,7 +8,7 @@ import "C"
 
 // SmbiosCache captures processor information.
 type SmbiosCache struct {
-	Type          SmbiosType `json:"type"`
+	Type          SmbiosType `json:"-"`
 	Handle        int        `json:"handle"`
 	Socket        string     `json:"socket"`       // socket designation
 	SizeMax       uint       `json:"size_max"`     // max cache size in kbytes

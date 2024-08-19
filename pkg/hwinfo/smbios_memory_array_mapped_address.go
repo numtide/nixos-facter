@@ -8,7 +8,7 @@ import "C"
 
 // SmbiosMemoryArrayMappedAddress captures physical memory array information (consists of several memory devices).
 type SmbiosMemoryArrayMappedAddress struct {
-	Type         SmbiosType `json:"type"`
+	Type         SmbiosType `json:"-"`
 	Handle       int        `json:"handle"`
 	ArrayHandle  int        `json:"array_handle"`  // memory array this mapping belongs to
 	StartAddress uint64     `json:"start_address"` // memory range start address
