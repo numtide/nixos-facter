@@ -367,7 +367,7 @@ type HardwareDevice struct {
 	Index uint `json:"index"`
 
 	// Bus type (id and name)
-	Bus               *Id           `json:"bus,omitempty"`
+	BusType           *Id           `json:"bus_type,omitempty"`
 	Slot              Slot          `json:"slot,omitempty"`
 	BaseClass         *Id           `json:"base_class,omitempty"`
 	SubClass          *Id           `json:"sub_class,omitempty"`
@@ -456,7 +456,7 @@ func NewHardwareDevice(hd *C.hd_t) (*HardwareDevice, error) {
 
 	return &HardwareDevice{
 		Index:            uint(hd.idx),
-		Bus:              NewId(hd.bus),
+		BusType:          NewId(hd.bus),
 		Slot:             Slot(hd.slot),
 		BaseClass:        NewId(hd.base_class),
 		SubClass:         NewId(hd.sub_class),
