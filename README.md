@@ -23,7 +23,7 @@ To generate a report:
 
 ```console
 # you must run as root
-❯ sudo nix run github:numtide/nixos-facter -- -o report.json
+❯ sudo nix run --refresh github:numtide/nixos-facter -- -o report.json
 
 # you can use fx to view the report in the terminal
 ❯ fx report.json 
