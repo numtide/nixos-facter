@@ -9,7 +9,7 @@ import "unsafe"
 
 // SmbiosGroupAssociations captures group associations.
 type SmbiosGroupAssociations struct {
-	Type    SmbiosType `json:"type"`
+	Type    SmbiosType `json:"-"`
 	Handle  int        `json:"handle"`
 	Name    string     `json:"name"`              // group name
 	Handles []int      `json:"handles,omitempty"` // array of item handles

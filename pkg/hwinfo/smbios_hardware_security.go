@@ -8,7 +8,7 @@ import "C"
 
 // SmbiosHardwareSecurity captures hardware security information.
 type SmbiosHardwareSecurity struct {
-	Type     SmbiosType `json:"type"`
+	Type     SmbiosType `json:"-"`
 	Handle   int        `json:"handle"`
 	Power    *Id        `json:"power"`    // power-on password status
 	Keyboard *Id        `json:"keyboard"` // keyboard password status

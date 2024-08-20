@@ -8,7 +8,7 @@ import "C"
 
 // SmbiosConfig captures system config information.
 type SmbiosConfig struct {
-	Type    SmbiosType `json:"type"`
+	Type    SmbiosType `json:"-"`
 	Handle  int        `json:"handle"`
 	Options []string   `json:"options,omitempty"`
 }

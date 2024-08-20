@@ -9,7 +9,7 @@ import "unsafe"
 
 // SmbiosBoard captures motherboard related information.
 type SmbiosBoard struct {
-	Type         SmbiosType `json:"type"`
+	Type         SmbiosType `json:"-"`
 	Handle       int        `json:"handle"`
 	Manufacturer string     `json:"manufacturer"`
 	Product      string     `json:"product"`

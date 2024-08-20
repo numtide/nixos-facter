@@ -8,7 +8,7 @@ import "C"
 
 // SmbiosSlot captures system slot information.
 type SmbiosSlot struct {
-	Type        SmbiosType `json:"type"`
+	Type        SmbiosType `json:"-"`
 	Handle      int        `json:"handle"`
 	Designation string     `json:"designation,omitempty"`
 	SlotType    *Id        `json:"slot_type"`

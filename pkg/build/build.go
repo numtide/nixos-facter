@@ -6,5 +6,5 @@ var (
 	System  = ""
 
 	// ReportVersion is used to indicate significant changes in the report output
-	ReportVersion uint = 1
+	ReportVersion uint = 2
 )

@@ -8,7 +8,7 @@ import "C"
 
 // SmbiosPowerControls captures system power controls information.
 type SmbiosPowerControls struct {
-	Type   SmbiosType `json:"type"`
+	Type   SmbiosType `json:"-"`
 	Handle int        `json:"handle"`
 	Month  uint       `json:"month"`  // next scheduled power-on month
 	Day    uint       `json:"day"`    // dto, day

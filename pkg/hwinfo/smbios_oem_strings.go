@@ -8,7 +8,7 @@ import "C"
 
 // SmbiosOEMStrings captures OEM information.
 type SmbiosOEMStrings struct {
-	Type    SmbiosType `json:"type"`
+	Type    SmbiosType `json:"-"`
 	Handle  int        `json:"handle"`
 	Strings []string   `json:"strings,omitempty"`
 }

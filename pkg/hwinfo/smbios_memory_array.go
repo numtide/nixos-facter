@@ -8,7 +8,7 @@ import "C"
 
 // SmbiosMemoryArray captures physical memory array information (consists of several memory devices).
 type SmbiosMemoryArray struct {
-	Type        SmbiosType `json:"type"`
+	Type        SmbiosType `json:"-"`
 	Handle      int        `json:"handle"`
 	Location    *Id        `json:"location"`     // memory device location
 	Usage       *Id        `json:"usage"`        // memory usage

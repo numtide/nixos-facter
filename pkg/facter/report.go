@@ -16,9 +16,24 @@ type Report struct {
 	System         string    `json:"system"`
 	Virtualisation virt.Type `json:"virtualisation"`
 
-	Smbios   []hwinfo.Smbios          `json:"smbios,omitempty"`
-	Hardware []*hwinfo.HardwareDevice `json:"hardware"`
-	Swap     []*ephem.SwapEntry       `json:"swap,omitempty"`
+	// grouped by hardware class
+	Hardware map[string][]*hwinfo.HardwareDevice `json:"hardware,omitempty"`
+
+	// grouped by SmbiosType
+	Smbios map[string][]hwinfo.Smbios `json:"smbios,omitempty"`
+
+	// Ephemeral entries
+	Swap []*ephem.SwapEntry `json:"swap,omitempty"`
+}
+
+func (r Report) addDevice(device *hwinfo.HardwareDevice) {
+	key := device.HardwareClass.String()
+	r.Hardware[key] = append(r.Hardware[key], device)
+}
+
+func (r Report) addSmbios(smbios hwinfo.Smbios) {
+	key := smbios.SmbiosType().String()
+	r.Smbios[key] = append(r.Smbios[key], smbios)
 }
 
 type Scanner struct {
@@ -30,7 +45,9 @@ type Scanner struct {
 func (s *Scanner) Scan() (*Report, error) {
 	var err error
 	report := Report{
-		Version: build.ReportVersion,
+		Version:  build.ReportVersion,
+		Smbios:   make(map[string][]hwinfo.Smbios),
+		Hardware: make(map[string][]*hwinfo.HardwareDevice),
 	}
 
 	if build.System == "" {
@@ -38,9 +55,20 @@ func (s *Scanner) Scan() (*Report, error) {
 	}
 	report.System = build.System
 
-	report.Smbios, report.Hardware, err = hwinfo.Scan(s.Features)
+	var smbios []hwinfo.Smbios
+	var devices []*hwinfo.HardwareDevice
+
+	smbios, devices, err = hwinfo.Scan(s.Features)
 	if err != nil {
 		return nil, fmt.Errorf("failed to scan hardware: %w", err)
+	}
+
+	for idx := range devices {
+		report.addDevice(devices[idx])
+	}
+
+	for idx := range smbios {
+		report.addSmbios(smbios[idx])
 	}
 
 	if report.Virtualisation, err = virt.Detect(); err != nil {

@@ -8,7 +8,7 @@ import "C"
 
 // SmbiosMemoryError captures 32-bit memory error information.
 type SmbiosMemoryError struct {
-	Type          SmbiosType `json:"type"`
+	Type          SmbiosType `json:"-"`
 	Handle        int        `json:"handle"`
 	ErrorType     *Id        `json:"error_type"`     // error type memory
 	Granularity   *Id        `json:"granularity"`    // memory array or memory partition

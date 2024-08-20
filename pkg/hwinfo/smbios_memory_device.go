@@ -8,7 +8,7 @@ import "C"
 
 // SmbiosMemoryDevice captures system slot information.
 type SmbiosMemoryDevice struct {
-	Type              SmbiosType `json:"type"`
+	Type              SmbiosType `json:"-"`
 	Handle            int        `json:"handle"`
 	Location          string     `json:"location"`      // device location
 	BankLocation      string     `json:"bank_location"` // bank location

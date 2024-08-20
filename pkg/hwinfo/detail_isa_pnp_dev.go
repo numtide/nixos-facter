@@ -60,7 +60,7 @@ func NewIsaPnpCard(card *C.isapnp_card_t) (*IsaPnpCard, error) {
 }
 
 type DetailIsaPnpDevice struct {
-	Type   DetailType  `json:"type"`
+	Type   DetailType  `json:"-"`
 	Card   *IsaPnpCard `json:"card"`
 	Device int         `json:"device"`
 	Flags  uint        `json:"flags"`

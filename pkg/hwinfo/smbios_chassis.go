@@ -9,7 +9,7 @@ import "fmt"
 
 // SmbiosChassis captures motherboard related information.
 type SmbiosChassis struct {
-	Type          SmbiosType `json:"type"`
+	Type          SmbiosType `json:"-"`
 	Handle        int        `json:"handle"`
 	Manufacturer  string     `json:"manufacturer"`
 	Version       string     `json:"version"`

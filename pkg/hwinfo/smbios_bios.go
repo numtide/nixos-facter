@@ -12,7 +12,7 @@ import (
 
 // SmbiosBios captures BIOS related information.
 type SmbiosBios struct {
-	Type         SmbiosType `json:"type"`
+	Type         SmbiosType `json:"-"`
 	Handle       int        `json:"handle"`
 	Vendor       string     `json:"vendor"`
 	Version      string     `json:"version"`

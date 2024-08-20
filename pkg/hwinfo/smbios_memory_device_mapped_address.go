@@ -8,7 +8,7 @@ import "C"
 
 // SmbiosMemoryDeviceMappedAddress captures physical memory array information (consists of several memory devices).
 type SmbiosMemoryDeviceMappedAddress struct {
-	Type               SmbiosType `json:"type"`
+	Type               SmbiosType `json:"-"`
 	Handle             int        `json:"handle"`
 	MemoryDeviceHandle int        `json:"memory_device_handle"`
 	ArrayMapHandle     int        `json:"array_map_handle"`

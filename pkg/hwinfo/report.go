@@ -167,7 +167,7 @@ const (
 	HardwareClassJoystick
 	HardwareClassPrinter
 	HardwareClassScanner
-	HardwareClassChipcard
+	HardwareClassChipCard
 	HardwareClassMonitor
 	HardwareClassTvCard
 
@@ -175,9 +175,9 @@ const (
 	HardwareClassFramebuffer
 	HardwareClassCamera
 	HardwareClassSound
-	HardwareClassStorageCtrl
+	HardwareClassStorageController
 
-	HardwareClassNetwork
+	HardwareClassNetworkController
 	HardwareClassIsdnAdapter
 	HardwareClassModem
 	HardwareClassNetworkInterface
@@ -238,7 +238,7 @@ func (s *Slot) Bus() uint {
 }
 
 func (s *Slot) String() string {
-	return fmt.Sprintf("%d:%d", s.Slot(), s.Bus())
+	return fmt.Sprintf("%d:%d", s.Bus(), s.Slot())
 }
 
 func (s *Slot) MarshalJSON() ([]byte, error) {
@@ -363,12 +363,12 @@ func NewIs(hd *C.hd_t) Is {
 }
 
 type HardwareDevice struct {
-	// Index is a unique index, starting at 1
-	Index uint `json:"index"`
+	// Index is a unique index provided by hwinfo, starting at 1
+	Index uint `json:"-"`
 
 	// Bus type (id and name)
-	Bus               *Id           `json:"bus,omitempty"`
-	Slot              Slot          `json:"slot,omitempty"`
+	BusType           *Id           `json:"bus_type,omitempty"`
+	Slot              Slot          `json:"slot"`
 	BaseClass         *Id           `json:"base_class,omitempty"`
 	SubClass          *Id           `json:"sub_class,omitempty"`
 	PciInterface      *Id           `json:"pci_interface,omitempty"`
@@ -380,7 +380,7 @@ type HardwareDevice struct {
 	Serial            string        `json:"-"` // exclude from json output
 	CompatVendor      *Id           `json:"compat_vendor,omitempty"`
 	CompatDevice      *Id           `json:"compat_device,omitempty"`
-	HardwareClass     HardwareClass `json:"hardware_class,omitempty"`
+	HardwareClass     HardwareClass `json:"-"`
 	Model             string        `json:"model,omitempty"`
 	AttachedTo        uint          `json:"attached_to,omitempty"`
 	SysfsId           string        `json:"sysfs_id,omitempty"`
@@ -403,8 +403,8 @@ type HardwareDevice struct {
 		The string must not contain slashes ("/") because we're going to create files with this id as name.
 		Apart from this, there are no restrictions on the form of this string.
 	*/
-	UniqueId  string   `json:"unique_id,omitempty"`
-	UniqueIds []string `json:"unique_ids,omitempty"`
+	UniqueId  string   `json:"-"`
+	UniqueIds []string `json:"-"`
 
 	Resources []Resource `json:"resources,omitempty"`
 	Detail    Detail     `json:"detail,omitempty"`
@@ -456,7 +456,7 @@ func NewHardwareDevice(hd *C.hd_t) (*HardwareDevice, error) {
 
 	return &HardwareDevice{
 		Index:            uint(hd.idx),
-		Bus:              NewId(hd.bus),
+		BusType:          NewId(hd.bus),
 		Slot:             Slot(hd.slot),
 		BaseClass:        NewId(hd.base_class),
 		SubClass:         NewId(hd.sub_class),

@@ -30,38 +30,32 @@ func ParsePciFlags(flags uint) (result []PciFlag) {
 }
 
 type DetailPci struct {
-	Type DetailType `json:"type"`
-	// Not needed
-	Data          string `json:"-"` // the PCI data, hex encoded
-	DataLength    uint   `json:"-"` // holds the actual length of Data
-	DataExtLength uint   `json:"-"` // max. accessed config byte
+	Type DetailType `json:"-"`
 
-	Log string `json:""` // log messages
+	Flags    []PciFlag `json:"flags,omitempty"` //
+	Function uint      `json:"function"`
 
-	Flags []PciFlag `json:"flags,omitempty"` //
 	// todo map pci constants from pci.h?
 	Command      uint `json:"command"`       // PCI_COMMAND
 	HeaderType   uint `json:"header_type"`   // PCI_HEADER_TYPE
 	SecondaryBus uint `json:"secondary_bus"` // > 0 for PCI & CB bridges
 
-	Bus      uint `json:"bus"` // PCI bus number
-	Slot     uint `json:"slot"`
-	Function uint `json:"function"`
+	Irq uint `json:"irq"` // used irq if any
+	// Programming Interface Byte: a read-only register that specifies a register-level programming interface for the device.
+	ProgIf uint `json:"prog_if"`
 
-	// PCI device classes
-	BaseClass uint `json:"base_class"`
-	SubClass  uint `json:"sub_class"`
-	ProgIf    uint `json:"prog_if"`
+	// already included in the parent model, so we omit from JSON output
+	Bus  uint `json:"-"`
+	Slot uint `json:"-"`
 
-	// Vendor and device ids
-	Device    uint `json:"device"`
-	Vendor    uint `json:"vendor"`
-	SubDevice uint `json:"sub_device"`
-	SubVendor uint `json:"sub_vendor"`
-	Revision  uint `json:"revision"`
+	BaseClass uint `json:"-"`
+	SubClass  uint `json:"-"`
 
-	// used irq if any
-	Irq uint `json:"irq"`
+	Device    uint `json:"-"`
+	Vendor    uint `json:"-"`
+	SubDevice uint `json:"-"`
+	SubVendor uint `json:"-"`
+	Revision  uint `json:"-"`
 
 	BaseAddress  [7]uint64 `json:"-"` // I/O or memory base
 	BaseLength   [7]uint64 `json:"-"` // I/O or memory ranges
@@ -70,11 +64,16 @@ type DetailPci struct {
 	RomBaseAddress uint64 `json:"-"` // memory base for card ROM
 	RomBaseLength  uint64 `json:"-"` // memory range for card ROM
 
-	// already included in the normal model
-	SysfsId     string `json:"-"`                      // sysfs path
-	SysfsBusId  string `json:"-"`                      // sysfs bus id
-	ModuleAlias string `json:"module_alias,omitempty"` // module alias
-	Label       string `json:"label,omitempty"`        // Consistent Device Name (CDN), pci firmware 3.1, chapter 4.6.7
+	SysfsId     string `json:"-"` // sysfs path
+	SysfsBusId  string `json:"-"` // sysfs bus id
+	ModuleAlias string `json:"-"` // module alias
+	Label       string `json:"-"` // Consistent Device Name (CDN), pci firmware 3.1, chapter 4.6.7
+
+	// Omit from JSON output
+	Data          string `json:"-"` // the PCI data, hex encoded
+	DataLength    uint   `json:"-"` // holds the actual length of Data
+	DataExtLength uint   `json:"-"` // max. accessed config byte
+	Log           string `json:"-"` // log messages
 }
 
 func (p DetailPci) DetailType() DetailType {

@@ -8,7 +8,7 @@ import "C"
 
 // SmbiosProcessor captures processor information.
 type SmbiosProcessor struct {
-	Type            SmbiosType `json:"type"`
+	Type            SmbiosType `json:"-"`
 	Handle          int        `json:"handle"`
 	Socket          string     `json:"socket"`
 	SocketType      *Id        `json:"socket_type"`

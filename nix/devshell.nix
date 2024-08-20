@@ -14,6 +14,7 @@ perSystem.self.nixos-facter.overrideAttrs (old: {
       pkgs.pprof
       pkgs.golangci-lint
       pkgs.cobra-cli
+      pkgs.fx   # json tui
       perSystem.self.hwinfo
     ];
   shellHook = ''

@@ -13,7 +13,7 @@ import (
 
 // SmbiosAny captures generic smbios data.
 type SmbiosAny struct {
-	Type    SmbiosType `json:"type"`
+	Type    SmbiosType `json:"-"`
 	Handle  int        `json:"handle"`
 	Data    string     `json:"data"`
 	Strings []string   `json:"strings,omitempty"`

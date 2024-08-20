@@ -18,7 +18,7 @@ type OnboardDevice struct {
 
 // SmbiosOnboard captures overall system related information.
 type SmbiosOnboard struct {
-	Type    SmbiosType      `json:"type"`
+	Type    SmbiosType      `json:"-"`
 	Handle  int             `json:"handle"`
 	Devices []OnboardDevice `json:"devices,omitempty"`
 }

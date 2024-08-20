@@ -8,7 +8,7 @@ import "C"
 
 // SmbiosPortConnector captures port connector information.
 type SmbiosPortConnector struct {
-	Type                        SmbiosType `json:"type"`
+	Type                        SmbiosType `json:"-"`
 	Handle                      int        `json:"handle"`
 	PortType                    *Id        `json:"port_type"`
 	InternalConnectorType       *Id        `json:"internal_connector_type,omitempty"`

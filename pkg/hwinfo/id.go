@@ -62,7 +62,7 @@ const (
 
 type Id struct {
 	Type  IdTag  `json:"type,omitempty"`
-	Value uint16 `json:"value,omitempty"`
+	Value uint16 `json:"value"`
 	// Name (if any)
 	Name string `json:"name,omitempty"`
 }
