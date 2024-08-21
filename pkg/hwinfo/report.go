@@ -429,6 +429,98 @@ type HardwareDevice struct {
 	Label       string `json:"label,omitempty"`        // Consistent Device Name (CDN), pci firmware spec 3.1, chapter 4.6.7
 }
 
+func (h HardwareDevice) MarshalJSON() ([]byte, error) {
+	switch h.BaseClass.Value {
+	case 257:
+		// internally used class for things such as cpu, memory and so on where most of the shared hardware device
+		// fields are not set / don't make sense
+		return json.Marshal(h.Detail)
+
+	default:
+		return json.Marshal(struct {
+			BusType           *Id           `json:"bus_type,omitempty"`
+			Slot              Slot          `json:"slot"`
+			BaseClass         *Id           `json:"base_class,omitempty"`
+			SubClass          *Id           `json:"sub_class,omitempty"`
+			PciInterface      *Id           `json:"pci_interface,omitempty"`
+			Vendor            *Id           `json:"vendor,omitempty"`
+			SubVendor         *Id           `json:"sub_vendor,omitempty"`
+			Device            *Id           `json:"device,omitempty"`
+			SubDevice         *Id           `json:"sub_device,omitempty"`
+			Revision          *Id           `json:"revision,omitempty"`
+			CompatVendor      *Id           `json:"compat_vendor,omitempty"`
+			CompatDevice      *Id           `json:"compat_device,omitempty"`
+			Model             string        `json:"model,omitempty"`
+			AttachedTo        uint          `json:"attached_to,omitempty"`
+			SysfsId           string        `json:"sysfs_id,omitempty"`
+			SysfsBusId        string        `json:"sysfs_bus_id,omitempty"`
+			SysfsDeviceLink   string        `json:"sysfs_device_link,omitempty"`
+			UnixDeviceName    string        `json:"unix_device_name,omitempty"`
+			UnixDeviceNumber  *DeviceNumber `json:"unix_device_number,omitempty"`
+			UnixDeviceNames   []string      `json:"unix_device_names,omitempty"`
+			UnixDeviceName2   string        `json:"unix_device_name_2,omitempty"`
+			UnixDeviceNumber2 *DeviceNumber `json:"unix_device_number_2,omitempty"`
+			RomId             string        `json:"rom_id,omitempty"`
+			Udi               string        `json:"udi,omitempty"`
+			ParentUdi         string        `json:"parent_udi,omitempty"`
+			Resources         []Resource    `json:"resources,omitempty"`
+			Detail            Detail        `json:"detail,omitempty"`
+			Hotplug           Hotplug       `json:"hotplug"`
+			HotplugSlot       uint          `json:"hotplug_slot"`
+			Is                Is            `json:"is"`
+			Driver            string        `json:"driver,omitempty"`
+			DriverModule      string        `json:"driver_module,omitempty"`
+			Drivers           []string      `json:"drivers,omitempty"`
+			DriverModules     []string      `json:"driver_modules,omitempty"`
+			DriverInfo        DriverInfo    `json:"driver_info,omitempty"`
+			UsbGuid           string        `json:"usb_guid,omitempty"`
+			Requires          []string      `json:",omitempty"`
+			ModuleAlias       string        `json:"module_alias,omitempty"`
+			Label             string        `json:"label,omitempty"`
+		}{
+			BusType:           h.BusType,
+			Slot:              h.Slot,
+			BaseClass:         h.BaseClass,
+			SubClass:          h.SubClass,
+			PciInterface:      h.PciInterface,
+			Vendor:            h.Vendor,
+			SubVendor:         h.SubVendor,
+			Device:            h.Device,
+			SubDevice:         h.SubDevice,
+			Revision:          h.Revision,
+			CompatVendor:      h.CompatVendor,
+			CompatDevice:      h.CompatDevice,
+			Model:             h.Model,
+			AttachedTo:        h.AttachedTo,
+			SysfsId:           h.SysfsId,
+			SysfsBusId:        h.SysfsBusId,
+			SysfsDeviceLink:   h.SysfsDeviceLink,
+			UnixDeviceName:    h.UnixDeviceName,
+			UnixDeviceNumber:  h.UnixDeviceNumber,
+			UnixDeviceNames:   h.UnixDeviceNames,
+			UnixDeviceName2:   h.UnixDeviceName2,
+			UnixDeviceNumber2: h.UnixDeviceNumber2,
+			RomId:             h.RomId,
+			Udi:               h.Udi,
+			ParentUdi:         h.ParentUdi,
+			Resources:         h.Resources,
+			Detail:            h.Detail,
+			Hotplug:           h.Hotplug,
+			HotplugSlot:       h.HotplugSlot,
+			Is:                h.Is,
+			Driver:            h.Driver,
+			DriverModule:      h.DriverModule,
+			Drivers:           h.Drivers,
+			DriverModules:     h.DriverModules,
+			DriverInfo:        h.DriverInfo,
+			UsbGuid:           h.UsbGuid,
+			Requires:          h.Requires,
+			ModuleAlias:       h.ModuleAlias,
+			Label:             h.Label,
+		})
+	}
+}
+
 func NewHardwareDevice(hd *C.hd_t) (*HardwareDevice, error) {
 	if hd == nil {
 		return nil, nil

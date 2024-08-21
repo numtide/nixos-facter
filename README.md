@@ -26,7 +26,7 @@ To generate a report:
 ❯ sudo nix run --refresh github:numtide/nixos-facter -- -o report.json
 
 # you can use fx to view the report in the terminal
-❯ fx report.json 
+❯ fx report.json
 ```
 
 ## Some more considerations
