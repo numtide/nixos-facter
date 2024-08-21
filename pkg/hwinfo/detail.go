@@ -12,6 +12,7 @@ hd_detail_isapnp_t hd_detail_get_isapnp(hd_detail_t *det) { return det->isapnp; 
 hd_detail_cpu_t hd_detail_get_cpu(hd_detail_t *det) { return det->cpu; }
 hd_detail_monitor_t hd_detail_get_monitor(hd_detail_t *det) { return det->monitor; }
 hd_detail_bios_t hd_detail_get_bios(hd_detail_t *det) { return det->bios; }
+hd_detail_sys_t hd_detail_get_sys(hd_detail_t *det) { return det->sys; }
 
 */
 import "C"
@@ -68,6 +69,8 @@ func NewDetail(detail *C.hd_detail_t) (Detail, error) {
 		return NewDetailMonitor(C.hd_detail_get_monitor(detail))
 	case DetailTypeBios:
 		return NewDetailBios(C.hd_detail_get_bios(detail))
+	case DetailTypeSys:
+		return NewDetailSys(C.hd_detail_get_sys(detail))
 	default:
 		return nil, nil
 		// return nil, fmt.Errorf("unexpected detail type: %v", detailType)

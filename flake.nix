@@ -22,6 +22,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     disko.url = "github:nix-community/disko";
+    hwinfo.url = "github:numtide/hwinfo";
   };
 
   # Keep the magic invocations to minimum.
