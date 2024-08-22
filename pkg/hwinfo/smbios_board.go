@@ -15,7 +15,7 @@ type SmbiosBoard struct {
 	Product      string     `json:"product"`
 	Version      string     `json:"version"`
 	Serial       string     `json:"-"` // omit from json output
-	AssetTag     string     `json:"-,omitempty"`
+	AssetTag     string     `json:"-"` // omit from json output
 	BoardType    *Id        `json:"board_type"`
 	Features     []string   `json:"features"`
 	Location     string     `json:"location"`          // location in chassis
