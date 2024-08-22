@@ -15,9 +15,9 @@ type SmbiosProcessor struct {
 	SocketPopulated bool       `json:"socket_populated"` // true: populated, false: empty
 	Manufacturer    string     `json:"manufacturer"`
 	Version         string     `json:"version"`
-	Serial          string     `json:"-"`         // omit from json output
-	AssetTag        string     `json:"asset_tag"` // asset tag
-	Part            string     `json:"part"`      // part number
+	Serial          string     `json:"-"`    // omit from json output
+	AssetTag        string     `json:"-"`    // asset tag
+	Part            string     `json:"part"` // part number
 	ProcessorType   *Id        `json:"processor_type"`
 	ProcessorFamily *Id        `json:"processor_family"`
 	ProcessorId     uint64     `json:"-"` // omit from json

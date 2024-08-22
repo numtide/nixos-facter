@@ -129,8 +129,11 @@ func NewSmbios(smbios *C.hd_smbios_t) (Smbios, error) {
 		return NewSmbiosSlot(C.hd_smbios_get_slot(smbios))
 	case SmbiosTypeOnboard:
 		return NewSmbiosOnboard(C.hd_smbios_get_onboard(smbios))
+
+	// at least for framework this contains asset_tags. since it's unstructured informtation we skip it for now
 	case SmbiosTypeOEMStrings:
-		return NewSmbiosOEM(C.hd_smbios_get_oem(smbios))
+		// return NewSmbiosOEM(C.hd_smbios_get_oem(smbios))
+		return nil, nil
 	case SmbiosTypeConfig:
 		return NewSmbiosConfig(C.hd_smbios_get_config(smbios))
 	case SmbiosTypeLanguage:

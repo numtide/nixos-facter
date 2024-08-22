@@ -13,8 +13,8 @@ type SmbiosChassis struct {
 	Handle        int        `json:"handle"`
 	Manufacturer  string     `json:"manufacturer"`
 	Version       string     `json:"version"`
-	Serial        string     `json:"-"`                   // omit from json output
-	AssetTag      string     `json:"asset_tag,omitempty"` // asset tag
+	Serial        string     `json:"-"`           // omit from json output
+	AssetTag      string     `json:"-,omitempty"` // asset tag
 	ChassisType   *Id        `json:"chassis_type"`
 	LockPresent   bool       `json:"lock_present"` // true: lock present, false: not present or unknown
 	BootupState   *Id        `json:"bootup_state"`

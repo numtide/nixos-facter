@@ -91,6 +91,36 @@ func (h HardwareMap) MarshalJSON() ([]byte, error) {
 	return json.Marshal(values)
 }
 
+type SmbiosMap map[hwinfo.SmbiosType][]hwinfo.Smbios
+
+func (s SmbiosMap) MarshalJSON() ([]byte, error) {
+	values := make(map[string]any)
+
+	for smbiosType, list := range s {
+		switch smbiosType {
+		case hwinfo.SmbiosTypeBios, hwinfo.SmbiosTypeBoard, hwinfo.SmbiosTypeSystem, hwinfo.SmbiosTypeSystemBoot,
+			hwinfo.SmbiosTypeSystemReset, hwinfo.SmbiosTypeLanguage, hwinfo.SmbiosTypeConfig, hwinfo.SmbiosTypeOEMStrings:
+			// we know there's only one entry for these classes, so we ensure the entry exists and flatten the list
+			switch len(list) {
+			case 0:
+				// no entries, continue
+				continue
+			case 1:
+				// we found the entry we know to be there, flatten the value
+				values[smbiosType.String()] = list[0]
+			default:
+				// this should not happen
+				return nil, fmt.Errorf("unexpected number of entries %d for smbios type %s, expected 1", len(list), smbiosType.String())
+			}
+		default:
+			// For all other smbios types, we just leave the value as is, converting the enum key to a string.
+			values[smbiosType.String()] = list
+		}
+	}
+
+	return json.Marshal(values)
+}
+
 type Report struct {
 	// monotonically increasing number, used to indicate breaking changes or new features in the report output
 	Version        uint      `json:"version"`
@@ -101,8 +131,7 @@ type Report struct {
 	Hardware HardwareMap `json:"hardware,omitempty"`
 
 	// grouped by SmbiosType
-	// todo flatten some entries like with hardware
-	Smbios map[string][]hwinfo.Smbios `json:"smbios,omitempty"`
+	Smbios SmbiosMap `json:"smbios,omitempty"`
 
 	// Ephemeral entries
 	Swap []*ephem.SwapEntry `json:"swap,omitempty"`
@@ -114,7 +143,7 @@ func (r Report) addDevice(device *hwinfo.HardwareDevice) {
 }
 
 func (r Report) addSmbios(smbios hwinfo.Smbios) {
-	key := smbios.SmbiosType().String()
+	key := smbios.SmbiosType()
 	r.Smbios[key] = append(r.Smbios[key], smbios)
 }
 
@@ -128,7 +157,7 @@ func (s *Scanner) Scan() (*Report, error) {
 	var err error
 	report := Report{
 		Version:  build.ReportVersion,
-		Smbios:   make(map[string][]hwinfo.Smbios),
+		Smbios:   make(SmbiosMap),
 		Hardware: make(HardwareMap),
 	}
 
