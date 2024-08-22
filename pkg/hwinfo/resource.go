@@ -85,7 +85,8 @@ func NewResource(res *C.hd_res_t) (Resource, error) {
 	case ResourceTypeHwaddr, ResourceTypePhwaddr:
 		return NewResourceHardwareAddress(res, resourceType)
 	case ResourceTypeLink:
-		return NewResourceLink(res, resourceType)
+		// this is the link status of a network interface and can change when we plug/unplug a cable
+		return nil, nil
 	case ResourceTypeWlan:
 		return NewResourceWlan(res, resourceType)
 	default:
@@ -99,6 +100,9 @@ func NewResources(hd *C.hd_t) ([]Resource, error) {
 		resource, err := NewResource(res)
 		if err != nil {
 			return nil, err
+		}
+		if resource == nil {
+			continue
 		}
 		result = append(result, resource)
 	}
