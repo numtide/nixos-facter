@@ -36,8 +36,8 @@ const (
 )
 
 type AddressSizes struct {
-	Physical uint `json:"physical"`
-	Virtual  uint `json:"virtual"`
+	Physical uint `json:"physical,omitempty"`
+	Virtual  uint `json:"virtual,omitempty"`
 }
 
 type DetailCpu struct {
@@ -59,22 +59,22 @@ type DetailCpu struct {
 	PowerManagement []string `json:"power_management,omitempty"`
 
 	Bogo  float64 `json:"bogo"`
-	Cache uint    `json:"cache"`
-	Units uint    `json:"units"`
+	Cache uint    `json:"cache,omitempty"`
+	Units uint    `json:"units,omitempty"`
 	Clock uint    `json:"-"`
 
 	// x86 only fields
 	PhysicalId     uint         `json:"physical_id"`
-	Siblings       uint         `json:"siblings"`
-	Cores          uint         `json:"cores"`
+	Siblings       uint         `json:"siblings,omitempty"`
+	Cores          uint         `json:"cores,omitempty"`
 	CoreId         uint         `json:"-"`
 	Fpu            bool         `json:"fpu"`
 	FpuException   bool         `json:"fpu_exception"`
-	CpuidLevel     uint         `json:"cpuid_level"`
+	CpuidLevel     uint         `json:"cpuid_level,omitempty"`
 	WriteProtect   bool         `json:"write_protect"`
-	TlbSize        uint         `json:"tlb_size"`
-	ClflushSize    uint         `json:"clflush_size"`
-	CacheAlignment int          `json:"cache_alignment"`
+	TlbSize        uint         `json:"tlb_size,omitempty"`
+	ClflushSize    uint         `json:"clflush_size,omitempty"`
+	CacheAlignment int          `json:"cache_alignment,omitempty"`
 	AddressSizes   AddressSizes `json:"address_sizes,omitempty"`
 	Apicid         uint         `json:"-"`
 	ApicidInitial  uint         `json:"-"`
