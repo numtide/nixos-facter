@@ -50,6 +50,7 @@ import "C"
 import (
 	"encoding/json"
 	"fmt"
+	"slices"
 )
 
 //go:generate enumer -type=ProbeFeature -json -transform=snake -trimprefix ProbeFeature -output=./report_enum_probe_feature.go
@@ -474,7 +475,7 @@ func (h HardwareDevice) MarshalJSON() ([]byte, error) {
 			DriverModules     []string      `json:"driver_modules,omitempty"`
 			DriverInfo        DriverInfo    `json:"driver_info,omitempty"`
 			UsbGuid           string        `json:"usb_guid,omitempty"`
-			Requires          []string      `json:",omitempty"`
+			Requires          []string      `json:"requires,omitempty"`
 			ModuleAlias       string        `json:"module_alias,omitempty"`
 			Label             string        `json:"label,omitempty"`
 		}{
@@ -546,31 +547,31 @@ func NewHardwareDevice(hd *C.hd_t) (*HardwareDevice, error) {
 		model = stripCpuFreq(model)
 	}
 
-	return &HardwareDevice{
-		Index:            uint(hd.idx),
-		BusType:          NewId(hd.bus),
-		Slot:             Slot(hd.slot),
-		BaseClass:        NewId(hd.base_class),
-		SubClass:         NewId(hd.sub_class),
-		PciInterface:     NewId(hd.prog_if),
-		Vendor:           NewId(hd.vendor),
-		SubVendor:        NewId(hd.sub_vendor),
-		Device:           NewId(hd.device),
-		SubDevice:        NewId(hd.sub_device),
-		Revision:         NewId(hd.revision),
-		Serial:           C.GoString(hd.serial),
-		CompatVendor:     NewId(hd.compat_vendor),
-		CompatDevice:     NewId(hd.compat_device),
-		HardwareClass:    hwClass,
-		Model:            model,
-		AttachedTo:       uint(hd.attached_to),
-		SysfsId:          C.GoString(hd.sysfs_id),
-		SysfsBusId:       C.GoString(hd.sysfs_bus_id),
-		SysfsDeviceLink:  C.GoString(hd.sysfs_device_link),
-		UnixDeviceName:   C.GoString(hd.unix_dev_name),
-		UnixDeviceNumber: NewDeviceNumber(hd.unix_dev_num),
-		// todo unix dev names
+	result := &HardwareDevice{
+		Index:             uint(hd.idx),
+		BusType:           NewId(hd.bus),
+		Slot:              Slot(hd.slot),
+		BaseClass:         NewId(hd.base_class),
+		SubClass:          NewId(hd.sub_class),
+		PciInterface:      NewId(hd.prog_if),
+		Vendor:            NewId(hd.vendor),
+		SubVendor:         NewId(hd.sub_vendor),
+		Device:            NewId(hd.device),
+		SubDevice:         NewId(hd.sub_device),
+		Revision:          NewId(hd.revision),
+		Serial:            C.GoString(hd.serial),
+		CompatVendor:      NewId(hd.compat_vendor),
+		CompatDevice:      NewId(hd.compat_device),
+		HardwareClass:     hwClass,
+		Model:             model,
+		AttachedTo:        uint(hd.attached_to),
+		SysfsId:           C.GoString(hd.sysfs_id),
+		SysfsBusId:        C.GoString(hd.sysfs_bus_id),
+		SysfsDeviceLink:   C.GoString(hd.sysfs_device_link),
+		UnixDeviceName:    C.GoString(hd.unix_dev_name),
+		UnixDeviceNumber:  NewDeviceNumber(hd.unix_dev_num),
 		UnixDeviceName2:   C.GoString(hd.unix_dev_name2),
+		UnixDeviceNames:   ReadStringList(hd.unix_dev_names),
 		UnixDeviceNumber2: NewDeviceNumber(hd.unix_dev_num2),
 		RomId:             C.GoString(hd.rom_id),
 		Udi:               C.GoString(hd.udi),
@@ -591,5 +592,13 @@ func NewHardwareDevice(hd *C.hd_t) (*HardwareDevice, error) {
 		Hotplug:           Hotplug(hd.hotplug),
 		HotplugSlot:       uint(hd.hotplug_slot),
 		Is:                NewIs(hd),
-	}, nil
+	}
+
+	// sort some fields to ensure stable report output
+	slices.Sort(result.UnixDeviceNames)
+	slices.Sort(result.Drivers)
+	slices.Sort(result.DriverModules)
+	slices.Sort(result.Requires)
+
+	return result, nil
 }

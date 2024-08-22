@@ -18,7 +18,7 @@ import (
 type IsaPnpResource struct {
 	Length int    `json:"length"`
 	Type   int    `json:"type"`
-	Data   string `json:"data"` // hex encoded
+	Data   string `json:"-"` // hex encoded
 }
 
 func NewIsaPnpResource(res *C.isapnp_res_t) *IsaPnpResource {

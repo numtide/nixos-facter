@@ -3,6 +3,7 @@ package facter
 import (
 	"encoding/json"
 	"fmt"
+	"slices"
 
 	"github.com/numtide/nixos-facter/pkg/ephem"
 
@@ -66,6 +67,10 @@ func (h HardwareMap) MarshalJSON() ([]byte, error) {
 				for _, v := range byPhysicalId {
 					summary = append(summary, v)
 				}
+
+				slices.SortFunc(summary, func(a, b hwinfo.DetailCpu) int {
+					return int(a.PhysicalId - b.PhysicalId)
+				})
 
 				values[class.String()] = summary
 

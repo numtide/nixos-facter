@@ -15,7 +15,7 @@ import "C"
 import "fmt"
 
 type ResourceLink struct {
-	Type      ResourceType `json:"Type"`
+	Type      ResourceType `json:"type"`
 	Connected bool         `json:"connected"`
 }
 

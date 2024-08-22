@@ -7,6 +7,7 @@ package hwinfo
 import "C"
 
 import (
+	"encoding/json"
 	"fmt"
 	"slices"
 )
@@ -61,10 +62,25 @@ const (
 )
 
 type Id struct {
-	Type  IdTag  `json:"type,omitempty"`
-	Value uint16 `json:"value"`
+	Type  IdTag
+	Value uint16
 	// Name (if any)
-	Name string `json:"name,omitempty"`
+	Name string
+}
+
+func (i Id) MarshalJSON() ([]byte, error) {
+	switch i.Type {
+	case IdTagSpecial:
+		return json.Marshal(i.Name)
+	default:
+		return json.Marshal(struct {
+			Name  string `json:"name,omitempty"`
+			Value uint16 `json:"value"`
+		}{
+			Name:  i.Name,
+			Value: i.Value,
+		})
+	}
 }
 
 func (i Id) IsEmpty() bool {

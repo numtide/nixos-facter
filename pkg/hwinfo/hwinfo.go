@@ -49,6 +49,8 @@ func Scan(probes []ProbeFeature) ([]Smbios, []*HardwareDevice, error) {
 		item, err := NewSmbios(sm)
 		if err != nil {
 			return nil, nil, err
+		} else if item == nil {
+			continue
 		}
 		smbiosItems = append(smbiosItems, item)
 	}
