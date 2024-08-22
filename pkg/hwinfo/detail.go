@@ -82,7 +82,7 @@ func NewDetail(detail *C.hd_detail_t) (Detail, error) {
 type MemoryRange struct {
 	Start uint   `json:"start"`
 	Size  uint   `json:"size"`
-	Data  string `json:"data"` // hex encoded
+	Data  string `json:"-"` // hex encoded
 }
 
 func NewMemoryRange(mem C.memory_range_t) MemoryRange {
