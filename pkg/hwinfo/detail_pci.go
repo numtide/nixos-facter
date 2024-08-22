@@ -8,6 +8,7 @@ import "C"
 
 import (
 	"encoding/hex"
+	"slices"
 	"unsafe"
 )
 
@@ -26,6 +27,8 @@ func ParsePciFlags(flags uint) (result []PciFlag) {
 			result = append(result, flag)
 		}
 	}
+	// ensure stable output
+	slices.Sort(result)
 	return
 }
 

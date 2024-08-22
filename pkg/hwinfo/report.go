@@ -50,6 +50,7 @@ import "C"
 import (
 	"encoding/json"
 	"fmt"
+	"slices"
 )
 
 //go:generate enumer -type=ProbeFeature -json -transform=snake -trimprefix ProbeFeature -output=./report_enum_probe_feature.go
@@ -474,7 +475,7 @@ func (h HardwareDevice) MarshalJSON() ([]byte, error) {
 			DriverModules     []string      `json:"driver_modules,omitempty"`
 			DriverInfo        DriverInfo    `json:"driver_info,omitempty"`
 			UsbGuid           string        `json:"usb_guid,omitempty"`
-			Requires          []string      `json:",omitempty"`
+			Requires          []string      `json:"requires,omitempty"`
 			ModuleAlias       string        `json:"module_alias,omitempty"`
 			Label             string        `json:"label,omitempty"`
 		}{
@@ -546,7 +547,7 @@ func NewHardwareDevice(hd *C.hd_t) (*HardwareDevice, error) {
 		model = stripCpuFreq(model)
 	}
 
-	return &HardwareDevice{
+	result := &HardwareDevice{
 		Index:             uint(hd.idx),
 		BusType:           NewId(hd.bus),
 		Slot:              Slot(hd.slot),
@@ -591,5 +592,13 @@ func NewHardwareDevice(hd *C.hd_t) (*HardwareDevice, error) {
 		Hotplug:           Hotplug(hd.hotplug),
 		HotplugSlot:       uint(hd.hotplug_slot),
 		Is:                NewIs(hd),
-	}, nil
+	}
+
+	// sort some fields to ensure stable report output
+	slices.Sort(result.UnixDeviceNames)
+	slices.Sort(result.Drivers)
+	slices.Sort(result.DriverModules)
+	slices.Sort(result.Requires)
+
+	return result, nil
 }
