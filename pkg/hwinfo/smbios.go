@@ -156,6 +156,8 @@ func NewSmbios(smbios *C.hd_smbios_t) (Smbios, error) {
 	case SmbiosTypePowerControls:
 		return NewSmbiosPower(C.hd_smbios_get_power(smbios))
 	default:
-		return NewSmbiosAny(smbiosType, C.hd_smbios_get_any(smbios))
+		// We could return Any for this, but it's just noise in the report.
+		// As we support new types, users can run it again.
+		return nil, nil
 	}
 }
