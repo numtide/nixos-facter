@@ -22,10 +22,10 @@ type SmbiosProcessor struct {
 	ProcessorFamily *Id        `json:"processor_family"`
 	ProcessorId     uint64     `json:"-"` // omit from json
 	ProcessorStatus *Id        `json:"processor_status"`
-	Voltage         uint       `json:"voltage"`
+	Voltage         uint       `json:"-"`
 	ClockExt        uint       `json:"clock_ext"`       // MHz
 	ClockMax        uint       `json:"clock_max"`       // MHz
-	ClockCurrent    uint       `json:"clock_current"`   // MHz
+	ClockCurrent    uint       `json:"-"`               // MHz
 	CacheHandleL1   int        `json:"cache_handle_l1"` // handle of L1 cache
 	CacheHandleL2   int        `json:"cache_handle_l2"` // handle of L2 cache
 	CacheHandleL3   int        `json:"cache_handle_l3"` // handle of L3 cache
