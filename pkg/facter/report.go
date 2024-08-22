@@ -72,8 +72,8 @@ func (h HardwareMap) MarshalJSON() ([]byte, error) {
 				break
 
 			default:
-				// take the first entry as a summary of all cores
-				values[class.String()] = first
+				// truncate the list to the first entry only
+				values[class.String()] = list[:1]
 			}
 
 		default:
