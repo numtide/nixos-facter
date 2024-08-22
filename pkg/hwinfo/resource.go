@@ -12,7 +12,11 @@ res_any_t hd_res_get_any(hd_res_t *res) { return res->any; }
 import "C"
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
+	"log"
+	"slices"
 )
 
 //go:generate enumer -type=ResourceType -json -transform=snake -trimprefix ResourceType -output=./resource_enum_type.go
@@ -98,5 +102,21 @@ func NewResources(hd *C.hd_t) ([]Resource, error) {
 		}
 		result = append(result, resource)
 	}
+
+	slices.SortFunc(result, func(a, b Resource) int {
+		// We don't really care about a proper ordering for resources, just a stable sort that is reasonably quick.
+		var err error
+		jsonA, err := json.Marshal(a)
+		if err != nil {
+			log.Panicf("failed to marshal resource: %s", err)
+		}
+		jsonB, err := json.Marshal(b)
+		if err != nil {
+			log.Panicf("failed to marshal resource: %s", err)
+		}
+
+		return bytes.Compare(jsonA, jsonB)
+	})
+
 	return result, nil
 }
