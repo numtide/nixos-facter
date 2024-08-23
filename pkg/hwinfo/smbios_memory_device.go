@@ -14,7 +14,7 @@ type SmbiosMemoryDevice struct {
 	BankLocation      string     `json:"bank_location"` // bank location
 	Manufacturer      string     `json:"manufacturer"`
 	Serial            string     `json:"-"` // omit from json
-	AssetTag          string     `json:"-,omitempty"`
+	AssetTag          string     `json:"-"`
 	PartNumber        string     `json:"part_number"`
 	ArrayHandle       int        `json:"array_handle"` // memory array this device belongs to
 	ErrorHandle       int        `json:"error_handle"` // points to error info record; 0xfffe: not supported, 0xffff: no error
