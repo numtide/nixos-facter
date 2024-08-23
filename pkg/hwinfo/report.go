@@ -173,7 +173,7 @@ const (
 	HardwareClassTvCard
 
 	HardwareClassGraphicsCard
-	HardwareClassFramebuffer
+	HardwareClassFrameBuffer
 	HardwareClassCamera
 	HardwareClassSound
 	HardwareClassStorageController

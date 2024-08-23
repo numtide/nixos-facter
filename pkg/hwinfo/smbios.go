@@ -93,7 +93,7 @@ const (
 	SmbiosTypeManagementControllerHostInterface
 	SmbiosTypeTPM
 	SmbiosTypeProcessorAdditional
-	SmbiosFirmwareInventory
+	SmbiosTypeFirmwareInventory
 
 	SmbiosTypeInactive   SmbiosType = 126
 	SmbiosTypeEndOfTable SmbiosType = 127
@@ -113,51 +113,50 @@ func NewSmbios(smbios *C.hd_smbios_t) (Smbios, error) {
 	switch smbiosType {
 	case SmbiosTypeBios:
 		return NewSmbiosBiosInfo(C.hd_smbios_get_biosinfo(smbios))
-	case SmbiosTypeSystem:
-		return NewSmbiosSysInfo(C.hd_smbios_get_sysinfo(smbios))
 	case SmbiosTypeBoard:
 		return NewSmbiosBoardInfo(C.hd_smbios_get_boardinfo(smbios))
-	case SmbiosTypeChassis:
-		return NewSmbiosChassis(C.hd_smbios_get_chassis(smbios))
-	case SmbiosTypeProcessor:
-		return NewSmbiosProcessor(C.hd_smbios_get_processor(smbios))
 	case SmbiosTypeCache:
 		return NewSmbiosCache(C.hd_smbios_get_cache(smbios))
-	case SmbiosTypePortConnector:
-		return NewSmbiosConnect(C.hd_smbios_get_connect(smbios))
-	case SmbiosTypeSlot:
-		return NewSmbiosSlot(C.hd_smbios_get_slot(smbios))
-	case SmbiosTypeOnboard:
-		return NewSmbiosOnboard(C.hd_smbios_get_onboard(smbios))
-
-	// at least for framework this contains asset_tags. since it's unstructured informtation we skip it for now
-	case SmbiosTypeOEMStrings:
-		// return NewSmbiosOEM(C.hd_smbios_get_oem(smbios))
-		return nil, nil
+	case SmbiosTypeChassis:
+		return NewSmbiosChassis(C.hd_smbios_get_chassis(smbios))
 	case SmbiosTypeConfig:
 		return NewSmbiosConfig(C.hd_smbios_get_config(smbios))
-	case SmbiosTypeLanguage:
-		return NewSmbiosLang(C.hd_smbios_get_lang(smbios))
 	case SmbiosTypeGroupAssociations:
 		return NewSmbiosGroup(C.hd_smbios_get_group(smbios))
-	case SmbiosTypeMemoryArray:
-		return NewSmbiosMemArray(C.hd_smbios_get_memarray(smbios))
-	case SmbiosTypeMemoryDevice:
-		return NewSmbiosMemDevice(C.hd_smbios_get_memdevice(smbios))
-	case SmbiosTypeMemoryError:
-		return NewSmbiosMemError(C.hd_smbios_get_memerror(smbios))
-	case SmbiosTypeMemory64Error:
-		return NewSmbiosMem64Error(C.hd_smbios_get_mem64error(smbios))
-	case SmbiosTypeMemoryArrayMappedAddress:
-		return NewSmbiosMemArrayMap(C.hd_smbios_get_memarraymap(smbios))
-	case SmbiosTypeMemoryDeviceMappedAddress:
-		return NewSmbiosMemDeviceMap(C.hd_smbios_get_memdevicemap(smbios))
-	case SmbiosTypePointingDevice:
-		return NewSmbiosMouse(C.hd_smbios_get_mouse(smbios))
 	case SmbiosTypeHardwareSecurity:
 		return NewSmbiosSecure(C.hd_smbios_get_secure(smbios))
+	case SmbiosTypeLanguage:
+		return NewSmbiosLang(C.hd_smbios_get_lang(smbios))
+	case SmbiosTypeMemory64Error:
+		return NewSmbiosMem64Error(C.hd_smbios_get_mem64error(smbios))
+	case SmbiosTypeMemoryArray:
+		return NewSmbiosMemArray(C.hd_smbios_get_memarray(smbios))
+	case SmbiosTypeMemoryArrayMappedAddress:
+		return NewSmbiosMemArrayMap(C.hd_smbios_get_memarraymap(smbios))
+	case SmbiosTypeMemoryDevice:
+		return NewSmbiosMemDevice(C.hd_smbios_get_memdevice(smbios))
+	case SmbiosTypeMemoryDeviceMappedAddress:
+		return NewSmbiosMemDeviceMap(C.hd_smbios_get_memdevicemap(smbios))
+	case SmbiosTypeMemoryError:
+		return NewSmbiosMemError(C.hd_smbios_get_memerror(smbios))
+	case SmbiosTypeOEMStrings:
+		// at least for framework this contains asset_tags. since it's unstructured informtation we skip it for now
+		// return NewSmbiosOEM(C.hd_smbios_get_oem(smbios))
+		return nil, nil
+	case SmbiosTypeOnboard:
+		return NewSmbiosOnboard(C.hd_smbios_get_onboard(smbios))
+	case SmbiosTypePointingDevice:
+		return NewSmbiosMouse(C.hd_smbios_get_mouse(smbios))
+	case SmbiosTypePortConnector:
+		return NewSmbiosConnect(C.hd_smbios_get_connect(smbios))
 	case SmbiosTypePowerControls:
 		return NewSmbiosPower(C.hd_smbios_get_power(smbios))
+	case SmbiosTypeProcessor:
+		return NewSmbiosProcessor(C.hd_smbios_get_processor(smbios))
+	case SmbiosTypeSlot:
+		return NewSmbiosSlot(C.hd_smbios_get_slot(smbios))
+	case SmbiosTypeSystem:
+		return NewSmbiosSysInfo(C.hd_smbios_get_sysinfo(smbios))
 	default:
 		// We could return Any for this, but it's just noise in the report.
 		// As we support new types, users can run it again.
