@@ -368,33 +368,34 @@ type HardwareDevice struct {
 	Index uint `json:"-"`
 
 	// Bus type (id and name)
-	BusType           *Id           `json:"bus_type,omitempty"`
-	Slot              Slot          `json:"slot"`
-	BaseClass         *Id           `json:"base_class,omitempty"`
-	SubClass          *Id           `json:"sub_class,omitempty"`
-	PciInterface      *Id           `json:"pci_interface,omitempty"`
-	Vendor            *Id           `json:"vendor,omitempty"`
-	SubVendor         *Id           `json:"sub_vendor,omitempty"`
-	Device            *Id           `json:"device,omitempty"`
-	SubDevice         *Id           `json:"sub_device,omitempty"`
-	Revision          *Id           `json:"revision,omitempty"`
-	Serial            string        `json:"-"` // exclude from json output
-	CompatVendor      *Id           `json:"compat_vendor,omitempty"`
-	CompatDevice      *Id           `json:"compat_device,omitempty"`
-	HardwareClass     HardwareClass `json:"-"`
-	Model             string        `json:"model,omitempty"`
-	AttachedTo        uint          `json:"attached_to,omitempty"`
-	SysfsId           string        `json:"sysfs_id,omitempty"`
-	SysfsBusId        string        `json:"sysfs_bus_id,omitempty"`
-	SysfsDeviceLink   string        `json:"sysfs_device_link,omitempty"`
-	UnixDeviceName    string        `json:"unix_device_name,omitempty"`
-	UnixDeviceNumber  *DeviceNumber `json:"unix_device_number,omitempty"`
-	UnixDeviceNames   []string      `json:"unix_device_names,omitempty"`
-	UnixDeviceName2   string        `json:"unix_device_name_2,omitempty"`
-	UnixDeviceNumber2 *DeviceNumber `json:"unix_device_number_2,omitempty"`
-	RomId             string        `json:"rom_id,omitempty"`
-	Udi               string        `json:"udi,omitempty"`
-	ParentUdi         string        `json:"parent_udi,omitempty"`
+	BusType           *Id
+	Slot              Slot
+	BaseClass         *Id
+	SubClass          *Id
+	PciInterface      *Id
+	Vendor            *Id
+	SubVendor         *Id
+	Device            *Id
+	SubDevice         *Id
+	Revision          *Id
+	Serial            string
+	CompatVendor      *Id
+	CompatDevice      *Id
+	HardwareClass     HardwareClass
+	Model             string
+	AttachedTo        uint
+	SysfsId           string
+	SysfsBusId        string
+	SysfsIOMMUGroupId int
+	SysfsDeviceLink   string
+	UnixDeviceName    string
+	UnixDeviceNumber  *DeviceNumber
+	UnixDeviceNames   []string
+	UnixDeviceName2   string
+	UnixDeviceNumber2 *DeviceNumber
+	RomId             string
+	Udi               string
+	ParentUdi         string
 
 	/*
 		UniqueId is a unique string identifying this hardware.
@@ -404,33 +405,35 @@ type HardwareDevice struct {
 		The string must not contain slashes ("/") because we're going to create files with this id as name.
 		Apart from this, there are no restrictions on the form of this string.
 	*/
-	UniqueId  string   `json:"-"`
-	UniqueIds []string `json:"-"`
+	UniqueId  string
+	UniqueIds []string
 
-	Resources []Resource `json:"resources,omitempty"`
-	Detail    Detail     `json:"detail,omitempty"`
+	Resources []Resource
+	Detail    Detail
 
-	Hotplug     Hotplug `json:"hotplug"`      // indicates what kind of hotplug device (if any) this is
-	HotplugSlot uint    `json:"hotplug_slot"` // slot the hotplug device is connected to (e.g. PCMCIA socket), count is 1-based (0: no info available)
+	Hotplug     Hotplug // indicates what kind of hotplug device (if any) this is
+	HotplugSlot uint    // slot the hotplug device is connected to (e.g. PCMCIA socket), count is 1-based (0: no info available)
 
 	Is Is `json:"is"` // high level device properties
 
-	Driver        string     `json:"driver,omitempty"`         // currently active driver
-	DriverModule  string     `json:"driver_module,omitempty"`  // currently active driver module (if any)
-	Drivers       []string   `json:"drivers,omitempty"`        // list of currently active drivers
-	DriverModules []string   `json:"driver_modules,omitempty"` // list of currently active driver modules
-	DriverInfo    DriverInfo `json:"driver_info,omitempty"`    // device driver info
-	UsbGuid       string     `json:"usb_guid,omitempty"`       // USB Global Unique Identifier.
-	Requires      []string   `json:",omitempty"`               // packages/programs required for this hardware
+	Driver        string     // currently active driver
+	DriverModule  string     // currently active driver module (if any)
+	Drivers       []string   // list of currently active drivers
+	DriverModules []string   // list of currently active driver modules
+	DriverInfo    DriverInfo // device driver info
+	UsbGuid       string     // USB Global Unique Identifier.
+	Requires      []string   // packages/programs required for this hardware
 
 	// todo hal_prop
 	// todo persistent_prop
 
-	ModuleAlias string `json:"module_alias,omitempty"` // module alias
-	Label       string `json:"label,omitempty"`        // Consistent Device Name (CDN), pci firmware spec 3.1, chapter 4.6.7
+	ModuleAlias string // module alias
+	Label       string // Consistent Device Name (CDN), pci firmware spec 3.1, chapter 4.6.7
 }
 
 func (h HardwareDevice) MarshalJSON() ([]byte, error) {
+	// TODO improve this pattern
+
 	switch h.BaseClass.Value {
 	case 257:
 		// internally used class for things such as cpu, memory and so on where most of the shared hardware device
@@ -438,7 +441,8 @@ func (h HardwareDevice) MarshalJSON() ([]byte, error) {
 		return json.Marshal(h.Detail)
 
 	default:
-		return json.Marshal(struct {
+
+		result := struct {
 			BusType           *Id           `json:"bus_type,omitempty"`
 			Slot              Slot          `json:"slot"`
 			BaseClass         *Id           `json:"base_class,omitempty"`
@@ -456,6 +460,7 @@ func (h HardwareDevice) MarshalJSON() ([]byte, error) {
 			SysfsId           string        `json:"sysfs_id,omitempty"`
 			SysfsBusId        string        `json:"sysfs_bus_id,omitempty"`
 			SysfsDeviceLink   string        `json:"sysfs_device_link,omitempty"`
+			SysfsIOMMUGroupId uint          `json:"sysfs_iommu_group_id"`
 			UnixDeviceName    string        `json:"unix_device_name,omitempty"`
 			UnixDeviceNumber  *DeviceNumber `json:"unix_device_number,omitempty"`
 			UnixDeviceNames   []string      `json:"unix_device_names,omitempty"`
@@ -518,7 +523,15 @@ func (h HardwareDevice) MarshalJSON() ([]byte, error) {
 			Requires:          h.Requires,
 			ModuleAlias:       h.ModuleAlias,
 			Label:             h.Label,
-		})
+		}
+
+		// -1 indicates no group was found
+		// We do this to overcome the fact that groups are 0 indexed and `json:"omitempty"` would not include group 0.
+		if h.SysfsIOMMUGroupId != -1 {
+			result.SysfsIOMMUGroupId = uint(h.SysfsIOMMUGroupId)
+		}
+
+		return json.Marshal(result)
 	}
 }
 
