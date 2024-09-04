@@ -9,14 +9,14 @@ import (
 )
 
 const (
-	_SmbiosTypeName_0      = "biossystemboardchassisprocessormemory_controllermemory_modulecacheport_connectorslotonboardoem_stringsconfiglanguagegroup_associationsevent_logmemory_arraymemory_devicememory_errormemory_array_mapped_addressmemory_device_mapped_addresspointing_devicebatterysystem_resethardware_securitypower_controlsvoltagecooling_devicetemperaturecurrentout_of_band_remote_accessboot_integrity_servicessystem_bootmemory64_errormanagement_deviceman_device_componentman_device_thresholdmemory_channelipmi_devicesystem_power_supplyadditional_infoonboard_extendedmanagement_controller_host_interfacetpmprocessor_additionalsmbios_firmware_inventory"
-	_SmbiosTypeLowerName_0 = "biossystemboardchassisprocessormemory_controllermemory_modulecacheport_connectorslotonboardoem_stringsconfiglanguagegroup_associationsevent_logmemory_arraymemory_devicememory_errormemory_array_mapped_addressmemory_device_mapped_addresspointing_devicebatterysystem_resethardware_securitypower_controlsvoltagecooling_devicetemperaturecurrentout_of_band_remote_accessboot_integrity_servicessystem_bootmemory64_errormanagement_deviceman_device_componentman_device_thresholdmemory_channelipmi_devicesystem_power_supplyadditional_infoonboard_extendedmanagement_controller_host_interfacetpmprocessor_additionalsmbios_firmware_inventory"
+	_SmbiosTypeName_0      = "biossystemboardchassisprocessormemory_controllermemory_modulecacheport_connectorslotonboardoem_stringsconfiglanguagegroup_associationsevent_logmemory_arraymemory_devicememory_errormemory_array_mapped_addressmemory_device_mapped_addresspointing_devicebatterysystem_resethardware_securitypower_controlsvoltagecooling_devicetemperaturecurrentout_of_band_remote_accessboot_integrity_servicessystem_bootmemory64_errormanagement_deviceman_device_componentman_device_thresholdmemory_channelipmi_devicesystem_power_supplyadditional_infoonboard_extendedmanagement_controller_host_interfacetpmprocessor_additionalfirmware_inventory"
+	_SmbiosTypeLowerName_0 = "biossystemboardchassisprocessormemory_controllermemory_modulecacheport_connectorslotonboardoem_stringsconfiglanguagegroup_associationsevent_logmemory_arraymemory_devicememory_errormemory_array_mapped_addressmemory_device_mapped_addresspointing_devicebatterysystem_resethardware_securitypower_controlsvoltagecooling_devicetemperaturecurrentout_of_band_remote_accessboot_integrity_servicessystem_bootmemory64_errormanagement_deviceman_device_componentman_device_thresholdmemory_channelipmi_devicesystem_power_supplyadditional_infoonboard_extendedmanagement_controller_host_interfacetpmprocessor_additionalfirmware_inventory"
 	_SmbiosTypeName_1      = "inactiveend_of_table"
 	_SmbiosTypeLowerName_1 = "inactiveend_of_table"
 )
 
 var (
-	_SmbiosTypeIndex_0 = [...]uint16{0, 4, 10, 15, 22, 31, 48, 61, 66, 80, 84, 91, 102, 108, 116, 134, 143, 155, 168, 180, 207, 235, 250, 257, 269, 286, 300, 307, 321, 332, 339, 364, 387, 398, 412, 429, 449, 469, 483, 494, 513, 528, 544, 580, 583, 603, 628}
+	_SmbiosTypeIndex_0 = [...]uint16{0, 4, 10, 15, 22, 31, 48, 61, 66, 80, 84, 91, 102, 108, 116, 134, 143, 155, 168, 180, 207, 235, 250, 257, 269, 286, 300, 307, 321, 332, 339, 364, 387, 398, 412, 429, 449, 469, 483, 494, 513, 528, 544, 580, 583, 603, 621}
 	_SmbiosTypeIndex_1 = [...]uint8{0, 8, 20}
 )
 
@@ -81,12 +81,12 @@ func _SmbiosTypeNoOp() {
 	_ = x[SmbiosTypeManagementControllerHostInterface-(42)]
 	_ = x[SmbiosTypeTPM-(43)]
 	_ = x[SmbiosTypeProcessorAdditional-(44)]
-	_ = x[SmbiosFirmwareInventory-(45)]
+	_ = x[SmbiosTypeFirmwareInventory-(45)]
 	_ = x[SmbiosTypeInactive-(126)]
 	_ = x[SmbiosTypeEndOfTable-(127)]
 }
 
-var _SmbiosTypeValues = []SmbiosType{SmbiosTypeBios, SmbiosTypeSystem, SmbiosTypeBoard, SmbiosTypeChassis, SmbiosTypeProcessor, SmbiosTypeMemoryController, SmbiosTypeMemoryModule, SmbiosTypeCache, SmbiosTypePortConnector, SmbiosTypeSlot, SmbiosTypeOnboard, SmbiosTypeOEMStrings, SmbiosTypeConfig, SmbiosTypeLanguage, SmbiosTypeGroupAssociations, SmbiosTypeEventLog, SmbiosTypeMemoryArray, SmbiosTypeMemoryDevice, SmbiosTypeMemoryError, SmbiosTypeMemoryArrayMappedAddress, SmbiosTypeMemoryDeviceMappedAddress, SmbiosTypePointingDevice, SmbiosTypeBattery, SmbiosTypeSystemReset, SmbiosTypeHardwareSecurity, SmbiosTypePowerControls, SmbiosTypeVoltage, SmbiosTypeCoolingDevice, SmbiosTypeTemperature, SmbiosTypeCurrent, SmbiosTypeOutOfBandRemoteAccess, SmbiosTypeBootIntegrityServices, SmbiosTypeSystemBoot, SmbiosTypeMemory64Error, SmbiosTypeManagementDevice, SmbiosTypeManDeviceComponent, SmbiosTypeManDeviceThreshold, SmbiosTypeMemoryChannel, SmbiosTypeIPMIDevice, SmbiosTypeSystemPowerSupply, SmbiosTypeAdditionalInfo, SmbiosTypeOnboardExtended, SmbiosTypeManagementControllerHostInterface, SmbiosTypeTPM, SmbiosTypeProcessorAdditional, SmbiosFirmwareInventory, SmbiosTypeInactive, SmbiosTypeEndOfTable}
+var _SmbiosTypeValues = []SmbiosType{SmbiosTypeBios, SmbiosTypeSystem, SmbiosTypeBoard, SmbiosTypeChassis, SmbiosTypeProcessor, SmbiosTypeMemoryController, SmbiosTypeMemoryModule, SmbiosTypeCache, SmbiosTypePortConnector, SmbiosTypeSlot, SmbiosTypeOnboard, SmbiosTypeOEMStrings, SmbiosTypeConfig, SmbiosTypeLanguage, SmbiosTypeGroupAssociations, SmbiosTypeEventLog, SmbiosTypeMemoryArray, SmbiosTypeMemoryDevice, SmbiosTypeMemoryError, SmbiosTypeMemoryArrayMappedAddress, SmbiosTypeMemoryDeviceMappedAddress, SmbiosTypePointingDevice, SmbiosTypeBattery, SmbiosTypeSystemReset, SmbiosTypeHardwareSecurity, SmbiosTypePowerControls, SmbiosTypeVoltage, SmbiosTypeCoolingDevice, SmbiosTypeTemperature, SmbiosTypeCurrent, SmbiosTypeOutOfBandRemoteAccess, SmbiosTypeBootIntegrityServices, SmbiosTypeSystemBoot, SmbiosTypeMemory64Error, SmbiosTypeManagementDevice, SmbiosTypeManDeviceComponent, SmbiosTypeManDeviceThreshold, SmbiosTypeMemoryChannel, SmbiosTypeIPMIDevice, SmbiosTypeSystemPowerSupply, SmbiosTypeAdditionalInfo, SmbiosTypeOnboardExtended, SmbiosTypeManagementControllerHostInterface, SmbiosTypeTPM, SmbiosTypeProcessorAdditional, SmbiosTypeFirmwareInventory, SmbiosTypeInactive, SmbiosTypeEndOfTable}
 
 var _SmbiosTypeNameToValueMap = map[string]SmbiosType{
 	_SmbiosTypeName_0[0:4]:          SmbiosTypeBios,
@@ -179,8 +179,8 @@ var _SmbiosTypeNameToValueMap = map[string]SmbiosType{
 	_SmbiosTypeLowerName_0[580:583]: SmbiosTypeTPM,
 	_SmbiosTypeName_0[583:603]:      SmbiosTypeProcessorAdditional,
 	_SmbiosTypeLowerName_0[583:603]: SmbiosTypeProcessorAdditional,
-	_SmbiosTypeName_0[603:628]:      SmbiosFirmwareInventory,
-	_SmbiosTypeLowerName_0[603:628]: SmbiosFirmwareInventory,
+	_SmbiosTypeName_0[603:621]:      SmbiosTypeFirmwareInventory,
+	_SmbiosTypeLowerName_0[603:621]: SmbiosTypeFirmwareInventory,
 	_SmbiosTypeName_1[0:8]:          SmbiosTypeInactive,
 	_SmbiosTypeLowerName_1[0:8]:     SmbiosTypeInactive,
 	_SmbiosTypeName_1[8:20]:         SmbiosTypeEndOfTable,
@@ -233,7 +233,7 @@ var _SmbiosTypeNames = []string{
 	_SmbiosTypeName_0[544:580],
 	_SmbiosTypeName_0[580:583],
 	_SmbiosTypeName_0[583:603],
-	_SmbiosTypeName_0[603:628],
+	_SmbiosTypeName_0[603:621],
 	_SmbiosTypeName_1[0:8],
 	_SmbiosTypeName_1[8:20],
 }

@@ -11,7 +11,6 @@ hd_smbios_t* hd_smbios_next(hd_smbios_t *sm) { return sm->next; }
 import "C"
 
 import (
-	"slices"
 	"unsafe"
 )
 
@@ -27,7 +26,7 @@ func excludeDevice(item *HardwareDevice) bool {
 	return false
 }
 
-func Scan(probes []ProbeFeature) ([]Smbios, []*HardwareDevice, error) {
+func Scan(probes []ProbeFeature) ([]Smbios, []HardwareDevice, error) {
 	// initialise the struct to hold scan data
 	data := (*C.hd_data_t)(unsafe.Pointer(C.calloc(1, C.size_t(unsafe.Sizeof(C.hd_data_t{})))))
 
@@ -55,7 +54,7 @@ func Scan(probes []ProbeFeature) ([]Smbios, []*HardwareDevice, error) {
 		smbiosItems = append(smbiosItems, item)
 	}
 
-	var hardwareItems []*HardwareDevice
+	var hardwareItems []HardwareDevice
 	for hd := data.hd; hd != nil; hd = hd.next {
 		if item, err := NewHardwareDevice(hd); err != nil {
 			return nil, nil, err
@@ -63,14 +62,9 @@ func Scan(probes []ProbeFeature) ([]Smbios, []*HardwareDevice, error) {
 			if excludeDevice(item) {
 				continue
 			}
-			hardwareItems = append(hardwareItems, item)
+			hardwareItems = append(hardwareItems, *item)
 		}
 	}
-
-	// canonically sort by device index
-	slices.SortFunc(hardwareItems, func(a, b *HardwareDevice) int {
-		return int(a.Index) - int(b.Index)
-	})
 
 	return smbiosItems, hardwareItems, nil
 }
