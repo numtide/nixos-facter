@@ -4,27 +4,32 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strconv"
 )
 
 const (
 	iommuSysfsPath = "/sys/kernel/iommu_groups"
 )
 
-func IOMMUGroups() (map[string]string, error) {
+func IOMMUGroups() (map[string]int, error) {
 	groups, err := os.ReadDir(iommuSysfsPath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read iommu groups from sysfs: %w", err)
 	}
 
-	result := make(map[string]string)
+	result := make(map[string]int)
 	for _, group := range groups {
 
 		if !group.IsDir() {
 			return nil, fmt.Errorf("non-directory entry found in %s: %s", iommuSysfsPath, group.Name())
 		}
 
-		groupPath := filepath.Join(iommuSysfsPath, group.Name())
-		devicesPath := filepath.Join(groupPath, "devices")
+		groupId, err := strconv.Atoi(group.Name())
+		if err != nil {
+			return nil, fmt.Errorf("failed to parse iommu group id '%s': %w", group.Name(), err)
+		}
+
+		devicesPath := filepath.Join(iommuSysfsPath, group.Name(), "devices")
 
 		devices, err := os.ReadDir(devicesPath)
 		if err != nil {
@@ -37,9 +42,8 @@ func IOMMUGroups() (map[string]string, error) {
 				return nil, fmt.Errorf("failed to resolve device symlink '%s': %w", devicePath, err)
 			}
 
-			// sysfs id -> iommu group
-			// we trim leading '/sys'
-			result[resolvedPath[4:]] = groupPath[4:]
+			// sysfs id -> iommu group id
+			result[resolvedPath[4:]] = groupId
 		}
 	}
 

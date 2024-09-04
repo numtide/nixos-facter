@@ -386,8 +386,8 @@ type HardwareDevice struct {
 	AttachedTo        uint
 	SysfsId           string
 	SysfsBusId        string
+	SysfsIOMMUGroupId int
 	SysfsDeviceLink   string
-	IOMMUGroupId      string
 	UnixDeviceName    string
 	UnixDeviceNumber  *DeviceNumber
 	UnixDeviceNames   []string
@@ -441,7 +441,8 @@ func (h HardwareDevice) MarshalJSON() ([]byte, error) {
 		return json.Marshal(h.Detail)
 
 	default:
-		return json.Marshal(struct {
+
+		result := struct {
 			BusType           *Id           `json:"bus_type,omitempty"`
 			Slot              Slot          `json:"slot"`
 			BaseClass         *Id           `json:"base_class,omitempty"`
@@ -459,7 +460,7 @@ func (h HardwareDevice) MarshalJSON() ([]byte, error) {
 			SysfsId           string        `json:"sysfs_id,omitempty"`
 			SysfsBusId        string        `json:"sysfs_bus_id,omitempty"`
 			SysfsDeviceLink   string        `json:"sysfs_device_link,omitempty"`
-			IOMMUGroupId      string        `json:"iommu_group_id,omitempty"`
+			SysfsIOMMUGroupId uint          `json:"sysfs_iommu_group_id"`
 			UnixDeviceName    string        `json:"unix_device_name,omitempty"`
 			UnixDeviceNumber  *DeviceNumber `json:"unix_device_number,omitempty"`
 			UnixDeviceNames   []string      `json:"unix_device_names,omitempty"`
@@ -500,7 +501,6 @@ func (h HardwareDevice) MarshalJSON() ([]byte, error) {
 			SysfsId:           h.SysfsId,
 			SysfsBusId:        h.SysfsBusId,
 			SysfsDeviceLink:   h.SysfsDeviceLink,
-			IOMMUGroupId:      h.IOMMUGroupId,
 			UnixDeviceName:    h.UnixDeviceName,
 			UnixDeviceNumber:  h.UnixDeviceNumber,
 			UnixDeviceNames:   h.UnixDeviceNames,
@@ -523,7 +523,15 @@ func (h HardwareDevice) MarshalJSON() ([]byte, error) {
 			Requires:          h.Requires,
 			ModuleAlias:       h.ModuleAlias,
 			Label:             h.Label,
-		})
+		}
+
+		// -1 indicates no group was found
+		// We do this to overcome the fact that groups are 0 indexed and `json:"omitempty"` would not include group 0.
+		if h.SysfsIOMMUGroupId != -1 {
+			result.SysfsIOMMUGroupId = uint(h.SysfsIOMMUGroupId)
+		}
+
+		return json.Marshal(result)
 	}
 }
 
