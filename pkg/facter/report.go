@@ -47,8 +47,17 @@ func (s *Scanner) Scan() (*Report, error) {
 		return nil, fmt.Errorf("failed to scan hardware: %w", err)
 	}
 
+	// read iommu groups
+	iommuGroups, err := hwinfo.IOMMUGroups()
+	if err != nil {
+		return nil, fmt.Errorf("failed to read iommu groups: %w", err)
+	}
+
 	for idx := range devices {
-		if err = report.Hardware.add(devices[idx]); err != nil {
+		// lookup iommu group before adding to the report
+		device := devices[idx]
+		device.IOMMUGroupId = iommuGroups[device.SysfsId]
+		if err = report.Hardware.add(device); err != nil {
 			return nil, fmt.Errorf("failed to add to hardware report: %w", err)
 		}
 	}
