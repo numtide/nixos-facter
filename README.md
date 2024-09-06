@@ -1,43 +1,80 @@
-# nixos-facter
+# NixOS Facter
 
 <!-- prettier-ignore -->
 > [!NOTE]
 > **Status: alpha**
 
-Instead of generating Nix code we would be generating a JSON-like data structure of facts about the machine.
-This can be recorded and loaded by Nix. Or added to the nixos-hardware repo.
-It can be used for user diagnostics.
-It inverts the control where the NixOS module system can now make decisions on which kernel modules to load over time.
+NixOS Facter aims to be an alternative to projects such as [NixOS Hardware] and [nixos-generate-config].
+It solves the problem of bootstrapping [NixOS configurations] by deferring decisions about hardware and other
+aspects of the target platform to NixOS modules.
 
-## How the project works
+We do this by first generating a machine-readable report (JSON) which captures detailed information about the machine
+or virtual environment it was executed within.
 
-The project has two parts:
+This report is then passed to a series of [NixOS modules] which can make a variety of decisions,
+some simple, some more complex, enabling things like automatic configuration of network controllers or graphics cards,
+USB devices, and so on.
 
--   The binary that scans the system and outputs JSON or TOML.
--   A series of [NixOS modules](https://github.com/numtide/nixos-facter-modules) that can load that data and make decisions.
+## Project Structure
 
-That's it.
+This repository contains the binary for generating the report.
+
+[NixOS Facter Modules] contains the necessary NixOS modules for making use of the report in a NixOS configuration.
+
+For more information, please see the [docs].
 
 ## Quick Start
 
 To generate a report:
 
 ```console
-# you must run as root
-❯ sudo nix run --refresh github:numtide/nixos-facter -- -o report.json
-
-# you can use fx to view the report in the terminal
-❯ fx report.json
+# you must run this as root
+❯ sudo nix run \
+  --option experimental-features "nix-command flakes" \
+  --option extra-substituters https://numtide.cachix.org \
+  --option extra-trusted-public-keys numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE= \
+  github:numtide/nixos-facter -- -o facter.json
 ```
 
-## Some more considerations
+> [!NOTE]
+> In the near-future we will add `nixos-facter` to [nixpkgs]. Until then, we recommend using the [Numtide Binary Cache]
+> to avoid having to build everything from scratch.
 
-The generated data should be generic enough to be embeddable in public Git repos.
-We can show things like hardware models, what type of graphics card is running, ...
-Avoid serial numbers and MAC addresses.
+## Contributing
 
-Another way to look at it is that the generated data should be the same if two people have the same model of hardware.
+Contributions are always welcome!
 
-## Downsides of this approach
+## License
 
-The main downside is that it adds a layer of indirection. New hardware detection requires updating both the tool and the Nix schema.
+This software is provided free under [GNU GPL v3].
+
+---
+
+This project is supported by [Numtide](https://numtide.com/).
+
+![Numtide Logo](https://codahosted.io/docs/6FCIMTRM0p/blobs/bl-sgSunaXYWX/077f3f9d7d76d6a228a937afa0658292584dedb5b852a8ca370b6c61dabb7872b7f617e603f1793928dc5410c74b3e77af21a89e435fa71a681a868d21fd1f599dd10a647dd855e14043979f1df7956f67c3260c0442e24b34662307204b83ea34de929d)
+
+We’re a team of independent freelancers that love open source.
+We help our customers make their project lifecycles more efficient by:
+
+-   Providing and supporting useful tools such as this one.
+-   Building and deploying infrastructure, and offering dedicated DevOps support.
+-   Building their in-house Nix skills, and integrating Nix with their workflows.
+-   Developing additional features and tools.
+-   Carrying out custom research and development.
+
+[Contact us](https://numtide.com/contact) if you have a project in mind,
+or if you need help with any of our supported tools, including this one.
+
+We'd love to hear from you.
+
+[NixOS configurations]: https://nixos.org/manual/nixos/stable/#sec-configuration-syntax
+[NixOS Hardware]: https://github.com/NixOS/nixos-hardware
+[NixOS Facter Modules]: https://github.com/numtide/nixos-facter-modules
+[NixOS modules]: https://github.com/numtide/nixos-facter-modules
+[nixos-generate-config]: https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/installer/tools/nixos-generate-config.pl
+[Numtide Binary Cache]: https://numtide.cachix.org
+[nixos-facter]: https://github.com/numtide/nixos-facter
+[nixpkgs]: https://github.com/nixos/nixpkgs
+[docs]: https://numtide.github.io/nixos-facter
+[GNU GPL v3]: ./LICENSE
