@@ -3,3 +3,5 @@ result*
 *.qcow2
 .data
 report.json
+.cache
+site
