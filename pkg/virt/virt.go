@@ -4,7 +4,7 @@
 // [systemd]: https://github.com/systemd/systemd/blob/main/src/basic/virt.c
 package virt
 
-// Type represents various virtualization and container types.
+// Type represents various virtualisation and container types.
 //
 //go:generate enumer -type=Type -json -transform=snake -trimprefix Type -output=./virt_enum_type.go
 type Type int
@@ -43,7 +43,7 @@ const (
 	TypeContainerOther
 )
 
-// Detect identifies the virtualization type of the current system.
+// Detect identifies the virtualisation type of the current system.
 // Returns the detected Type and an error if detection fails.
 func Detect() (Type, error) {
 	// todo do we care about detecting if we are in a container?

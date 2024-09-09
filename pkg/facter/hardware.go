@@ -7,63 +7,178 @@ import (
 	"github.com/numtide/nixos-facter/pkg/hwinfo"
 )
 
+// Hardware represents various hardware components and their details.
+//
+// The fields are in alphabetical order, and list types are sorted to ensure a consistent and stable report output.
 type Hardware struct {
-	Bios               *hwinfo.DetailBios      `json:"bios,omitempty"`
-	BlockDevice        []hwinfo.HardwareDevice `json:"block_device,omitempty"`
-	Bluetooth          []hwinfo.HardwareDevice `json:"bluetooth,omitempty"`
-	Braille            []hwinfo.HardwareDevice `json:"braille,omitempty"`
-	Bridge             []hwinfo.HardwareDevice `json:"bridge,omitempty"`
-	Camera             []hwinfo.HardwareDevice `json:"camera,omitempty"`
-	Cdrom              []hwinfo.HardwareDevice `json:"cdrom,omitempty"`
-	ChipCard           []hwinfo.HardwareDevice `json:"chip_card,omitempty"`
-	Cpu                []hwinfo.DetailCpu      `json:"cpu,omitempty"`
-	Disk               []hwinfo.HardwareDevice `json:"disk,omitempty"`
-	DslAdapter         []hwinfo.HardwareDevice `json:"dsl_adapter,omitempty"`
-	DvbCard            []hwinfo.HardwareDevice `json:"dvb_card,omitempty"`
-	Fingerprint        []hwinfo.HardwareDevice `json:"fingerprint,omitempty"`
-	Firewire           []hwinfo.HardwareDevice `json:"firewire,omitempty"`
+	// Bios holds the BIOS details of the hardware.
+	Bios *hwinfo.DetailBios `json:"bios,omitempty"`
+
+	// BlockDevice holds the list of block devices in the hardware.
+	BlockDevice []hwinfo.HardwareDevice `json:"block_device,omitempty"`
+
+	// Bluetooth holds the list of Bluetooth devices in the hardware.
+	Bluetooth []hwinfo.HardwareDevice `json:"bluetooth,omitempty"`
+
+	// Braille holds the list of Braille devices in the hardware.
+	Braille []hwinfo.HardwareDevice `json:"braille,omitempty"`
+
+	// Bridge holds the list of bridge devices in the hardware.
+	Bridge []hwinfo.HardwareDevice `json:"bridge,omitempty"`
+
+	// Camera holds the list of camera devices in the hardware.
+	Camera []hwinfo.HardwareDevice `json:"camera,omitempty"`
+
+	// Cdrom holds the list of CD-ROM devices in the hardware.
+	Cdrom []hwinfo.HardwareDevice `json:"cdrom,omitempty"`
+
+	// ChipCard holds the list of chip card devices in the hardware.
+	ChipCard []hwinfo.HardwareDevice `json:"chip_card,omitempty"`
+
+	// Cpu holds the list of CPU details in the hardware.
+	// There is one entry per physical id.
+	Cpu []hwinfo.DetailCpu `json:"cpu,omitempty"`
+
+	// Disk holds the list of disk devices in the hardware.
+	Disk []hwinfo.HardwareDevice `json:"disk,omitempty"`
+
+	// DslAdapter holds the list of DSL adapter devices in the hardware.
+	DslAdapter []hwinfo.HardwareDevice `json:"dsl_adapter,omitempty"`
+
+	// DvbCard holds the list of DVB card devices in the hardware.
+	DvbCard []hwinfo.HardwareDevice `json:"dvb_card,omitempty"`
+
+	// Fingerprint holds the list of fingerprint devices in the hardware.
+	Fingerprint []hwinfo.HardwareDevice `json:"fingerprint,omitempty"`
+
+	// Firewire holds the list of Firewire devices in the hardware.
+	Firewire []hwinfo.HardwareDevice `json:"firewire,omitempty"`
+
+	// FirewireController holds the list of Firewire controllers in the hardware.
 	FirewireController []hwinfo.HardwareDevice `json:"firewire_controller,omitempty"`
-	Floppy             []hwinfo.HardwareDevice `json:"floppy,omitempty"`
-	FrameBuffer        []hwinfo.HardwareDevice `json:"frame_buffer,omitempty"`
-	GraphicsCard       []hwinfo.HardwareDevice `json:"graphics_card,omitempty"`
-	Hotplug            []hwinfo.HardwareDevice `json:"hotplug,omitempty"`
-	HotplugController  []hwinfo.HardwareDevice `json:"hotplug_controller,omitempty"`
-	Hub                []hwinfo.HardwareDevice `json:"hub,omitempty"`
-	Ide                []hwinfo.HardwareDevice `json:"ide,omitempty"`
-	Isapnp             []hwinfo.HardwareDevice `json:"isapnp,omitempty"`
-	IsdnAdapter        []hwinfo.HardwareDevice `json:"isdn_adapter,omitempty"`
-	Joystick           []hwinfo.HardwareDevice `json:"joystick,omitempty"`
-	Keyboard           []hwinfo.HardwareDevice `json:"keyboard,omitempty"`
-	Manual             []hwinfo.HardwareDevice `json:"manual,omitempty"`
-	Memory             []hwinfo.HardwareDevice `json:"memory,omitempty"`
-	MmcController      []hwinfo.HardwareDevice `json:"mmc_controller,omitempty"`
-	Modem              []hwinfo.HardwareDevice `json:"modem,omitempty"`
-	Monitor            []hwinfo.HardwareDevice `json:"monitor,omitempty"`
-	Mouse              []hwinfo.HardwareDevice `json:"mouse,omitempty"`
-	NetworkController  []hwinfo.HardwareDevice `json:"network_controller,omitempty"`
-	NetworkInterface   []hwinfo.HardwareDevice `json:"network_interface,omitempty"`
-	None               []hwinfo.HardwareDevice `json:"none,omitempty"`
-	Nvme               []hwinfo.HardwareDevice `json:"nvme,omitempty"`
-	Partition          []hwinfo.HardwareDevice `json:"partition,omitempty"`
-	Pci                []hwinfo.HardwareDevice `json:"pci,omitempty"`
-	Pcmcia             []hwinfo.HardwareDevice `json:"pcmcia,omitempty"`
-	PcmciaController   []hwinfo.HardwareDevice `json:"pcmcia_controller,omitempty"`
-	Pppoe              []hwinfo.HardwareDevice `json:"pppoe,omitempty"`
-	Printer            []hwinfo.HardwareDevice `json:"printer,omitempty"`
-	Redasd             []hwinfo.HardwareDevice `json:"redasd,omitempty"`
-	Scanner            []hwinfo.HardwareDevice `json:"scanner,omitempty"`
-	Scsi               []hwinfo.HardwareDevice `json:"scsi,omitempty"`
-	Sound              []hwinfo.HardwareDevice `json:"sound,omitempty"`
-	StorageController  []hwinfo.HardwareDevice `json:"storage_controller,omitempty"`
-	System             *hwinfo.DetailSys       `json:"system,omitempty"`
-	Tape               []hwinfo.HardwareDevice `json:"tape,omitempty"`
-	TvCard             []hwinfo.HardwareDevice `json:"tv_card,omitempty"`
-	Unknown            []hwinfo.HardwareDevice `json:"unknown,omitempty"`
-	Usb                []hwinfo.HardwareDevice `json:"usb,omitempty"`
-	UsbController      []hwinfo.HardwareDevice `json:"usb_controller,omitempty"`
-	VesaBios           []hwinfo.HardwareDevice `json:"vesa_bios,omitempty"`
-	WlanCard           []hwinfo.HardwareDevice `json:"wlan_card,omitempty"`
-	Zip                []hwinfo.HardwareDevice `json:"zip,omitempty"`
+
+	// Floppy holds the list of floppy disk devices in the hardware.
+	Floppy []hwinfo.HardwareDevice `json:"floppy,omitempty"`
+
+	// FrameBuffer holds the list of frame buffer devices in the hardware.
+	FrameBuffer []hwinfo.HardwareDevice `json:"frame_buffer,omitempty"`
+
+	// GraphicsCard holds the list of graphics card devices in the hardware.
+	GraphicsCard []hwinfo.HardwareDevice `json:"graphics_card,omitempty"`
+
+	// Hotplug holds the list of hotplug devices in the hardware.
+	Hotplug []hwinfo.HardwareDevice `json:"hotplug,omitempty"`
+
+	// HotplugController holds the list of hotplug controllers in the hardware.
+	HotplugController []hwinfo.HardwareDevice `json:"hotplug_controller,omitempty"`
+
+	// Hub holds the list of hub devices in the hardware.
+	Hub []hwinfo.HardwareDevice `json:"hub,omitempty"`
+
+	// Ide holds the list of IDE devices in the hardware.
+	Ide []hwinfo.HardwareDevice `json:"ide,omitempty"`
+
+	// Isapnp holds the list of ISAPNP devices in the hardware.
+	Isapnp []hwinfo.HardwareDevice `json:"isapnp,omitempty"`
+
+	// IsdnAdapter holds the list of ISDN adapter devices in the hardware.
+	IsdnAdapter []hwinfo.HardwareDevice `json:"isdn_adapter,omitempty"`
+
+	// Joystick holds the list of joystick devices in the hardware.
+	Joystick []hwinfo.HardwareDevice `json:"joystick,omitempty"`
+
+	// Keyboard holds the list of keyboard devices in the hardware.
+	Keyboard []hwinfo.HardwareDevice `json:"keyboard,omitempty"`
+
+	// Manual holds the list of manually configured devices in the hardware.
+	Manual []hwinfo.HardwareDevice `json:"manual,omitempty"`
+
+	// Memory holds the list of memory devices in the hardware.
+	Memory []hwinfo.HardwareDevice `json:"memory,omitempty"`
+
+	// MmcController holds the list of MMC controller devices in the hardware.
+	MmcController []hwinfo.HardwareDevice `json:"mmc_controller,omitempty"`
+
+	// Modem holds the list of modem devices in the hardware.
+	Modem []hwinfo.HardwareDevice `json:"modem,omitempty"`
+
+	// Monitor holds the list of monitor devices in the hardware.
+	Monitor []hwinfo.HardwareDevice `json:"monitor,omitempty"`
+
+	// Mouse holds the list of mouse devices in the hardware.
+	Mouse []hwinfo.HardwareDevice `json:"mouse,omitempty"`
+
+	// NetworkController holds the list of network controller devices in the hardware.
+	NetworkController []hwinfo.HardwareDevice `json:"network_controller,omitempty"`
+
+	// NetworkInterface holds the list of network interface devices in the hardware.
+	NetworkInterface []hwinfo.HardwareDevice `json:"network_interface,omitempty"`
+
+	// None holds the list of devices in the hardware with no specific class.
+	None []hwinfo.HardwareDevice `json:"none,omitempty"`
+
+	// Nvme holds the list of NVMe devices in the hardware.
+	Nvme []hwinfo.HardwareDevice `json:"nvme,omitempty"`
+
+	// Partition holds the list of partition devices in the hardware.
+	Partition []hwinfo.HardwareDevice `json:"partition,omitempty"`
+
+	// Pci holds the list of PCI devices in the hardware.
+	Pci []hwinfo.HardwareDevice `json:"pci,omitempty"`
+
+	// Pcmcia holds the list of PCMCIA devices in the hardware.
+	Pcmcia []hwinfo.HardwareDevice `json:"pcmcia,omitempty"`
+
+	// PcmciaController holds the list of PCMCIA controllers in the hardware.
+	PcmciaController []hwinfo.HardwareDevice `json:"pcmcia_controller,omitempty"`
+
+	// Pppoe holds the list of PPPoE devices in the hardware.
+	Pppoe []hwinfo.HardwareDevice `json:"pppoe,omitempty"`
+
+	// Printer holds the list of printer devices in the hardware.
+	Printer []hwinfo.HardwareDevice `json:"printer,omitempty"`
+
+	// Redasd holds the list of REDASD devices in the hardware.
+	Redasd []hwinfo.HardwareDevice `json:"redasd,omitempty"`
+
+	// Scanner holds the list of scanner devices in the hardware.
+	Scanner []hwinfo.HardwareDevice `json:"scanner,omitempty"`
+
+	// Scsi holds the list of SCSI devices in the hardware.
+	Scsi []hwinfo.HardwareDevice `json:"scsi,omitempty"`
+
+	// Sound holds the list of sound devices in the hardware.
+	Sound []hwinfo.HardwareDevice `json:"sound,omitempty"`
+
+	// StorageController holds the list of storage controller devices in the hardware.
+	StorageController []hwinfo.HardwareDevice `json:"storage_controller,omitempty"`
+
+	// System holds the system details of the hardware.
+	System *hwinfo.DetailSys `json:"system,omitempty"`
+
+	// Tape holds the list of tape devices in the hardware.
+	Tape []hwinfo.HardwareDevice `json:"tape,omitempty"`
+
+	// TvCard holds the list of TV card devices in the hardware.
+	TvCard []hwinfo.HardwareDevice `json:"tv_card,omitempty"`
+
+	// Unknown holds the list of unknown devices in the hardware.
+	Unknown []hwinfo.HardwareDevice `json:"unknown,omitempty"`
+
+	// Usb holds the list of USB devices in the hardware.
+	Usb []hwinfo.HardwareDevice `json:"usb,omitempty"`
+
+	// UsbController holds the list of USB controller devices in the hardware.
+	UsbController []hwinfo.HardwareDevice `json:"usb_controller,omitempty"`
+
+	// VesaBios holds the list of VESA BIOS devices in the hardware.
+	VesaBios []hwinfo.HardwareDevice `json:"vesa_bios,omitempty"`
+
+	// WlanCard holds the list of WLAN card devices in the hardware.
+	WlanCard []hwinfo.HardwareDevice `json:"wlan_card,omitempty"`
+
+	// Zip holds the list of ZIP drive devices in the hardware.
+	Zip []hwinfo.HardwareDevice `json:"zip,omitempty"`
 }
 
 func compareDevice(a hwinfo.HardwareDevice, b hwinfo.HardwareDevice) int {

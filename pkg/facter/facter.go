@@ -1,3 +1,5 @@
+// Package facter contains types and utilities for scanning a system and generating a report, detailing key aspects of
+// the system and its connected hardware.
 package facter
 
 import (
@@ -10,24 +12,43 @@ import (
 	"github.com/numtide/nixos-facter/pkg/virt"
 )
 
+// Report represents a detailed report on the system’s hardware, virtualisation, SMBios, and swap entries.
 type Report struct {
-	// monotonically increasing number, used to indicate breaking changes or new features in the report output
-	Version        uint      `json:"version"`
-	System         string    `json:"system"`
-	Virtualisation virt.Type `json:"virtualisation"`
-	Hardware       Hardware  `json:"hardware,omitempty"`
-	Smbios         Smbios    `json:"smbios,omitempty"`
+	// Version is a monotonically increasing number,
+	// used to indicate breaking changes or new features in the report output.
+	Version uint `json:"version"`
 
-	// Ephemeral entries
+	// System indicates the system architecture e.g. x86_64-linux.
+	System string `json:"system"`
+
+	// Virtualisation indicates the type of virtualisation or container environment present on the system.
+	Virtualisation virt.Type `json:"virtualisation"`
+
+	// Hardware provides detailed information about the system’s hardware components, such as CPU, memory, and peripherals.
+	Hardware Hardware `json:"hardware,omitempty"`
+
+	// Smbios provides detailed information about the system's SMBios data, such as BIOS, board, chassis, memory, and processors.
+	Smbios Smbios `json:"smbios,omitempty"`
+
+	// Swap contains a list of swap entries representing the system's swap devices or files and their respective details.
 	Swap []*ephem.SwapEntry `json:"swap,omitempty"`
 }
 
+// Scanner defines a type responsible for scanning and reporting system hardware information.
 type Scanner struct {
-	Swap      bool
+	// Swap indicates whether the system swap information should be reported.
+	Swap bool
+
+	// Ephemeral indicates whether the scanner should report ephemeral details,
+	// such as swap.
 	Ephemeral bool
-	Features  []hwinfo.ProbeFeature
+
+	// Features is a list of ProbeFeature types that should be scanned for.
+	Features []hwinfo.ProbeFeature
 }
 
+// Scan scans the system's hardware and software information and returns a report.
+// It also detects IOMMU groups and handles errors gracefully if scanning fails.
 func (s *Scanner) Scan() (*Report, error) {
 	var err error
 	report := Report{
