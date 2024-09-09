@@ -3,21 +3,17 @@
     <url>
          <loc>https://numtide.github.io/nixos-facter/main/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://numtide.github.io/nixos-facter/main/contributing/code/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://numtide.github.io/nixos-facter/main/contributing/docs/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://numtide.github.io/nixos-facter/main/getting-started/generate-report/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
 </urlset>
