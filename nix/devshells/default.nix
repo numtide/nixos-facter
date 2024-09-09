@@ -12,6 +12,7 @@ perSystem.self.nixos-facter.overrideAttrs (old: {
       pkgs.enumer
       pkgs.delve
       pkgs.pprof
+      pkgs.gotools
       pkgs.golangci-lint
       pkgs.cobra-cli
       pkgs.fx # json tui
