@@ -414,7 +414,7 @@ type HardwareDevice struct {
 	Hotplug     Hotplug // indicates what kind of hotplug device (if any) this is
 	HotplugSlot uint    // slot the hotplug device is connected to (e.g. PCMCIA socket), count is 1-based (0: no info available)
 
-	Is Is `json:"is"` // high level device properties
+	Is Is // high level device properties
 
 	Driver        string     // currently active driver
 	DriverModule  string     // currently active driver module (if any)

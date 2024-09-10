@@ -23,11 +23,6 @@ validation:
 docs_dir: docs/content
 
 nav:
-    - Getting started:
-          - getting-started/generate-report.md
-    - Contributing:
-          - contributing/code.md
-          - contributing/docs.md
 
 theme:
     name: material

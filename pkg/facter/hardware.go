@@ -8,7 +8,6 @@ import (
 )
 
 // Hardware represents various hardware components and their details.
-//
 // The fields are in alphabetical order, and list types are sorted to ensure a consistent and stable report output.
 type Hardware struct {
 	// Bios holds the BIOS details of the hardware.
