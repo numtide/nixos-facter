@@ -8,7 +8,7 @@ pkgs.mkShellNoCC {
     [
       perSystem.godoc.default
       (pkgs.writeScriptBin "gen-reference" ''
-        out="./docs/content/reference/go_types"
+        out="./docs/content/reference/go_doc"
         godoc -c -o $out .
       '')
       (pkgs.writeScriptBin "mkdocs" ''
