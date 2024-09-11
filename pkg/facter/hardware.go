@@ -185,7 +185,7 @@ func compareDevice(a hwinfo.HardwareDevice, b hwinfo.HardwareDevice) int {
 }
 
 func (h *Hardware) add(device hwinfo.HardwareDevice) error {
-	switch device.HardwareClass {
+	switch device.Class {
 	case hwinfo.HardwareClassBios:
 		if h.Bios != nil {
 			return fmt.Errorf("bios field is already set")

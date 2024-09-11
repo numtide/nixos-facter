@@ -11,13 +11,15 @@ const (
 	iommuSysfsPath = "/sys/kernel/iommu_groups"
 )
 
-func IOMMUGroups() (map[string]int, error) {
+type IOMMUGroup int
+
+func IOMMUGroups() (map[string]IOMMUGroup, error) {
 	groups, err := os.ReadDir(iommuSysfsPath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read iommu groups from sysfs: %w", err)
 	}
 
-	result := make(map[string]int)
+	result := make(map[string]IOMMUGroup)
 	for _, group := range groups {
 
 		if !group.IsDir() {
@@ -43,7 +45,7 @@ func IOMMUGroups() (map[string]int, error) {
 			}
 
 			// sysfs id -> iommu group id
-			result[resolvedPath[4:]] = groupId
+			result[resolvedPath[4:]] = IOMMUGroup(groupId)
 		}
 	}
 

@@ -77,14 +77,10 @@ func (s *Scanner) Scan() (*Report, error) {
 	for idx := range devices {
 		// lookup iommu group before adding to the report
 		device := devices[idx]
-
-		var ok bool
-		device.SysfsIOMMUGroupId, ok = iommuGroups[device.SysfsId]
-		if !ok {
-			// indicates no group id found
-			device.SysfsIOMMUGroupId = -1
+		groupId, ok := iommuGroups[device.SysfsId]
+		if ok {
+			device.SysfsIOMMUGroupId = &groupId
 		}
-
 		if err = report.Hardware.add(device); err != nil {
 			return nil, fmt.Errorf("failed to add to hardware report: %w", err)
 		}

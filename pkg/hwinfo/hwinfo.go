@@ -15,7 +15,7 @@ import (
 )
 
 func excludeDevice(item *HardwareDevice) bool {
-	if item.HardwareClass == HardwareClassNetworkInterface {
+	if item.Class == HardwareClassNetworkInterface {
 		for _, driver := range item.Drivers {
 			// devices that are not mapped to hardware should be not included in the hardware report
 			if virtualNetworkDevices[driver] {
