@@ -22,19 +22,12 @@ validation:
 
 docs_dir: docs/content
 
-nav:
-    - Getting started:
-          - getting-started/generate-report.md
-    - Contributing:
-          - contributing/code.md
-          - contributing/docs.md
-
 theme:
     name: material
-    custom_dir: docs/theme
+    custom_dir: !ENV [MKDOCS_NIXOS_FACTER_THEME, 'docs/theme']
 
-    logo: assets/images/logo.png
-    favicon: assets/images/logo.png
+    logo: !ENV [MKDOCS_NIXOS_FACTER_LOGO, 'assets/images/logo.png']
+    favicon: !ENV [MKDOCS_NIXOS_FACTER_LOGO, 'assets/images/logo.png']
 
     features:
         - content.code.annotate

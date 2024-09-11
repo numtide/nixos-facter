@@ -1,11 +1,11 @@
-{pkgs, ...}:
+{
+  pkgs,
+  perSystem,
+  ...
+}:
 pkgs.mkShellNoCC {
-  packages = with pkgs;
-    [
-      mkdocs
-    ]
-    ++ (with pkgs.python3Packages; [
-      mike
-      mkdocs-material
-    ]);
+  packages = [
+    perSystem.self.mkdocs
+    pkgs.python3Packages.mike
+  ];
 }
