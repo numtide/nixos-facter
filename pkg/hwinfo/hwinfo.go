@@ -1,3 +1,7 @@
+// Package hwinfo provides functionality for scanning hardware devices and reading SMBIOS information.
+// It does this using the [hwinfo] C library.
+//
+// [hwinfo]: https://github.com/numtide/hwinfo
 package hwinfo
 
 /*
@@ -26,6 +30,7 @@ func excludeDevice(item *HardwareDevice) bool {
 	return false
 }
 
+// Scan returns a list of SMBIOS entries and detected hardware devices based on the provided probe features.
 func Scan(probes []ProbeFeature) ([]Smbios, []HardwareDevice, error) {
 	// initialise the struct to hold scan data
 	data := (*C.hd_data_t)(unsafe.Pointer(C.calloc(1, C.size_t(unsafe.Sizeof(C.hd_data_t{})))))

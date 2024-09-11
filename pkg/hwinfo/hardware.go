@@ -14,6 +14,8 @@ import (
 	"slices"
 )
 
+// ProbeFeature is a type that specifies various hardware probing features.
+//
 //go:generate enumer -type=ProbeFeature -json -transform=snake -trimprefix ProbeFeature -output=./hardware_enum_probe_feature.go
 type ProbeFeature uint
 
@@ -115,6 +117,8 @@ const (
 	ProbeFeatureAll
 )
 
+// HardwareClass represents the classification of different hardware components.
+//
 //go:generate enumer -type=HardwareClass -json -transform=snake -trimprefix HardwareClass -output=./hardware_enum_hardware_class.go
 type HardwareClass uint
 
@@ -187,7 +191,7 @@ const (
 	HardwareClassAll
 )
 
-// Slot represents a slot and bus number.
+// Slot represents a bus and slot number.
 // Bits 0-7: slot number, 8-31 bus number
 type Slot uint
 
@@ -210,17 +214,25 @@ func (s *Slot) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// DeviceNumber represents a Unix device number, a unique identifier for devices in the system.
 type DeviceNumber struct {
-	Type  int  `json:"type"`
+	// Type indicates if the device is a character or a block device.
+	Type int `json:"type"`
+	// Major identifies the driver for a device.
 	Major uint `json:"major"`
+	// Minor is used by the device driver to distinguish between different devices it controls, or different instances of the
+	// same device.
 	Minor uint `json:"minor"`
 	Range uint `json:"range"`
 }
 
+// IsEmpty checks if the DeviceNumber has all zero values for its fields.
 func (d DeviceNumber) IsEmpty() bool {
 	return d.Type == 0 && d.Major == 0 && d.Minor == 0 && d.Range == 0
 }
 
+// NewDeviceNumber creates a new DeviceNumber instance from the given C.hd_dev_num_t and returns a pointer to it.
+// Returns nil if the newly created DeviceNumber is empty.
 func NewDeviceNumber(num C.hd_dev_num_t) *DeviceNumber {
 	result := DeviceNumber{
 		Type:  int(num._type),
@@ -234,6 +246,8 @@ func NewDeviceNumber(num C.hd_dev_num_t) *DeviceNumber {
 	return &result
 }
 
+// Hotplug defines types of hotplug devices.
+//
 //go:generate enumer -type=Hotplug -json -transform=snake -trimprefix Hotplug -output=./hardware_enum_hotplug.go
 type Hotplug int
 
@@ -246,59 +260,143 @@ const (
 	HotplugFirewire
 )
 
+// HardwareDevice represents a hardware component detected in the system.
 type HardwareDevice struct {
+	// Class represents the type of the hardware component.
 	Class HardwareClass `json:"-"`
 
 	// Index is a unique index provided by hwinfo, starting at 1
-	Index      uint `json:"-"`
-	AttachedTo uint `json:"-"`
+	Index uint `json:"-"`
 
-	// Bus type (id and name)
-	BusType           *Id           `json:"bus_type,omitempty"`
-	Slot              *Slot         `json:"slot,omitempty"`
-	BaseClass         *Id           `json:"base_class,omitempty"`
-	SubClass          *Id           `json:"sub_class,omitempty"`
-	PciInterface      *Id           `json:"pci_interface,omitempty"`
-	Vendor            *Id           `json:"vendor,omitempty"`
-	SubVendor         *Id           `json:"sub_vendor,omitempty"`
-	Device            *Id           `json:"device,omitempty"`
-	SubDevice         *Id           `json:"sub_device,omitempty"`
-	Revision          *Id           `json:"revision,omitempty"`
-	Serial            string        `json:"-"`
-	CompatVendor      *Id           `json:"compat_vendor,omitempty"`
-	CompatDevice      *Id           `json:"compat_device,omitempty"`
-	Model             string        `json:"model,omitempty"`
-	SysfsId           string        `json:"sysfs_id,omitempty"`
-	SysfsBusId        string        `json:"sysfs_bus_id,omitempty"`
-	SysfsDeviceLink   string        `json:"sysfs_device_link,omitempty"`
-	SysfsIOMMUGroupId *IOMMUGroup   `json:"sysfs_iommu_group_id,omitempty"`
-	UnixDeviceName    string        `json:"unix_device_name,omitempty"`
-	UnixDeviceNumber  *DeviceNumber `json:"unix_device_number,omitempty"`
-	UnixDeviceNames   []string      `json:"unix_device_names,omitempty"`
-	UnixDeviceName2   string        `json:"unix_device_name2,omitempty"`
+	// BusType represents the type of bus to which the hardware device is connected.
+	BusType *Id `json:"bus_type,omitempty"`
+
+	// Slot represents a bus and slot number for the hardware device.
+	Slot *Slot `json:"slot,omitempty"`
+
+	// BaseClass specifies the base classification of the hardware device.
+	BaseClass *Id `json:"base_class,omitempty"`
+
+	// SubClass represents the specific subclass of the hardware component, providing more granular identification within its class.
+	SubClass *Id `json:"sub_class,omitempty"`
+
+	// PciInterface specifies the PCI interface identifier of the hardware device.
+	PciInterface *Id `json:"pci_interface,omitempty"`
+
+	// Vendor represents the vendor ID of the hardware device.
+	Vendor *Id `json:"vendor,omitempty"`
+
+	// SubVendor represents the ID of the subsystem vendor.
+	SubVendor *Id `json:"sub_vendor,omitempty"`
+
+	// Device represents the unique identifier for the hardware device.
+	Device *Id `json:"device,omitempty"`
+
+	// SubDevice represents the identifier of a sub-device in the hardware
+	SubDevice *Id `json:"sub_device,omitempty"`
+
+	// Revision specifies the hardware revision identifier.
+	Revision *Id `json:"revision,omitempty"`
+
+	Serial string `json:"serial,omitempty"`
+
+	// CompatVendor is a vendor id and name of some compatible hardware.
+	// Used mainly for ISA-PnP devices.
+	CompatVendor *Id `json:"compat_vendor,omitempty"`
+
+	// CompatDevice is a device id and name of some compatible hardware.
+	// Used mainly for ISA-PnP devices.
+	CompatDevice *Id `json:"compat_device,omitempty"`
+
+	// Model is a combination of vendor and device names. Some heuristics are used to make it more presentable.
+	Model string `json:"model,omitempty"`
+
+	// SysfsId is a sysfs entry for this hardware, if any.
+	SysfsId string `json:"sysfs_id,omitempty"`
+
+	// SysfsBusId is a sysfs bus entry for this hardware, if any.
+	SysfsBusId string `json:"sysfs_bus_id,omitempty"`
+
+	// SysfsDeviceLink is the string path to the system file system (sysfs) link for this hardware device.
+	SysfsDeviceLink string `json:"sysfs_device_link,omitempty"`
+
+	// SysfsIOMMUGroupId represents the IOMMU group ID associated with the hardware device in sysfs, if any.
+	SysfsIOMMUGroupId *IOMMUGroup `json:"sysfs_iommu_group_id,omitempty"`
+
+	// UnixDeviceName is a path to a device file used to access this hardware.
+	// Normally something below /dev.
+	// For network interfaces, this is the interface name.
+	UnixDeviceName string `json:"unix_device_name,omitempty"`
+
+	// UnixDeviceNumber represents the device type and number according to sysfs.
+	UnixDeviceNumber *DeviceNumber `json:"unix_device_number,omitempty"`
+
+	// UnixDeviceNames is a list of device names which can be used to access this hardware.
+	// Normally something below /dev.
+	// They should all be equivalent.
+	// The preferred name is UnixDeviceName.
+	UnixDeviceNames []string `json:"unix_device_names,omitempty"`
+
+	// UnixDeviceName2 is a path to a device file used to access this hardware.
+	// Most hardware only has one device name, stored in UnixDeviceName.
+	// In some cases, there's an alternative name.
+	UnixDeviceName2 string `json:"unix_device_name2,omitempty"`
+
+	// UnixDeviceNumber2 is an alternative device type and number according to sysfs.
 	UnixDeviceNumber2 *DeviceNumber `json:"unix_device_number2,omitempty"`
-	RomId             string        `json:"rom_id,omitempty"`
-	Udi               string        `json:"udi,omitempty"`
-	ParentUdi         string        `json:"parent_udi,omitempty"`
-	Resources         []Resource    `json:"resources,omitempty"`
-	Detail            Detail        `json:"detail,omitempty"`
 
-	Hotplug     *Hotplug `json:"hotplug,omitempty"`      // indicates what kind of hotplug device (if any) this is
-	HotplugSlot uint     `json:"hotplug_slot,omitempty"` // slot the hotplug device is connected to (e.g. PCMCIA socket), count is 1-based (0: no info available)
+	// RomId represents a BIOS/PROM id.
+	// Where appropriate, this is a special BIOS/PROM id (e.g. "0x80" for the first harddisk on Intel-PCs).
+	// CHPID for s390.
+	RomId string `json:"rom_id,omitempty"`
 
-	Driver        string     `json:"driver,omitempty"`         // currently active driver
-	DriverModule  string     `json:"driver_module,omitempty"`  // currently active driver module (if any)
-	Drivers       []string   `json:"drivers,omitempty"`        // list of currently active drivers
-	DriverModules []string   `json:"driver_modules,omitempty"` // list of currently active driver modules
-	DriverInfo    DriverInfo `json:"driver_info,omitempty"`    // device driver info
-	UsbGuid       string     `json:"usb_guid,omitempty"`       // USB Global Unique Identifier.
-	Requires      []string   `json:"requires,omitempty"`       // packages/programs required for this hardware
+	// Udi is a HAL unique device identifier.
+	Udi string `json:"udi,omitempty"`
+
+	// ParentUdi is the udi of a parent device, if any.
+	ParentUdi string `json:"parent_udi,omitempty"`
+
+	// Resources is a list of device resources.
+	Resources []Resource `json:"resources,omitempty"`
+
+	// Detail is specific information associated with this hardware.
+	Detail Detail `json:"detail,omitempty"`
+
+	// Hotplug indicates the type of hotplug controller associated with this device, if any.
+	Hotplug *Hotplug `json:"hotplug,omitempty"`
+
+	// HotplugSlot indicates the slot this device is connected to, if any (e.g. PCMCIA socket).
+	// Counts are 1-based.
+	HotplugSlot uint `json:"hotplug_slot,omitempty"` // slot the hotplug device is connected to (e.g. PCMCIA socket), count is 1-based (0: no info available)
+
+	// Driver is the currently active driver, if any.
+	Driver string `json:"driver,omitempty"`
+
+	// DriverModule is the currently active driver module, if any.
+	DriverModule string `json:"driver_module,omitempty"`
+
+	// Drivers is a list of currently active drivers.
+	Drivers []string `json:"drivers,omitempty"`
+
+	// DriverModules is a list of currently active driver modules.
+	DriverModules []string `json:"driver_modules,omitempty"`
+
+	// DriverInfo is available driver information for the currently active driver, if any.
+	DriverInfo DriverInfo `json:"driver_info,omitempty"` // device driver info
+
+	// UsbGuid is a USB Global Unique Identifier.
+	// Available for USB devices.
+	// This may be set even if the bus type is not USB (e.g. USB storage devices will have bus set to SCSI due to SCSI emulation)
+	UsbGuid string `json:"usb_guid,omitempty"` // USB Global Unique Identifier.
 
 	// todo hal_prop
 	// todo persistent_prop
 
-	ModuleAlias string `json:"module_alias,omitempty"` // module alias
-	Label       string `json:"label,omitempty"`        // Consistent Device Name (CDN), pci firmware spec 3.1, chapter 4.6.7
+	// ModuleAlias for matching and loading kernel modules for this hardware.
+	ModuleAlias string `json:"module_alias,omitempty"`
+
+	// Label is a Consistent Device Name (CDN), as per PCI firmware spec 3.1, chapter 4.6.7
+	Label string `json:"label,omitempty"`
 }
 
 func NewHardwareDevice(hd *C.hd_t) (*HardwareDevice, error) {
@@ -342,7 +440,6 @@ func NewHardwareDevice(hd *C.hd_t) (*HardwareDevice, error) {
 		CompatDevice:      NewId(hd.compat_device),
 		Class:             hwClass,
 		Model:             model,
-		AttachedTo:        uint(hd.attached_to),
 		SysfsId:           C.GoString(hd.sysfs_id),
 		SysfsBusId:        C.GoString(hd.sysfs_bus_id),
 		SysfsDeviceLink:   C.GoString(hd.sysfs_device_link),
@@ -362,7 +459,6 @@ func NewHardwareDevice(hd *C.hd_t) (*HardwareDevice, error) {
 		DriverModules:     ReadStringList(hd.driver_modules),
 		UsbGuid:           C.GoString(hd.usb_guid),
 		DriverInfo:        driverInfo,
-		Requires:          ReadStringList(hd.requires),
 		ModuleAlias:       C.GoString(hd.modalias),
 		Label:             C.GoString(hd.label),
 	}
@@ -384,7 +480,6 @@ func NewHardwareDevice(hd *C.hd_t) (*HardwareDevice, error) {
 	slices.Sort(result.UnixDeviceNames)
 	slices.Sort(result.Drivers)
 	slices.Sort(result.DriverModules)
-	slices.Sort(result.Requires)
 
 	return result, nil
 }
