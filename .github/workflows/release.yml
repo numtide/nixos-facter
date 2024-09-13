@@ -24,10 +24,4 @@ jobs:
                       experimental-features = nix-command flakes
             - name: Enter Nix Devshell
               run: |
-                  nix develop
-            - name: Run goreleaser
-              uses: goreleaser/goreleaser-action@v6
-              with:
-                  args: release --clean
-              env:
-                  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+                  nix develop --command bash -c "goreleaser release --clean"
