@@ -16,7 +16,6 @@ perSystem.self.nixos-facter.overrideAttrs (old: {
       pkgs.golangci-lint
       pkgs.cobra-cli
       pkgs.fx # json tui
-      pkgs.goreleaser
       perSystem.hwinfo.default
     ];
   shellHook = ''
