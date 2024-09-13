@@ -16,6 +16,8 @@
         <link rel="prev" href="../code/">
       
       
+        <link rel="next" href="../../getting-started/generate-report/">
+      
       
       <link rel="icon" href="../../assets/images/logo.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.34">
@@ -236,19 +238,16 @@
   
   
   
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../getting-started/generate-report/" class="md-tabs__link">
-          
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
   
     
   
-  Getting started
+  Home
 
-        </a>
-      </li>
-    
+      </a>
+    </li>
   
 
       
@@ -267,6 +266,26 @@
     
   
   Contributing
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../getting-started/generate-report/" class="md-tabs__link">
+          
+  
+    
+  
+  Getting started
 
         </a>
       </li>
@@ -324,68 +343,16 @@
   
   
   
-    
-    
-      
-        
-      
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
-        
-          
-          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Getting started
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_1">
-            <span class="md-nav__icon md-icon"></span>
-            Getting started
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
     <li class="md-nav__item">
-      <a href="../../getting-started/generate-report/" class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Generate a report
+    Home
   </span>
   
 
       </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
     </li>
   
 
@@ -548,6 +515,78 @@
   
 
     
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Getting started
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Getting started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/generate-report/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Generate a report
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -623,17 +662,49 @@
 <span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
 <span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
 <span class="normal"><a href="#__codelineno-0-10">10</a></span>
-<span class="normal"><a href="#__codelineno-0-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="p">{</span>pkgs<span class="p">,</span> <span class="o">...</span><span class="p">}:</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2"></a>pkgs<span class="o">.</span>mkShellNoCC <span class="p">{</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3"></a>  <span class="ss">packages</span> <span class="o">=</span> <span class="k">with</span> pkgs<span class="p">;</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4"></a>    <span class="p">[</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5"></a>      mkdocs
-<a id="__codelineno-0-6" name="__codelineno-0-6"></a>    <span class="p">]</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7"></a>    <span class="o">++</span> <span class="p">(</span><span class="k">with</span> pkgs<span class="o">.</span>python3Packages<span class="p">;</span> <span class="p">[</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8"></a>      mike
-<a id="__codelineno-0-9" name="__codelineno-0-9"></a>      mkdocs-material
-<a id="__codelineno-0-10" name="__codelineno-0-10"></a>    <span class="p">]);</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="p">}</span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#__codelineno-0-21">21</a></span>
+<span class="normal"><a href="#__codelineno-0-22">22</a></span>
+<span class="normal"><a href="#__codelineno-0-23">23</a></span>
+<span class="normal"><a href="#__codelineno-0-24">24</a></span>
+<span class="normal"><a href="#__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#__codelineno-0-27">27</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a>  pkgs<span class="p">,</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a>  perSystem<span class="p">,</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a>  <span class="o">...</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="p">}:</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6"></a>pkgs<span class="o">.</span>mkShellNoCC <span class="p">{</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7"></a>  <span class="ss">packages</span> <span class="o">=</span> <span class="k">with</span> pkgs<span class="p">;</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8"></a>  <span class="c1"># Pop an empty shell on systems that aren&#39;t supported by godoc</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9"></a>    lib<span class="o">.</span>optionals <span class="p">(</span>perSystem<span class="o">.</span>godoc <span class="o">?</span> default<span class="p">)</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10"></a>    <span class="p">([</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11"></a>        perSystem<span class="o">.</span>godoc<span class="o">.</span>default
+<a id="__codelineno-0-12" name="__codelineno-0-12"></a>        <span class="p">(</span>pkgs<span class="o">.</span>writeScriptBin <span class="s2">&quot;gen-reference&quot;</span> <span class="s s-Multiline">&#39;&#39;</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="s s-Multiline">          out=&quot;./docs/content/reference/go_doc&quot;</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="s s-Multiline">          godoc -c -o $out .</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="s s-Multiline">        &#39;&#39;</span><span class="p">)</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16"></a>        <span class="p">(</span>pkgs<span class="o">.</span>writeScriptBin <span class="s2">&quot;mkdocs&quot;</span> <span class="s s-Multiline">&#39;&#39;</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="s s-Multiline">          # generate reference docs first</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="s s-Multiline">          gen-reference</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="s s-Multiline">          # execute the underlying command</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="s s-Multiline">          </span><span class="si">${</span>pkgs<span class="o">.</span>mkdocs<span class="si">}</span><span class="s s-Multiline">/bin/mkdocs &quot;$@&quot;</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="s s-Multiline">        &#39;&#39;</span><span class="p">)</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22"></a>      <span class="p">]</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23"></a>      <span class="o">++</span> <span class="p">(</span><span class="k">with</span> pkgs<span class="o">.</span>python3Packages<span class="p">;</span> <span class="p">[</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24"></a>        mike
+<a id="__codelineno-0-25" name="__codelineno-0-25"></a>        mkdocs-material
+<a id="__codelineno-0-26" name="__codelineno-0-26"></a>      <span class="p">]));</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="p">}</span>
 </code></pre></div></td></tr></table></div>
 <p>The docs are based on <a href="https://www.mkdocs.org/">MkDocs</a> and the <a href="https://squidfunk.github.io/mkdocs-material/">MkDocs Material</a> theme.
 You will find its configuration and content in the following locations:</p>
@@ -726,6 +797,22 @@ This is especially important if you are using <code>mike</code> locally to make 
             </div>
           </a>
         
+        
+          
+          <a href="../../getting-started/generate-report/" class="md-footer__link md-footer__link--next" aria-label="Next: Generate a report">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Generate a report
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
         
       </nav>
     

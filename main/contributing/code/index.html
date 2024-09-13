@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://numtide.github.io/nixos-facter/main/contributing/code/">
       
       
-        <link rel="prev" href="../../getting-started/generate-report/">
+        <link rel="prev" href="../..">
       
       
         <link rel="next" href="../docs/">
@@ -238,19 +238,16 @@
   
   
   
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../getting-started/generate-report/" class="md-tabs__link">
-          
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
   
     
   
-  Getting started
+  Home
 
-        </a>
-      </li>
-    
+      </a>
+    </li>
   
 
       
@@ -269,6 +266,26 @@
     
   
   Contributing
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../getting-started/generate-report/" class="md-tabs__link">
+          
+  
+    
+  
+  Getting started
 
         </a>
       </li>
@@ -326,68 +343,16 @@
   
   
   
-    
-    
-      
-        
-      
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
-        
-          
-          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Getting started
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_1">
-            <span class="md-nav__icon md-icon"></span>
-            Getting started
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
     <li class="md-nav__item">
-      <a href="../../getting-started/generate-report/" class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Generate a report
+    Home
   </span>
   
 
       </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
     </li>
   
 
@@ -577,6 +542,78 @@
   
 
     
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Getting started
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Getting started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/generate-report/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Generate a report
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -704,7 +741,8 @@ all the necessary tooling and utilities for working on <code>nixos-facter</code>
 <span class="normal"><a href="#__codelineno-0-21">21</a></span>
 <span class="normal"><a href="#__codelineno-0-22">22</a></span>
 <span class="normal"><a href="#__codelineno-0-23">23</a></span>
-<span class="normal"><a href="#__codelineno-0-24">24</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="p">{</span>
+<span class="normal"><a href="#__codelineno-0-24">24</a></span>
+<span class="normal"><a href="#__codelineno-0-25">25</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="p">{</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2"></a>  perSystem<span class="p">,</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3"></a>  pkgs<span class="p">,</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4"></a>  <span class="o">...</span>
@@ -718,16 +756,17 @@ all the necessary tooling and utilities for working on <code>nixos-facter</code>
 <a id="__codelineno-0-12" name="__codelineno-0-12"></a>      pkgs<span class="o">.</span>enumer
 <a id="__codelineno-0-13" name="__codelineno-0-13"></a>      pkgs<span class="o">.</span>delve
 <a id="__codelineno-0-14" name="__codelineno-0-14"></a>      pkgs<span class="o">.</span>pprof
-<a id="__codelineno-0-15" name="__codelineno-0-15"></a>      pkgs<span class="o">.</span>golangci-lint
-<a id="__codelineno-0-16" name="__codelineno-0-16"></a>      pkgs<span class="o">.</span>cobra-cli
-<a id="__codelineno-0-17" name="__codelineno-0-17"></a>      pkgs<span class="o">.</span>fx <span class="c1"># json tui</span>
-<a id="__codelineno-0-18" name="__codelineno-0-18"></a>      perSystem<span class="o">.</span>hwinfo<span class="o">.</span>default
-<a id="__codelineno-0-19" name="__codelineno-0-19"></a>    <span class="p">];</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20"></a>  <span class="ss">shellHook</span> <span class="o">=</span> <span class="s s-Multiline">&#39;&#39;</span>
-<a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="s s-Multiline">    # this is only needed for hermetic builds</span>
-<a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="s s-Multiline">    unset GO_NO_VENDOR_CHECKS GOSUMDB GOPROXY GOFLAGS</span>
-<a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="s s-Multiline">  &#39;&#39;</span><span class="p">;</span>
-<a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="p">})</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15"></a>      pkgs<span class="o">.</span>gotools
+<a id="__codelineno-0-16" name="__codelineno-0-16"></a>      pkgs<span class="o">.</span>golangci-lint
+<a id="__codelineno-0-17" name="__codelineno-0-17"></a>      pkgs<span class="o">.</span>cobra-cli
+<a id="__codelineno-0-18" name="__codelineno-0-18"></a>      pkgs<span class="o">.</span>fx <span class="c1"># json tui</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19"></a>      perSystem<span class="o">.</span>hwinfo<span class="o">.</span>default
+<a id="__codelineno-0-20" name="__codelineno-0-20"></a>    <span class="p">];</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21"></a>  <span class="ss">shellHook</span> <span class="o">=</span> <span class="s s-Multiline">&#39;&#39;</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="s s-Multiline">    # this is only needed for hermetic builds</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="s s-Multiline">    unset GO_NO_VENDOR_CHECKS GOSUMDB GOPROXY GOFLAGS</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="s s-Multiline">  &#39;&#39;</span><span class="p">;</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="p">})</span>
 </code></pre></div></td></tr></table></div>
 <p><a href="https://direnv.net">Direnv</a> should load this by default when entering the root of the repository.</p>
 <p>For the most part, you <em>should</em> be able to develop normally as you would any other Go program.</p>
@@ -868,7 +907,7 @@ pull request.</p>
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../../getting-started/generate-report/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Generate a report">
+          <a href="../.." class="md-footer__link md-footer__link--prev" aria-label="Previous: Home">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -878,7 +917,7 @@ pull request.</p>
                 Previous
               </span>
               <div class="md-ellipsis">
-                Generate a report
+                Home
               </div>
             </div>
           </a>
