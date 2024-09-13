@@ -14,6 +14,8 @@ var (
 	swapEntryRegex  = regexp.MustCompile(`^(.*?)\s+(partition|file)\s+(.*?)\s+(.*?)\s+(.*?)$`)
 )
 
+// SwapType represents the type of swap space, either file or partition.
+//
 //go:generate enumer -type=SwapType -json -transform=snake -trimprefix SwapType -output=./swap_enum_type.go
 type SwapType uint
 
@@ -22,14 +24,22 @@ const (
 	SwapTypePartition
 )
 
+// SwapEntry represents a swap entry.
 type SwapEntry struct {
-	Filename string   `json:"path"`
-	Type     SwapType `json:"type"`
-	Size     uint64   `json:"size"`
-	Used     uint64   `json:"used"`
-	Priority int32    `json:"priority"`
+	// Type is the type of swap e.g. partition or file.
+	Type SwapType `json:"type"`
+	// Filename is the path to the swap device or file.
+	Filename string `json:"path"`
+	// Size is the total size of the swap in kilobytes.
+	Size uint64 `json:"size"`
+	// Used is the amount of swap space currently in use, in kilobytes.
+	Used uint64 `json:"used"`
+	// Priority determines the order in which swap spaces are used.
+	// Higher numbers have higher priority.
+	Priority int32 `json:"priority"`
 }
 
+// SwapEntries retrieves the list of swap entries from the system and resolves stable device paths for each entry.
 func SwapEntries() ([]*SwapEntry, error) {
 	f, err := os.Open("/proc/swaps")
 	if err != nil {
@@ -53,6 +63,7 @@ func SwapEntries() ([]*SwapEntry, error) {
 	return devices, nil
 }
 
+// ReadSwapFile reads swap entries from an io.Reader, validating the format and parsing each entry.
 func ReadSwapFile(reader io.Reader) ([]*SwapEntry, error) {
 	scanner := bufio.NewScanner(reader)
 	if !scanner.Scan() {

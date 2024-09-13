@@ -1,3 +1,7 @@
+// Package ephem contains utilities for capturing ephemeral aspects of a target machine.
+//
+// Currently, it only supports capturing swap configurations.
+// Eventually it will capture more things, such as filesystems.
 package ephem
 
 import (
@@ -15,6 +19,9 @@ var deviceGlobs = []string{
 	"/dev/disk/by-label/*",
 }
 
+// StableDevicePath takes a device path and converts it into a more stable form.
+// For example, /dev/nvme* is assigned on startup by detection order which is not consistent.
+// A disk path of the form /dev/disk/by-uuid/* is not startup-dependent.
 func StableDevicePath(device string) (string, error) {
 	l := log.WithPrefix("stableDevicePath")
 

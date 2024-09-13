@@ -70,9 +70,14 @@ This will scan your system and produce a JSON-based report in a file named `fact
 4. All the various bits of hardware that could be detected.
 5. [System Management BIOS] information if available.
 
+!!! tip
+
+    To use this report in your NixOS configuration, have a look at [NixOS Facter Modules].
+
 [Nix]: https://nixos.org
 [Numtide]: https://numtide.com
 [Numtide Binary Cache]: https://numtide.cachix.org
 [nixos-facter]: https://github.com/numtide/nixos-facter
 [nixpkgs]: https://github.com/nixos/nixpkgs
 [System Management BIOS]: https://wiki.osdev.org/System_Management_BIOS
+[NixOS Facter Modules]: https://github.com/numtide/nixos-facter-modules
