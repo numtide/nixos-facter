@@ -25,3 +25,5 @@ jobs:
             - name: Release
               run: |
                   nix develop --command bash -c "goreleaser release --clean"
+              env:
+                GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
