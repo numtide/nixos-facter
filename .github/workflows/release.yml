@@ -1,0 +1,33 @@
+name: goreleaser
+
+on:
+    push:
+        # run only against tags
+        tags:
+            - "v*"
+
+permissions:
+    contents: write
+
+jobs:
+    goreleaser:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+            - uses: cachix/install-nix-action@V27
+              with:
+                  extra_nix_config: |
+                      accept-flake-config = true
+                      experimental-features = nix-command flakes
+            - name: Enter Nix Devshell
+              run: |
+                  nix develop
+            - name: Run goreleaser
+              uses: goreleaser/goreleaser-action@v6
+              with:
+                  args: release --clean
+              env:
+                  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
