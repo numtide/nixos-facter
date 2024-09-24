@@ -3,6 +3,7 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
+	"log/slog"
 	"os"
 	"slices"
 	"strings"
@@ -17,6 +18,7 @@ import (
 var (
 	cfgFile          string
 	outputPath       string
+	logLevel         string
 	hardwareFeatures []string
 
 	scanner = facter.Scanner{}
@@ -42,6 +44,21 @@ var rootCmd = &cobra.Command{
 				return fmt.Errorf("invalid hardware feature: %w", err)
 			}
 			scanner.Features = append(scanner.Features, probe)
+		}
+
+		// set the log level
+		if logLevel != "" {
+			if logLevel == "debug" {
+				slog.SetLogLoggerLevel(slog.LevelDebug)
+			} else if logLevel == "info" {
+				slog.SetLogLoggerLevel(slog.LevelInfo)
+			} else if logLevel == "warn" {
+				slog.SetLogLoggerLevel(slog.LevelWarn)
+			} else if logLevel == "error" {
+				slog.SetLogLoggerLevel(slog.LevelError)
+			} else {
+				return fmt.Errorf("invalid log level: %s", logLevel)
+			}
 		}
 
 		report, err := scanner.Scan()
@@ -90,6 +107,7 @@ func init() {
 	// Options for optional ephemeral system properties.
 	f.BoolVarP(&scanner.Swap, "swap", "s", false, "capture swap entries")
 	f.BoolVarP(&scanner.Ephemeral, "ephemeral", "e", false, "capture all ephemeral properties e.g. swap, filesystems and so on")
+	f.StringVarP(&logLevel, "log-level", "l", "info", "log level")
 
 	// We currently support all probe features at a high level as they share some generic information,
 	// but we do not have mappings for all of their detail sections.
