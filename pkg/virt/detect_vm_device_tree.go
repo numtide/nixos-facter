@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/charmbracelet/log"
+	"log/slog"
 )
 
 func init() {
@@ -27,7 +27,7 @@ func _detectVmDeviceTree() (Type, error) {
 
 		dir, err := os.Stat("/proc/device-tree")
 		if os.IsNotExist(err) || !dir.IsDir() {
-			log.Debug("/proc/device-tree directory does not exist")
+			slog.Debug("Directory /proc/device-tree does not exist or is not a Directory. Skipping")
 			return TypeNone, nil
 		}
 
@@ -38,7 +38,7 @@ func _detectVmDeviceTree() (Type, error) {
 
 		for _, entry := range entries {
 			if strings.Contains(entry.Name(), "fw-cfg") {
-				log.Debug("Virtualisation QEMU: \"fw-cfg\" present in /proc/device-tree/%s", entry.Name())
+				slog.Debug("Virtualisation QEMU: \"fw-cfg\" present in /proc/device-tree/", "name", entry.Name())
 				return TypeQemu, nil
 			}
 		}
@@ -47,18 +47,18 @@ func _detectVmDeviceTree() (Type, error) {
 		if err != nil {
 			return 0, err
 		} else if string(b) == "qemu,pseries" {
-			log.Debug("Virtualisation %s found in /proc/device-tree/compatible", string(b))
+			slog.Debug("Virtualisation detected", "compatible", string(b))
 			return TypeQemu, nil
 		}
 
-		log.Debug("No virtualisation found in /proc/device-tree/*")
+		slog.Debug("No virtualisation found in /proc/device-tree/*")
 		return TypeNone, nil
 
 	} else if err != nil {
 		return 0, err
 	}
 
-	log.Debug("Virtualisation %s found in /proc/device-tree/hypervisor/compatible", string(b))
+	slog.Debug("Virtualisation detected", "compatible", string(b))
 
 	switch string(b) {
 	case "linux,kvm":

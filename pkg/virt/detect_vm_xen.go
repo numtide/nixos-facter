@@ -6,18 +6,18 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/charmbracelet/log"
+	"log/slog"
 )
 
 func detectXen() (Type, error) {
 	_, err := os.Stat("/proc/xen")
 	if os.IsNotExist(err) {
-		log.Debug("Virtualisation XEN not found, /proc/xen does not exist")
+		slog.Debug("Virtualisation XEN not found, /proc/xen does not exist")
 		return TypeNone, nil
 	} else if err != nil {
 		return 0, err
 	}
-	log.Debug("Virtualisation XEN found (/proc/xen exists)")
+	slog.Debug("Virtualisation XEN found (/proc/xen exists)")
 	return TypeXen, nil
 }
 
@@ -32,7 +32,7 @@ const (
 // If the features file is not present, it checks the capabilities file to determine if it is a Xen guest.
 // Returns a boolean indicating whether the system is running as a Xen Dom0, with false indicate Xen DomU.
 func detectXenDom0() (bool, error) {
-	l := log.WithPrefix("virt[XEN]")
+	l := slog.With("prefix", "virt[XEN]")
 
 	var result bool
 
@@ -47,7 +47,7 @@ func detectXenDom0() (bool, error) {
 		}
 
 		result = (features & (1 << xenFeatDom0)) != 0
-		l.Debugf("found %s with value %x", featuresPath, features)
+		l.Debug("found features with", "path", featuresPath, "value", features)
 		if result {
 			l.Debug("Dom0 is indicated")
 		} else {
@@ -59,13 +59,13 @@ func detectXenDom0() (bool, error) {
 	b, err = os.ReadFile(capabilitiesPath)
 	if os.IsNotExist(err) {
 		// must be running as a Xen guest
-		l.Debugf("%s does not exist, DomU is indicated", capabilitiesPath)
+		l.Debug("capabilities path does not exist, DomU is indicated", "path", capabilitiesPath)
 		return false, nil
 	} else if err != nil {
 		return false, err
 	}
 
-	l.Debugf("found %s with value %s", capabilitiesPath, string(b))
+	l.Debug("found capabilities found with", "path", capabilitiesPath, "value", string(b))
 	if strings.Contains(string(b), "control_d") {
 		result = true
 		l.Debug("Dom0 is indicated")

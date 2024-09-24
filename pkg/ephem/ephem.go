@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/charmbracelet/log"
+	"log/slog"
 )
 
 var deviceGlobs = []string{
@@ -23,7 +23,7 @@ var deviceGlobs = []string{
 // For example, /dev/nvme* is assigned on startup by detection order which is not consistent.
 // A disk path of the form /dev/disk/by-uuid/* is not startup-dependent.
 func StableDevicePath(device string) (string, error) {
-	l := log.WithPrefix("stableDevicePath")
+	l := slog.With("prefix", "stableDevicePath")
 
 	if !strings.HasPrefix("/", device) {
 		return device, nil
@@ -35,7 +35,7 @@ func StableDevicePath(device string) (string, error) {
 
 	for idx := range deviceGlobs {
 		glob := deviceGlobs[idx]
-		l.Debugf("searching glob: %s", glob)
+		l.Debug("searching glob", "glob", glob)
 
 		matches, err := filepath.Glob(glob)
 		if err != nil {
@@ -45,17 +45,17 @@ func StableDevicePath(device string) (string, error) {
 		for _, match := range matches {
 			matchStat, err := os.Stat(match)
 			if err != nil {
-				l.Debugf("failed to stat match %s: %s", match, err)
+				l.Debug("failed to stat match", "match", match, "error", err)
 				continue
 			}
 			if os.SameFile(stat, matchStat) {
-				l.Debugf("match %s found for device %s", match, device)
+				l.Debug("match found for device", "match", match, "device", device)
 				return match, nil
 			}
 		}
 	}
 
-	l.Debugf("no match found for device %s", device)
-	// if not match was found, we return the original device path
+	l.Debug("no match found for device", "device", device)
+	// if no match was found, we return the original device path
 	return device, nil
 }
