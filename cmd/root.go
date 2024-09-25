@@ -20,20 +20,6 @@ var (
 	scanner = facter.Scanner{}
 )
 
-const usage = `nixos-facter [flags]
-Hardware report generator
-
-Usage:
-  nixos-facter [flags]
-
-Flags:
-  --ephemeral          capture all ephemeral properties e.g. swap, filesystems and so on
-  --hardware strings   Hardware items to probe. Possible values are memory,pci,isapnp,net,floppy,misc,misc_serial,misc_par,misc_floppy,serial,cpu,bios,monitor,mouse,scsi,usb,usb_mods,adb,modem,modem_usb,parallel,parallel_lp,parallel_zip,isa,isa_isdn,isdn,kbd,prom,sbus,braille,braille_alva,braille_fhp,braille_ht,ignx11,sys,bios_vbe,isapnp_old,isapnp_new,isapnp_mod,braille_baum,manual,fb,veth,pppoe,scan,pcmcia,fork,parallel_imm,s390,cpuemu,sysfs,s390disks,udev,block,block_cdrom,block_part,edd,edd_mod,bios_ddc,bios_fb,bios_mode,input,block_mods,bios_vesa,cpuemu_debug,scsi_noserial,wlan,bios_crc,hal,bios_vram,bios_acpi,bios_ddc_ports,modules_pata,net_eeprom,x86emu,max,lxrc,all,, (default [memory,pci,net,serial,cpu,bios,monitor,scsi,usb,prom,sbus,sys,sysfs,udev,block,wlan])
-  -h, --help           help for nixos-facter
-  -o, --output string  path to write the report
-  --swap               capture swap entries
-
-`
 
 func init() {
 	// Define flags
@@ -57,13 +43,32 @@ func init() {
 	}
 
 	hardwareFeatures = defaultFeatures
-	flag.Func("hardware", fmt.Sprintf("Hardware items to probe. Possible values are %s", strings.Join(filteredFeatures, ",")), func(flagValue string) error {
+
+	flag.Func("hardware", "Hardware items to probe (comma separated).", func(flagValue string) error {
 		hardwareFeatures = strings.Split(flagValue, ",")
 		return nil
 	})
+	possibleValues := strings.Join(filteredFeatures, ",")
+	defaultValues := strings.Join(defaultFeatures, ",")
+  const usage = `nixos-facter [flags]
+Hardware report generator
+
+Usage:
+  nixos-facter [flags]
+
+Flags:
+  --ephemeral          capture all ephemeral properties e.g. swap, filesystems and so on
+  -h, --help           help for nixos-facter
+  -o, --output string  path to write the report
+  --swap               capture swap entries
+  --hardware strings   Hardware items to probe.
+                       Default: %s
+                       Possible values: %s
+
+`
 
 	// Custom usage function
-	flag.Usage = func() { fmt.Fprintf(os.Stderr, "%s\n", usage) }
+	flag.Usage = func() { fmt.Fprintf(os.Stderr, usage, defaultValues, possibleValues) }
 }
 
 func Execute() {
