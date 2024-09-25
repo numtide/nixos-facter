@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/charmbracelet/log"
+	"log/slog"
 )
 
 var (
@@ -60,11 +60,11 @@ func _detectVmDmi() (Type, error) {
 			if err != nil {
 				// In EC2, virtualized is much more common than metal, so if for some reason
 				// we fail to read the DMI data, assume we are virtualized.
-				log.Debugf("failed to read /sys/class/dmi/id/product_name, assuming virtualized: %v", err)
+				slog.Debug("failed to read /sys/class/dmi/id/product_name, assuming virtualized", "error", err)
 				return TypeAmazon, nil
 			}
 			if strings.Contains(string(b), ".metal") {
-				log.Debugf("DMI product name has '.metal', assuming no virtualisation")
+				slog.Debug("DMI product name has '.metal', assuming no virtualisation")
 				return TypeNone, nil
 			}
 

@@ -2,22 +2,21 @@ package virt
 
 import (
 	"os"
-
-	"github.com/charmbracelet/log"
+	"log/slog"
 )
 
 func detectHypervisor() (Type, error) {
 	b, err := os.ReadFile("/sys/hypervisor/type")
 
 	if os.IsNotExist(err) {
-		log.Debug("failed to read /sys/hypervisor/type")
+		slog.Debug("failed to read /sys/hypervisor/type")
 		return TypeNone, nil
 	} else if err != nil {
 		return 0, err
 	}
 
 	hvType := string(b)
-	log.Debug("Virtualisation %s found in /sys/hypervisor/type", hvType)
+	slog.Debug("Virtualisation found in /sys/hypervisor/type", "type", hvType)
 
 	if hvType == "xen" {
 		return TypeXen, nil
