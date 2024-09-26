@@ -2,11 +2,10 @@ package virt
 
 import (
 	"fmt"
+	"log/slog"
 	"os"
 	"strconv"
 	"strings"
-
-	"log/slog"
 )
 
 func detectXen() (Type, error) {

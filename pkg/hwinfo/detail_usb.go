@@ -36,43 +36,27 @@ const (
 )
 
 type DetailUsb struct {
-	Type                DetailType `json:"-"`
-	Bus                 int        `json:"bus"`
-	DeviceNumber        int        `json:"device_number"`
-	Lev                 int        `json:"lev"` // TODO what is lev short for?
-	Parent              int        `json:"parent"`
-	Port                int        `json:"port"`
-	Count               int        `json:"count"`
-	Connections         int        `json:"connections"`
-	UsedConnections     int        `json:"used_connections"`
-	InterfaceDescriptor int        `json:"interface_descriptor"`
-	Speed               uint       `json:"speed"`
+	Type DetailType `json:"-"`
 
-	Manufacturer string `json:"manufacturer,omitempty"`
-	Product      string `json:"product,omitempty"`
+	DeviceClass    Id  `json:"device_class"`
+	DeviceSubclass Id  `json:"device_subclass"`
+	DeviceProtocol int `json:"device_protocol"`
 
-	Driver string `json:"driver,omitempty"`
+	InterfaceClass            Id  `json:"interface_class"`
+	InterfaceSubclass         Id  `json:"interface_subclass"`
+	InterfaceProtocol         int `json:"interface_protocol"`
+	InterfaceNumber           int `json:"interface_number"`
+	InterfaceAlternateSetting int `json:"interface_alternate_setting"`
 
-	DeviceClass    UsbClass `json:"device_class,omitempty"`
-	DeviceSubclass int      `json:"device_subclass,omitempty"`
-	DeviceProtocol int      `json:"device_protocol,omitempty"`
+	InterfaceAssociation *DetailUsbInterfaceAssociation `json:"interface_association,omitempty"`
+}
 
-	InterfaceClass    UsbClass `json:"interface_class,omitempty"`
-	InterfaceSubclass int      `json:"interface_subclass,omitempty"`
-	InterfaceProtocol int      `json:"interface_protocol,omitempty"`
-
-	Country uint `json:"country"`
-
-	// already included in the parent model, so we omit from JSON output
-	Vendor   uint `json:"-"`
-	Device   uint `json:"-"`
-	Revision uint `json:"-"`
-
-	// Seems empty and not really needed, omit for now
-	RawDescriptor MemoryRange `json:"-"`
-
-	// Sensitive, omit from JSON output
-	Serial string `json:"-"`
+type DetailUsbInterfaceAssociation struct {
+	FunctionClass    Id  `json:"function_class"`
+	FunctionSubclass Id  `json:"function_subclass"`
+	FunctionProtocol int `json:"function_protocol"`
+	InterfaceCount   int `json:"interface_count"`
+	FirstInterface   int `json:"first_interface"`
 }
 
 func (d DetailUsb) DetailType() DetailType {
@@ -86,32 +70,54 @@ func NewDetailUsb(usb C.hd_detail_usb_t) (Detail, error) {
 		println("usb next is not nil")
 	}
 
-	return DetailUsb{
-		Type:                DetailTypeUsb,
-		Bus:                 int(data.bus),
-		DeviceNumber:        int(data.dev_nr),
-		Lev:                 int(data.lev),
-		Parent:              int(data.parent),
-		Port:                int(data.port),
-		Count:               int(data.count),
-		Connections:         int(data.conns),
-		UsedConnections:     int(data.used_conns),
-		InterfaceDescriptor: int(data.ifdescr),
-		Speed:               uint(data.speed),
-		Vendor:              uint(data.vendor),
-		Device:              uint(data.device),
-		Revision:            uint(data.rev),
-		Manufacturer:        C.GoString(data.manufact),
-		Product:             C.GoString(data.product),
-		Serial:              C.GoString(data.serial),
-		Driver:              C.GoString(data.driver),
-		RawDescriptor:       NewMemoryRange(data.raw_descr),
-		DeviceClass:         UsbClass(data.d_cls),
-		DeviceSubclass:      int(data.d_sub),
-		DeviceProtocol:      int(data.d_prot),
-		// todo data.i_alt??
-		InterfaceClass:    UsbClass(data.i_cls),
-		InterfaceSubclass: int(data.i_sub),
-		InterfaceProtocol: int(data.i_prot),
-	}, nil
+	detail := DetailUsb{
+		Type: DetailTypeUsb,
+		DeviceClass: Id{
+			Type:  IdTagUsb,
+			Value: uint16(data.d_cls),
+			Name:  UsbClass(data.d_cls).String(),
+		},
+		DeviceSubclass: Id{
+			Type:  IdTagUsb,
+			Value: uint16(data.d_sub),
+			Name:  UsbClass(data.d_sub).String(),
+		},
+		DeviceProtocol: int(data.d_prot),
+		InterfaceClass: Id{
+			Type:  IdTagUsb,
+			Value: uint16(data.i_cls),
+			Name:  UsbClass(data.i_cls).String(),
+		},
+		InterfaceSubclass: Id{
+			Type:  IdTagUsb,
+			Value: uint16(data.i_sub),
+			Name:  UsbClass(data.i_sub).String(),
+		},
+		InterfaceProtocol:         int(data.i_prot),
+		InterfaceNumber:           int(data.ifdescr),
+		InterfaceAlternateSetting: int(data.i_alt),
+	}
+
+	// The Interface Association Descriptor groups multiple interfaces that are part of a single functional device.
+	// For instance, a USB webcam with an integrated microphone would use an IAD to group the video input interface and
+	// the audio input interface together.
+	if data.iad_i_count > 0 {
+		detail.InterfaceAssociation = &DetailUsbInterfaceAssociation{
+			FunctionClass: Id{
+				Type:  IdTagUsb,
+				Value: uint16(data.iad_f_cls),
+				Name:  UsbClass(data.iad_f_cls).String(),
+			},
+			FunctionSubclass: Id{
+				Type:  IdTagUsb,
+				Value: uint16(data.iad_f_sub),
+				Name:  UsbClass(data.iad_f_sub).String(),
+			},
+			FunctionProtocol: int(data.iad_f_prot),
+			FirstInterface:   int(data.iad_i_first),
+			InterfaceCount:   int(data.iad_i_count),
+		}
+	}
+
+	return detail, nil
 }

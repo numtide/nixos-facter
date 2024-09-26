@@ -3,10 +3,9 @@
 package virt
 
 import (
+	"log/slog"
 	"os"
 	"strings"
-
-	"log/slog"
 )
 
 func init() {
