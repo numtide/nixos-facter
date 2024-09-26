@@ -5,11 +5,10 @@
 package ephem
 
 import (
+	"log/slog"
 	"os"
 	"path/filepath"
 	"strings"
-
-	"log/slog"
 )
 
 var deviceGlobs = []string{

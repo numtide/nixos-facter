@@ -266,7 +266,10 @@ type HardwareDevice struct {
 	Class HardwareClass `json:"-"`
 
 	// Index is a unique index provided by hwinfo, starting at 1
-	Index uint `json:"-"`
+	Index uint `json:"index"`
+
+	// AttachedTo is the index of the hardware device this is attached to
+	AttachedTo uint `json:"attached_to"`
 
 	// BusType represents the type of bus to which the hardware device is connected.
 	BusType *Id `json:"bus_type,omitempty"`
@@ -426,6 +429,7 @@ func NewHardwareDevice(hd *C.hd_t) (*HardwareDevice, error) {
 
 	result := &HardwareDevice{
 		Index:             uint(hd.idx),
+		AttachedTo:        uint(hd.attached_to),
 		BusType:           NewId(hd.bus),
 		BaseClass:         NewId(hd.base_class),
 		SubClass:          NewId(hd.sub_class),

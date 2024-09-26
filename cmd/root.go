@@ -20,7 +20,6 @@ var (
 	scanner = facter.Scanner{}
 )
 
-
 func init() {
 	// Define flags
 	flag.StringVar(&outputPath, "output", "", "path to write the report")
@@ -50,7 +49,7 @@ func init() {
 	})
 	possibleValues := strings.Join(filteredFeatures, ",")
 	defaultValues := strings.Join(defaultFeatures, ",")
-  const usage = `nixos-facter [flags]
+	const usage = `nixos-facter [flags]
 Hardware report generator
 
 Usage:

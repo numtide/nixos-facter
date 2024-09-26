@@ -1,8 +1,8 @@
 package virt
 
 import (
-	"os"
 	"log/slog"
+	"os"
 )
 
 func detectHypervisor() (Type, error) {
