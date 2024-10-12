@@ -2,7 +2,7 @@
 
 <!-- prettier-ignore -->
 > [!NOTE]
-> **Status: alpha**
+> **Status: beta**
 
 NixOS Facter aims to be an alternative to projects such as [NixOS Hardware] and [nixos-generate-config].
 It solves the problem of bootstrapping [NixOS configurations] by deferring decisions about hardware and other
