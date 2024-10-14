@@ -31,7 +31,7 @@ type Smbios struct {
 	HardwareSecurity []hwinfo.Smbios `json:"hardware_security,omitempty"`
 
 	// Language contains language-related information, including supported and current languages.
-	Language *hwinfo.SmbiosLanguage `json:"language,omitempty"`
+	Language []hwinfo.Smbios `json:"language,omitempty"`
 
 	// Memory64Error provides information on 64-bit memory errors.
 	Memory64Error []hwinfo.Smbios `json:"memory_64_error,omitempty"`
@@ -114,13 +114,7 @@ func (s *Smbios) add(item hwinfo.Smbios) error {
 	case hwinfo.SmbiosTypeHardwareSecurity:
 		s.GroupAssociations = append(s.GroupAssociations, item)
 	case hwinfo.SmbiosTypeLanguage:
-		if s.Language != nil {
-			return fmt.Errorf("language field is already set")
-		} else if language, ok := item.(hwinfo.SmbiosLanguage); !ok {
-			return fmt.Errorf("expected hwinfo.SmbiosLanguage, found %T", item)
-		} else {
-			s.Language = &language
-		}
+		s.Language = append(s.Language, item)
 	case hwinfo.SmbiosTypeMemory64Error:
 		s.Memory64Error = append(s.Memory64Error, item)
 	case hwinfo.SmbiosTypeMemoryArray:
