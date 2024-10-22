@@ -40,7 +40,7 @@ func detectXenDom0() (bool, error) {
 		// read failure
 		return false, err
 	} else if len(b) > 0 {
-		features, err := strconv.ParseUint(string(b), 16, 64)
+		features, err := strconv.ParseUint(strings.TrimSpace(string(b)), 16, 64)
 		if err != nil {
 			return false, fmt.Errorf("failed to read %s: %w", featuresPath, err)
 		}
