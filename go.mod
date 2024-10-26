@@ -3,7 +3,7 @@ module github.com/numtide/nixos-facter
 go 1.22.3
 
 require (
-	github.com/klauspost/cpuid/v2 v2.2.9-0.20240805145549-92d5326f011e
+	github.com/klauspost/cpuid/v2 v2.2.9-0.20241026200132-ee7cba987ff4
 	github.com/stretchr/testify v1.9.0
 )
 
