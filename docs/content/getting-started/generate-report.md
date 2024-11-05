@@ -18,7 +18,6 @@ To generate a report, you will need to have [Nix] installed on the target machin
       github:numtide/nixos-facter -- -o facter.json
     ```
 
-
 This will scan your system and produce a JSON-based report in a file named `facter.json`:
 
 ```json title="facter.json"
