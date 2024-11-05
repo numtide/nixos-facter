@@ -29,6 +29,6 @@ if [[ $unpushed_commits != "" ]]; then
   exit 1
 fi
 nix flake check -vL
-git tag "${version}"
+git tag "v${version}"
 
 echo "now run 'git push --tags origin main'"
