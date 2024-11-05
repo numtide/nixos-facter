@@ -25,7 +25,14 @@ For more information, please see the [docs].
 
 ## Quick Start
 
-To generate a report:
+To generate a report using `nixos-facter` from nixpkgs:
+
+```console
+# you must run this as root
+❯ sudo nix run --option experimental-features "nix-command flakes" nixpkgs#nixos-facter -- -o facter.json
+```
+
+To use the latest development version from this flake:
 
 ```console
 # you must run this as root
@@ -35,10 +42,6 @@ To generate a report:
   --option extra-trusted-public-keys numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE= \
   github:numtide/nixos-facter -- -o facter.json
 ```
-
-> [!NOTE]
-> In the near-future we will add `nixos-facter` to [nixpkgs]. Until then, we recommend using the [Numtide Binary Cache]
-> to avoid having to build everything from scratch.
 
 ## Contributing
 
