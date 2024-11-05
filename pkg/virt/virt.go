@@ -4,9 +4,16 @@
 // [systemd]: https://github.com/systemd/systemd/blob/main/src/basic/virt.c
 package virt
 
+import (
+	"fmt"
+	"log/slog"
+	"os/exec"
+	"strings"
+)
+
 // Type represents various virtualisation and container types.
 //
-//go:generate enumer -type=Type -json -transform=snake -trimprefix Type -output=./virt_enum_type.go
+//go:generate enumer -type=Type -json -text -transform=snake -trimprefix Type -output=./virt_enum_type.go
 type Type int
 
 const (
@@ -25,10 +32,10 @@ const (
 	TypeBhyve
 	TypeQnx
 	TypeAcrn
-	TypePowerVM
+	TypePowervm
 	TypeApple
-	TypeGoogle
 	TypeSre
+	TypeGoogle
 	TypeVmOther
 	TypeSystemdNspawn
 	TypeLxcLibvirt
@@ -46,6 +53,17 @@ const (
 // Detect identifies the virtualisation type of the current system.
 // Returns the detected Type and an error if detection fails.
 func Detect() (Type, error) {
-	// todo do we care about detecting if we are in a container?
-	return detectVM()
+	out, err := exec.Command("systemd-detect-virt").CombinedOutput()
+	outStr := strings.Trim(string(out), "\n")
+
+	// note: systemd-detect-virt exits with status 1 when "none" is detected
+	if !(outStr == "none" || err == nil) {
+		slog.Error("failed to detect virtualisation type", "output", out)
+		return TypeNone, fmt.Errorf("failed to detect virtualisation type: %w", err)
+	}
+
+	// we use snake case, but systemd-detect-virt uses hyphen case
+	virtType := strings.ReplaceAll(outStr, "-", "_")
+
+	return TypeString(virtType)
 }
