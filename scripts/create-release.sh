@@ -12,7 +12,7 @@ if [[ -z $version ]]; then
 fi
 
 if [[ "$(git symbolic-ref --short HEAD)" != "main" ]]; then
-  echo "must be on master branch" >&2
+  echo "must be on main branch" >&2
   exit 1
 fi
 
@@ -31,4 +31,4 @@ fi
 nix flake check -vL
 git tag "${version}"
 
-echo "now run 'git push --tags origin master'"
+echo "now run 'git push --tags origin main'"
