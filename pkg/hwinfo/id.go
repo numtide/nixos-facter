@@ -68,18 +68,28 @@ type Id struct {
 	Name string
 }
 
+type idJson struct {
+	Hex   string `json:"hex,omitempty"`
+	Name  string `json:"name,omitempty"`
+	Value uint16 `json:"value"`
+}
+
 func (i Id) MarshalJSON() ([]byte, error) {
 	switch i.Type {
+
 	case IdTagSpecial:
 		return json.Marshal(i.Name)
-	default:
-		return json.Marshal(struct {
-			Name  string `json:"name,omitempty"`
-			Value uint16 `json:"value"`
-		}{
+
+	case 0, IdTagPci, IdTagEisa, IdTagUsb, IdTagPcmcia, IdTagSdio:
+
+		return json.Marshal(idJson{
+			Hex:   fmt.Sprintf("%04x", i.Value),
 			Name:  i.Name,
 			Value: i.Value,
 		})
+
+	default:
+		return nil, fmt.Errorf("unknown id type %d", i.Type)
 	}
 }
 
