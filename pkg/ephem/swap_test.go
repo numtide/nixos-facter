@@ -35,10 +35,10 @@ func TestReadSwapFile(t *testing.T) {
 	as.NoError(err)
 	as.Empty(swaps)
 
-	swaps, err = ReadSwapFile(strings.NewReader(corrupt))
+	_, err = ReadSwapFile(strings.NewReader(corrupt))
 	as.Errorf(err, "malformed entry in swaps file: '%s'", "foo bar baz")
 
-	swaps, err = ReadSwapFile(strings.NewReader(badPartition))
+	_, err = ReadSwapFile(strings.NewReader(badPartition))
 	as.Errorf(err, "malformed entry in swaps file: '%s'", `/var/lib/swap-1							foo        1048576	123		-3`)
 
 	swaps, err = ReadSwapFile(strings.NewReader(sample))
