@@ -51,7 +51,6 @@ in
       libusb1
       util-linux
       pciutils
-      systemdMinimal
     ];
 
     ldflags = [
