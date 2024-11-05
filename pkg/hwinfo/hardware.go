@@ -262,14 +262,17 @@ const (
 
 // HardwareDevice represents a hardware component detected in the system.
 type HardwareDevice struct {
-	// Class represents the type of the hardware component.
-	Class HardwareClass `json:"-"`
-
 	// Index is a unique index provided by hwinfo, starting at 1
 	Index uint `json:"index"`
 
 	// AttachedTo is the index of the hardware device this is attached to
 	AttachedTo uint `json:"attached_to"`
+
+	// Class represents the type of the hardware component.
+	Class HardwareClass `json:"-"`
+
+	// Class represents a list of hardware types which matches the component.
+	ClassList []HardwareClass `json:"class_list,omitempty"`
 
 	// BusType represents the type of bus to which the hardware device is connected.
 	BusType *Id `json:"bus_type,omitempty"`
@@ -422,9 +425,17 @@ func NewHardwareDevice(hd *C.hd_t) (*HardwareDevice, error) {
 		return nil, fmt.Errorf("failed to read driver info: %w", err)
 	}
 	model := C.GoString(hd.model)
+
 	hwClass := HardwareClass(hd.hw_class)
 	if hwClass == HardwareClassCpu {
 		model = stripCpuFreq(model)
+	}
+
+	var hwClassList []HardwareClass
+	for i := HardwareClassSystem; i < HardwareClassAll; i++ {
+		if C.hd_is_hw_class(hd, C.hd_hw_item_t(i)) == 1 {
+			hwClassList = append(hwClassList, i)
+		}
 	}
 
 	result := &HardwareDevice{
@@ -443,6 +454,7 @@ func NewHardwareDevice(hd *C.hd_t) (*HardwareDevice, error) {
 		CompatVendor:      NewId(hd.compat_vendor),
 		CompatDevice:      NewId(hd.compat_device),
 		Class:             hwClass,
+		ClassList:         hwClassList,
 		Model:             model,
 		SysfsId:           C.GoString(hd.sysfs_id),
 		SysfsBusId:        C.GoString(hd.sysfs_bus_id),
