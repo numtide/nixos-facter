@@ -6,13 +6,17 @@
 inputs.treefmt-nix.lib.mkWrapper pkgs {
   projectRootFile = ".git/config";
 
-  programs = {
-    alejandra.enable = true;
-    deadnix.enable = true;
-    gofumpt.enable = true;
-    prettier.enable = true;
-    statix.enable = true;
-  };
+  programs =
+    {
+      alejandra.enable = true;
+      deadnix.enable = true;
+      gofumpt.enable = true;
+      prettier.enable = true;
+      statix.enable = true;
+    }
+    // pkgs.lib.optionalAttrs (pkgs.system != "riscv64-linux") {
+      shellcheck.enable = true;
+    };
 
   settings = {
     global.excludes = [
