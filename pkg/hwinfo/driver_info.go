@@ -37,27 +37,30 @@ type DriverInfo interface {
 	DriverInfoType() DriverInfoType
 }
 
-func NewDriverInfo(info *C.driver_info_t) (DriverInfo, error) {
+//nolint:ireturn
+func NewDriverInfo(info *C.driver_info_t) (result DriverInfo, err error) {
 	if info == nil {
-		return nil, nil
+		return result, err
 	}
-	infoType := DriverInfoType(C.driver_info_get_type(info))
-	switch infoType {
+
+	switch DriverInfoType(C.driver_info_get_type(info)) {
 	case DriverInfoTypeModule:
-		return NewDriverInfoModule(C.driver_info_get_module(info)), nil
+		result, err = NewDriverInfoModule(C.driver_info_get_module(info)), nil
 	case DriverInfoTypeMouse:
-		return NewDriverInfoMouse(C.driver_info_get_mouse(info)), nil
+		result, err = NewDriverInfoMouse(C.driver_info_get_mouse(info)), nil
 	case DriverInfoTypeDisplay:
-		return NewDriverInfoDisplay(C.driver_info_get_display(info)), nil
+		result, err = NewDriverInfoDisplay(C.driver_info_get_display(info)), nil
 	case DriverInfoTypeKeyboard:
-		return NewDriverInfoKeyboard(C.driver_info_get_kbd(info)), nil
+		result, err = NewDriverInfoKeyboard(C.driver_info_get_kbd(info)), nil
 	case DriverInfoTypeDsl:
-		return NewDriverInfoDsl(C.driver_info_get_dsl(info)), nil
+		result, err = NewDriverInfoDsl(C.driver_info_get_dsl(info)), nil
 	case DriverInfoTypeIsdn:
-		return NewDriverInfoIsdn(C.driver_info_get_isdn(info)), nil
+		result, err = NewDriverInfoIsdn(C.driver_info_get_isdn(info)), nil
 	case DriverInfoTypeX11:
-		return NewDriverInfoX11(C.driver_info_get_x11(info)), nil
+		result, err = NewDriverInfoX11(C.driver_info_get_x11(info)), nil
 	default:
-		return nil, errors.New("unknown driver info type")
+		err = errors.New("unknown driver info type")
 	}
+
+	return result, err
 }

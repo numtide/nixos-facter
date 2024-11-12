@@ -21,11 +21,11 @@ type ResourceFc struct {
 	Type         ResourceType `json:"type"`
 	WwpnOk       bool         `json:"wwpn_ok"`
 	FcpLunOk     bool         `json:"fcp_lun_ok"`
-	PortIdOk     bool         `json:"port_id_ok"`
+	PortIDOk     bool         `json:"port_id_ok"`
 	Wwpn         uint64       `json:"wwpn"`
 	FcpLun       uint64       `json:"fcp_lun"`
-	PortId       uint         `json:"port_id"`
-	ControllerId byte         `json:"controller_id"`
+	PortID       uint         `json:"port_id"`
+	ControllerID byte         `json:"controller_id"`
 }
 
 func (r ResourceFc) ResourceType() ResourceType {
@@ -34,7 +34,7 @@ func (r ResourceFc) ResourceType() ResourceType {
 
 func NewResourceFc(res *C.hd_res_t, resType ResourceType) (*ResourceFc, error) {
 	if res == nil {
-		return nil, nil
+		return nil, fmt.Errorf("res is nil")
 	}
 
 	if resType != ResourceTypeFc {
@@ -46,10 +46,10 @@ func NewResourceFc(res *C.hd_res_t, resType ResourceType) (*ResourceFc, error) {
 	return &ResourceFc{
 		WwpnOk:       bool(C.hd_res_fc_get_wwpn_ok(fc)),
 		FcpLunOk:     bool(C.hd_res_fc_get_fcp_lun_ok(fc)),
-		PortIdOk:     bool(C.hd_res_fc_get_port_id_ok(fc)),
+		PortIDOk:     bool(C.hd_res_fc_get_port_id_ok(fc)),
 		Wwpn:         uint64(fc.wwpn),
 		FcpLun:       uint64(fc.fcp_lun),
-		PortId:       uint(fc.port_id),
-		ControllerId: byte(*fc.controller_id),
+		PortID:       uint(fc.port_id),
+		ControllerID: byte(*fc.controller_id),
 	}, nil
 }

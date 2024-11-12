@@ -10,23 +10,23 @@ import "C"
 type SmbiosHardwareSecurity struct {
 	Type     SmbiosType `json:"-"`
 	Handle   int        `json:"handle"`
-	Power    *Id        `json:"power"`    // power-on password status
-	Keyboard *Id        `json:"keyboard"` // keyboard password status
-	Admin    *Id        `json:"admin"`    // admin password status
-	Reset    *Id        `json:"reset"`    // front panel reset status
+	Power    *ID        `json:"power"`    // power-on password status
+	Keyboard *ID        `json:"keyboard"` // keyboard password status
+	Admin    *ID        `json:"admin"`    // admin password status
+	Reset    *ID        `json:"reset"`    // front panel reset status
 }
 
 func (s SmbiosHardwareSecurity) SmbiosType() SmbiosType {
 	return s.Type
 }
 
-func NewSmbiosSecure(info C.smbios_secure_t) (Smbios, error) {
-	return SmbiosHardwareSecurity{
+func NewSmbiosSecure(info C.smbios_secure_t) (*SmbiosHardwareSecurity, error) {
+	return &SmbiosHardwareSecurity{
 		Type:     SmbiosTypeHardwareSecurity,
 		Handle:   int(info.handle),
-		Power:    NewId(info.power),
-		Keyboard: NewId(info.keyboard),
-		Admin:    NewId(info.admin),
-		Reset:    NewId(info.reset),
+		Power:    NewID(info.power),
+		Keyboard: NewID(info.keyboard),
+		Admin:    NewID(info.admin),
+		Reset:    NewID(info.reset),
 	}, nil
 }

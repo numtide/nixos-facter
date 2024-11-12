@@ -25,7 +25,7 @@ func (r ResourceWlan) ResourceType() ResourceType {
 
 func NewResourceWlan(res *C.hd_res_t, resType ResourceType) (*ResourceWlan, error) {
 	if res == nil {
-		return nil, nil
+		return nil, fmt.Errorf("res is nil")
 	}
 
 	if resType != ResourceTypeWlan {

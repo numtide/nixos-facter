@@ -18,8 +18,8 @@ func (s SmbiosLanguage) SmbiosType() SmbiosType {
 	return s.Type
 }
 
-func NewSmbiosLang(info C.smbios_lang_t) (Smbios, error) {
-	return SmbiosLanguage{
+func NewSmbiosLang(info C.smbios_lang_t) (*SmbiosLanguage, error) {
+	return &SmbiosLanguage{
 		Type:            SmbiosTypeLanguage,
 		Handle:          int(info.handle),
 		Languages:       ReadStringList(info.strings),

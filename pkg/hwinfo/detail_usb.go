@@ -38,12 +38,12 @@ const (
 type DetailUsb struct {
 	Type DetailType `json:"-"`
 
-	DeviceClass    Id  `json:"device_class"`
-	DeviceSubclass Id  `json:"device_subclass"`
+	DeviceClass    ID  `json:"device_class"`
+	DeviceSubclass ID  `json:"device_subclass"`
 	DeviceProtocol int `json:"device_protocol"`
 
-	InterfaceClass            Id  `json:"interface_class"`
-	InterfaceSubclass         Id  `json:"interface_subclass"`
+	InterfaceClass            ID  `json:"interface_class"`
+	InterfaceSubclass         ID  `json:"interface_subclass"`
 	InterfaceProtocol         int `json:"interface_protocol"`
 	InterfaceNumber           int `json:"interface_number"`
 	InterfaceAlternateSetting int `json:"interface_alternate_setting"`
@@ -52,8 +52,8 @@ type DetailUsb struct {
 }
 
 type DetailUsbInterfaceAssociation struct {
-	FunctionClass    Id  `json:"function_class"`
-	FunctionSubclass Id  `json:"function_subclass"`
+	FunctionClass    ID  `json:"function_class"`
+	FunctionSubclass ID  `json:"function_subclass"`
 	FunctionProtocol int `json:"function_protocol"`
 	InterfaceCount   int `json:"interface_count"`
 	FirstInterface   int `json:"first_interface"`
@@ -63,33 +63,33 @@ func (d DetailUsb) DetailType() DetailType {
 	return DetailTypeUsb
 }
 
-func NewDetailUsb(usb C.hd_detail_usb_t) (Detail, error) {
+func NewDetailUsb(usb C.hd_detail_usb_t) (*DetailUsb, error) {
 	data := usb.data
 
 	if data.next != nil {
 		println("usb next is not nil")
 	}
 
-	detail := DetailUsb{
+	detail := &DetailUsb{
 		Type: DetailTypeUsb,
-		DeviceClass: Id{
-			Type:  IdTagUsb,
+		DeviceClass: ID{
+			Type:  IDTagUsb,
 			Value: uint16(data.d_cls),
 			Name:  UsbClass(data.d_cls).String(),
 		},
-		DeviceSubclass: Id{
-			Type:  IdTagUsb,
+		DeviceSubclass: ID{
+			Type:  IDTagUsb,
 			Value: uint16(data.d_sub),
 			Name:  UsbClass(data.d_sub).String(),
 		},
 		DeviceProtocol: int(data.d_prot),
-		InterfaceClass: Id{
-			Type:  IdTagUsb,
+		InterfaceClass: ID{
+			Type:  IDTagUsb,
 			Value: uint16(data.i_cls),
 			Name:  UsbClass(data.i_cls).String(),
 		},
-		InterfaceSubclass: Id{
-			Type:  IdTagUsb,
+		InterfaceSubclass: ID{
+			Type:  IDTagUsb,
 			Value: uint16(data.i_sub),
 			Name:  UsbClass(data.i_sub).String(),
 		},
@@ -103,13 +103,13 @@ func NewDetailUsb(usb C.hd_detail_usb_t) (Detail, error) {
 	// the audio input interface together.
 	if data.iad_i_count > 0 {
 		detail.InterfaceAssociation = &DetailUsbInterfaceAssociation{
-			FunctionClass: Id{
-				Type:  IdTagUsb,
+			FunctionClass: ID{
+				Type:  IDTagUsb,
 				Value: uint16(data.iad_f_cls),
 				Name:  UsbClass(data.iad_f_cls).String(),
 			},
-			FunctionSubclass: Id{
-				Type:  IdTagUsb,
+			FunctionSubclass: ID{
+				Type:  IDTagUsb,
 				Value: uint16(data.iad_f_sub),
 				Name:  UsbClass(data.iad_f_sub).String(),
 			},

@@ -57,6 +57,7 @@ func SwapEntries() ([]*SwapEntry, error) {
 		if err != nil {
 			return nil, err
 		}
+
 		devices[idx].Filename = stablePath
 	}
 
@@ -73,6 +74,7 @@ func ReadSwapFile(reader io.Reader) ([]*SwapEntry, error) {
 	}
 
 	var result []*SwapEntry
+
 	for scanner.Scan() {
 		line := scanner.Text()
 

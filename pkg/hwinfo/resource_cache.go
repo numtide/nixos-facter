@@ -21,7 +21,7 @@ func (r ResourceCache) ResourceType() ResourceType {
 
 func NewResourceCache(res *C.hd_res_t, resType ResourceType) (*ResourceCache, error) {
 	if res == nil {
-		return nil, nil
+		return nil, fmt.Errorf("res is nil")
 	}
 
 	if resType != ResourceTypeCache {

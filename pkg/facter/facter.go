@@ -5,9 +5,8 @@ package facter
 import (
 	"fmt"
 
-	"github.com/numtide/nixos-facter/pkg/ephem"
-
 	"github.com/numtide/nixos-facter/pkg/build"
+	"github.com/numtide/nixos-facter/pkg/ephem"
 	"github.com/numtide/nixos-facter/pkg/hwinfo"
 	"github.com/numtide/nixos-facter/pkg/virt"
 )
@@ -27,7 +26,8 @@ type Report struct {
 	// Hardware provides detailed information about the system’s hardware components, such as CPU, memory, and peripherals.
 	Hardware Hardware `json:"hardware,omitempty"`
 
-	// Smbios provides detailed information about the system's SMBios data, such as BIOS, board, chassis, memory, and processors.
+	// Smbios provides detailed information about the system's SMBios data, such as BIOS, board, chassis, memory,
+	// and processors.
 	Smbios Smbios `json:"smbios,omitempty"`
 
 	// Swap contains a list of swap entries representing the system's swap devices or files and their respective details.
@@ -51,6 +51,7 @@ type Scanner struct {
 // It also detects IOMMU groups and handles errors gracefully if scanning fails.
 func (s *Scanner) Scan() (*Report, error) {
 	var err error
+
 	report := Report{
 		Version: build.ReportVersion,
 	}
@@ -58,10 +59,13 @@ func (s *Scanner) Scan() (*Report, error) {
 	if build.System == "" {
 		return nil, fmt.Errorf("system is not set")
 	}
+
 	report.System = build.System
 
-	var smbios []hwinfo.Smbios
-	var devices []hwinfo.HardwareDevice
+	var (
+		smbios  []hwinfo.Smbios
+		devices []hwinfo.HardwareDevice
+	)
 
 	smbios, devices, err = hwinfo.Scan(s.Features)
 	if err != nil {
@@ -77,10 +81,12 @@ func (s *Scanner) Scan() (*Report, error) {
 	for idx := range devices {
 		// lookup iommu group before adding to the report
 		device := devices[idx]
-		groupId, ok := iommuGroups[device.SysfsId]
+
+		groupID, ok := iommuGroups[device.SysfsID]
 		if ok {
-			device.SysfsIOMMUGroupId = &groupId
+			device.SysfsIOMMUGroupID = &groupID
 		}
+
 		if err = report.Hardware.add(device); err != nil {
 			return nil, fmt.Errorf("failed to add to hardware report: %w", err)
 		}

@@ -19,12 +19,14 @@ import "C"
 
 import (
 	"encoding/hex"
+	"fmt"
 	"unsafe"
 )
 
 //go:generate enumer -type=DetailType -json -transform=snake -trimprefix DetailType -output=./detail_enum_type.go
 type DetailType uint
 
+//nolint:revive,stylecheck
 const (
 	DetailTypePci DetailType = iota
 	DetailTypeUsb
@@ -49,34 +51,36 @@ type Detail interface {
 	DetailType() DetailType
 }
 
-func NewDetail(detail *C.hd_detail_t) (Detail, error) {
+//nolint:ireturn
+func NewDetail(detail *C.hd_detail_t) (result Detail, err error) {
 	if detail == nil {
-		return nil, nil
+		return result, err
 	}
 
-	detailType := DetailType(C.hd_detail_get_type(detail))
-
-	switch detailType {
+	switch DetailType(C.hd_detail_get_type(detail)) {
 	case DetailTypePci:
-		return NewDetailPci(C.hd_detail_get_pci(detail))
+		result, err = NewDetailPci(C.hd_detail_get_pci(detail))
 	case DetailTypeUsb:
-		return NewDetailUsb(C.hd_detail_get_usb(detail))
+		result, err = NewDetailUsb(C.hd_detail_get_usb(detail))
 	case DetailTypeIsaPnp:
-		return NewDetailIsaPnpDevice(C.hd_detail_get_isapnp(detail))
+		result, err = NewDetailIsaPnpDevice(C.hd_detail_get_isapnp(detail))
 	case DetailTypeCpu:
-		return NewDetailCpu(C.hd_detail_get_cpu(detail))
+		result, err = NewDetailCPU(C.hd_detail_get_cpu(detail))
 	case DetailTypeMonitor:
-		return NewDetailMonitor(C.hd_detail_get_monitor(detail))
+		result, err = NewDetailMonitor(C.hd_detail_get_monitor(detail))
 	case DetailTypeBios:
-		return NewDetailBios(C.hd_detail_get_bios(detail))
+		result, err = NewDetailBios(C.hd_detail_get_bios(detail))
 	case DetailTypeSys:
-		return NewDetailSys(C.hd_detail_get_sys(detail))
+		result, err = NewDetailSys(C.hd_detail_get_sys(detail))
+	case DetailTypeCdrom, DetailTypeFloppy, DetailTypeProm, DetailTypeScsi, DetailTypeDevtree, DetailTypeCcw,
+		DetailTypeJoystick:
+		// do nothing for now
+
 	default:
-		return nil, nil
-		// return nil, fmt.Errorf("unexpected detail type: %v", detailType)
+		err = fmt.Errorf("unknown detail type %d", DetailType(C.hd_detail_get_type(detail)))
 	}
 
-	// todo cdrom, floppy, prom, sys, scsi, devtree, ccw, joystick
+	return result, err
 }
 
 type MemoryRange struct {

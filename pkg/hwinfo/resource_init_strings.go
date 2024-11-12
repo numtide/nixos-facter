@@ -22,7 +22,7 @@ func (r ResourceInitStrings) ResourceType() ResourceType {
 
 func NewResourceInitStrings(res *C.hd_res_t, resType ResourceType) (*ResourceInitStrings, error) {
 	if res == nil {
-		return nil, nil
+		return nil, fmt.Errorf("res is nil")
 	}
 
 	if resType != ResourceTypeInitStrings {

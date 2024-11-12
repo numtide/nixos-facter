@@ -25,7 +25,10 @@ func init() {
 	flag.StringVar(&outputPath, "output", "", "path to write the report")
 	flag.StringVar(&outputPath, "o", "", "path to write the report")
 	flag.BoolVar(&scanner.Swap, "swap", false, "capture swap entries")
-	flag.BoolVar(&scanner.Ephemeral, "ephemeral", false, "capture all ephemeral properties e.g. swap, filesystems and so on")
+	flag.BoolVar(
+		&scanner.Ephemeral, "ephemeral", false,
+		"capture all ephemeral properties e.g. swap, filesystems and so on",
+	)
 	flag.StringVar(&logLevel, "log-level", "info", "log level")
 
 	defaultFeatures := []string{
@@ -33,9 +36,9 @@ func init() {
 		"udev", "block", "wlan",
 	}
 
-	probeFeatures := hwinfo.ProbeFeatureStrings()
-	filteredFeatures := []string{}
-	for _, feature := range probeFeatures {
+	var filteredFeatures []string
+
+	for _, feature := range hwinfo.ProbeFeatureStrings() {
 		if feature != "default" && feature != "int" {
 			filteredFeatures = append(filteredFeatures, feature)
 		}
@@ -47,8 +50,10 @@ func init() {
 		hardwareFeatures = strings.Split(flagValue, ",")
 		return nil
 	})
+
 	possibleValues := strings.Join(filteredFeatures, ",")
 	defaultValues := strings.Join(defaultFeatures, ",")
+
 	const usage = `nixos-facter [flags]
 Hardware report generator
 
@@ -84,6 +89,7 @@ func Execute() {
 		if err != nil {
 			log.Fatalf("invalid hardware feature: %v", err)
 		}
+
 		scanner.Features = append(scanner.Features, probe)
 	}
 
@@ -114,8 +120,9 @@ func Execute() {
 		if _, err = os.Stdout.Write(bytes); err != nil {
 			log.Fatalf("failed to write report to stdout: %v", err)
 		}
+
 		fmt.Println()
-	} else if err = os.WriteFile(outputPath, bytes, 0o644); err != nil {
+	} else if err = os.WriteFile(outputPath, bytes, 0o600); err != nil {
 		log.Fatalf("failed to write report to output path: %v", err)
 	}
 }

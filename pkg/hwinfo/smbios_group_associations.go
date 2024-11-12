@@ -19,8 +19,8 @@ func (s SmbiosGroupAssociations) SmbiosType() SmbiosType {
 	return s.Type
 }
 
-func NewSmbiosGroup(info C.smbios_group_t) (Smbios, error) {
-	return SmbiosGroupAssociations{
+func NewSmbiosGroup(info C.smbios_group_t) (*SmbiosGroupAssociations, error) {
+	return &SmbiosGroupAssociations{
 		Type:    SmbiosTypeGroupAssociations,
 		Handle:  int(info.handle),
 		Name:    C.GoString(info.name),

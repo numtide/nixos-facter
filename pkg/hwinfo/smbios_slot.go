@@ -11,11 +11,11 @@ type SmbiosSlot struct {
 	Type        SmbiosType `json:"-"`
 	Handle      int        `json:"handle"`
 	Designation string     `json:"designation,omitempty"`
-	SlotType    *Id        `json:"slot_type"`
-	BusWidth    *Id        `json:"bus_width"`
-	Usage       *Id        `json:"usage"`
-	Length      *Id        `json:"length"`
-	Id          uint       `json:"id"`
+	SlotType    *ID        `json:"slot_type"`
+	BusWidth    *ID        `json:"bus_width"`
+	Usage       *ID        `json:"usage"`
+	Length      *ID        `json:"length"`
+	ID          uint       `json:"id"`
 	Features    []string   `json:"features,omitempty"`
 }
 
@@ -23,16 +23,16 @@ func (s SmbiosSlot) SmbiosType() SmbiosType {
 	return s.Type
 }
 
-func NewSmbiosSlot(info C.smbios_slot_t) (Smbios, error) {
-	return SmbiosSlot{
+func NewSmbiosSlot(info C.smbios_slot_t) (*SmbiosSlot, error) {
+	return &SmbiosSlot{
 		Type:        SmbiosTypeSlot,
 		Handle:      int(info.handle),
 		Designation: C.GoString(info.desig),
-		SlotType:    NewId(info.slot_type),
-		BusWidth:    NewId(info.bus_width),
-		Usage:       NewId(info.usage),
-		Length:      NewId(info.length),
-		Id:          uint(info.id),
+		SlotType:    NewID(info.slot_type),
+		BusWidth:    NewID(info.bus_width),
+		Usage:       NewID(info.usage),
+		Length:      NewID(info.length),
+		ID:          uint(info.id),
 		Features:    ReadStringList(info.feature.str),
 	}, nil
 }

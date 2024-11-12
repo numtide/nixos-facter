@@ -39,7 +39,7 @@ func (r ResourceSize) ResourceType() ResourceType {
 
 func NewResourceSize(res *C.hd_res_t, resType ResourceType) (*ResourceSize, error) {
 	if res == nil {
-		return nil, nil
+		return nil, fmt.Errorf("res is nil")
 	}
 
 	if resType != ResourceTypeSize {

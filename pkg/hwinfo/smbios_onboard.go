@@ -12,7 +12,7 @@ import "C"
 
 type OnboardDevice struct {
 	Name    string `json:"name"`
-	Type    *Id    `json:"type"`
+	Type    *ID    `json:"type"`
 	Enabled bool   `json:"enabled"`
 }
 
@@ -27,17 +27,17 @@ func (s SmbiosOnboard) SmbiosType() SmbiosType {
 	return s.Type
 }
 
-func NewSmbiosOnboard(info C.smbios_onboard_t) (Smbios, error) {
+func NewSmbiosOnboard(info C.smbios_onboard_t) (*SmbiosOnboard, error) {
 	var devices []OnboardDevice
 	for i := 0; i < int(info.dev_len); i++ {
 		devices = append(devices, OnboardDevice{
 			Name:    C.GoString(C.smbios_onboard_get_name(info, C.int(i))),
-			Type:    NewId(C.smbios_onboard_get_type(info, C.int(i))),
+			Type:    NewID(C.smbios_onboard_get_type(info, C.int(i))),
 			Enabled: uint(C.smbios_onboard_get_status(info, C.int(i))) == 1,
 		})
 	}
 
-	return SmbiosOnboard{
+	return &SmbiosOnboard{
 		Type:    SmbiosTypeOnboard,
 		Handle:  int(info.handle),
 		Devices: devices,

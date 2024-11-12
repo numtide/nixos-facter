@@ -33,7 +33,7 @@ func excludeDevice(item *HardwareDevice) bool {
 // Scan returns a list of SMBIOS entries and detected hardware devices based on the provided probe features.
 func Scan(probes []ProbeFeature) ([]Smbios, []HardwareDevice, error) {
 	// initialise the struct to hold scan data
-	data := (*C.hd_data_t)(unsafe.Pointer(C.calloc(1, C.size_t(unsafe.Sizeof(C.hd_data_t{})))))
+	data := (*C.hd_data_t)(C.calloc(1, C.size_t(unsafe.Sizeof(C.hd_data_t{}))))
 
 	// ProbeFeatureInt needs to always be set, otherwise we don't get pci and usb vendor id lookups.
 	// https://github.com/openSUSE/hwinfo/blob/c87f449f1d4882c71b0a1e6dc80638224a5baeed/src/hd/hd.c#L597-L605
@@ -61,14 +61,16 @@ func Scan(probes []ProbeFeature) ([]Smbios, []HardwareDevice, error) {
 
 	var hardwareItems []HardwareDevice
 	for hd := data.hd; hd != nil; hd = hd.next {
-		if item, err := NewHardwareDevice(hd); err != nil {
+		item, err := NewHardwareDevice(hd)
+		if err != nil {
 			return nil, nil, err
-		} else {
-			if excludeDevice(item) {
-				continue
-			}
-			hardwareItems = append(hardwareItems, *item)
 		}
+
+		if excludeDevice(item) {
+			continue
+		}
+
+		hardwareItems = append(hardwareItems, *item)
 	}
 
 	return smbiosItems, hardwareItems, nil

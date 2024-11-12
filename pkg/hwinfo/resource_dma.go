@@ -27,7 +27,7 @@ func (r ResourceDma) ResourceType() ResourceType {
 
 func NewResourceDma(res *C.hd_res_t, resType ResourceType) (*ResourceDma, error) {
 	if res == nil {
-		return nil, nil
+		return nil, fmt.Errorf("res is nil")
 	}
 
 	if resType != ResourceTypeDma {

@@ -12,6 +12,7 @@ import "C"
 
 import (
 	"encoding/hex"
+	"fmt"
 	"unsafe"
 )
 
@@ -45,8 +46,9 @@ type IsaPnpCard struct {
 
 func NewIsaPnpCard(card *C.isapnp_card_t) (*IsaPnpCard, error) {
 	if card == nil {
-		return nil, nil
+		return nil, fmt.Errorf("card is nil")
 	}
+
 	return &IsaPnpCard{
 		Csn:     int(card.csn),
 		LogDevs: int(card.log_devs),
@@ -70,7 +72,7 @@ func (d DetailIsaPnpDevice) DetailType() DetailType {
 	return DetailTypeIsaPnp
 }
 
-func NewDetailIsaPnpDevice(pnp C.hd_detail_isapnp_t) (Detail, error) {
+func NewDetailIsaPnpDevice(pnp C.hd_detail_isapnp_t) (*DetailIsaPnpDevice, error) {
 	data := pnp.data
 
 	card, err := NewIsaPnpCard(data.card)
@@ -78,7 +80,7 @@ func NewDetailIsaPnpDevice(pnp C.hd_detail_isapnp_t) (Detail, error) {
 		return nil, err
 	}
 
-	return DetailIsaPnpDevice{
+	return &DetailIsaPnpDevice{
 		Type:   DetailTypeIsaPnp,
 		Card:   card,
 		Device: int(data.dev),

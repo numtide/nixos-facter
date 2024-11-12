@@ -34,9 +34,9 @@ type Hardware struct {
 	// ChipCard holds the list of chip card devices in the hardware.
 	ChipCard []hwinfo.HardwareDevice `json:"chip_card,omitempty"`
 
-	// Cpu holds the list of CPU details in the hardware.
+	// CPU holds the list of CPU details in the hardware.
 	// There is one entry per physical id.
-	Cpu []hwinfo.DetailCpu `json:"cpu,omitempty"`
+	CPU []*hwinfo.DetailCPU `json:"cpu,omitempty"`
 
 	// Disk holds the list of disk devices in the hardware.
 	Disk []hwinfo.HardwareDevice `json:"disk,omitempty"`
@@ -181,7 +181,7 @@ type Hardware struct {
 }
 
 func compareDevice(a hwinfo.HardwareDevice, b hwinfo.HardwareDevice) int {
-	return int(a.Index - b.Index)
+	return int(a.Index - b.Index) //nolint:gosec
 }
 
 func (h *Hardware) add(device hwinfo.HardwareDevice) error {
@@ -197,10 +197,10 @@ func (h *Hardware) add(device hwinfo.HardwareDevice) error {
 	case hwinfo.HardwareClassBios:
 		if h.Bios != nil {
 			return fmt.Errorf("bios field is already set")
-		} else if bios, ok := device.Detail.(hwinfo.DetailBios); !ok {
+		} else if bios, ok := device.Detail.(*hwinfo.DetailBios); !ok {
 			return fmt.Errorf("expected hwinfo.DetailBios, found %T", device.Detail)
 		} else {
-			h.Bios = &bios
+			h.Bios = bios
 		}
 	case hwinfo.HardwareClassBlockDevice:
 		h.BlockDevice = append(h.BlockDevice, device)
@@ -224,22 +224,23 @@ func (h *Hardware) add(device hwinfo.HardwareDevice) error {
 		h.ChipCard = append(h.ChipCard, device)
 		slices.SortFunc(h.ChipCard, compareDevice)
 	case hwinfo.HardwareClassCpu:
-		cpu, ok := device.Detail.(hwinfo.DetailCpu)
+		cpu, ok := device.Detail.(*hwinfo.DetailCPU)
 		if !ok {
-			return fmt.Errorf("expected hwinfo.DetailCpu, found %T", device.Detail)
+			return fmt.Errorf("expected hwinfo.DetailCPU, found %T", device.Detail)
 		}
 
 		// We insert by physical id, as we only want one entry per core.
-		requiredSize := int(cpu.PhysicalId) + 1
-		if len(h.Cpu) < requiredSize {
-			newItems := make([]hwinfo.DetailCpu, requiredSize-len(h.Cpu))
-			h.Cpu = append(h.Cpu, newItems...)
+		requiredSize := int(cpu.PhysicalID) + 1 //nolint:gosec
+		if len(h.CPU) < requiredSize {
+			newItems := make([]*hwinfo.DetailCPU, requiredSize-len(h.CPU))
+			h.CPU = append(h.CPU, newItems...)
 		}
-		h.Cpu[cpu.PhysicalId] = cpu
+
+		h.CPU[cpu.PhysicalID] = cpu
 
 		// Sort in ascending order to ensure a stable output
-		slices.SortFunc(h.Cpu, func(a, b hwinfo.DetailCpu) int {
-			return int(a.PhysicalId - b.PhysicalId)
+		slices.SortFunc(h.CPU, func(a, b *hwinfo.DetailCPU) int {
+			return int(a.PhysicalID - b.PhysicalID) //nolint:gosec
 		})
 
 	case hwinfo.HardwareClassDisk:
@@ -359,10 +360,10 @@ func (h *Hardware) add(device hwinfo.HardwareDevice) error {
 	case hwinfo.HardwareClassSystem:
 		if h.System != nil {
 			return fmt.Errorf("system field is already set")
-		} else if system, ok := device.Detail.(hwinfo.DetailSys); !ok {
+		} else if system, ok := device.Detail.(*hwinfo.DetailSys); !ok {
 			return fmt.Errorf("expected hwinfo.DetailSys, found %T", device.Detail)
 		} else {
-			h.System = &system
+			h.System = system
 		}
 	case hwinfo.HardwareClassTape:
 		h.Tape = append(h.Tape, device)
@@ -388,8 +389,8 @@ func (h *Hardware) add(device hwinfo.HardwareDevice) error {
 	case hwinfo.HardwareClassZip:
 		h.Zip = append(h.Zip, device)
 		slices.SortFunc(h.Zip, compareDevice)
-	case hwinfo.HardwareClassAll:
-		// Do nothing, this is used by the hwinfo cli exclusively.
+	case hwinfo.HardwareClassAll: // Do nothing, this is used by the hwinfo cli exclusively.
 	}
+
 	return nil
 }

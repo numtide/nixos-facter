@@ -20,8 +20,8 @@ func (s SmbiosMemoryArrayMappedAddress) SmbiosType() SmbiosType {
 	return s.Type
 }
 
-func NewSmbiosMemArrayMap(info C.smbios_memarraymap_t) (Smbios, error) {
-	return SmbiosMemoryArrayMappedAddress{
+func NewSmbiosMemArrayMap(info C.smbios_memarraymap_t) (*SmbiosMemoryArrayMappedAddress, error) {
+	return &SmbiosMemoryArrayMappedAddress{
 		Type:         SmbiosTypeMemoryArrayMappedAddress,
 		Handle:       int(info.handle),
 		ArrayHandle:  int(info.array_handle),

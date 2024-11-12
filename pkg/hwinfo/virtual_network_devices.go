@@ -1,6 +1,6 @@
 package hwinfo
 
-// original list taken from systemd.network
+// original list taken from systemd.network.
 var virtualNetworkDevices = map[string]bool{
 	"bonding":    true,
 	"bridge":     true,

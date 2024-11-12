@@ -21,8 +21,8 @@ func (s SmbiosPowerControls) SmbiosType() SmbiosType {
 	return s.Type
 }
 
-func NewSmbiosPower(info C.smbios_power_t) (Smbios, error) {
-	return SmbiosPowerControls{
+func NewSmbiosPower(info C.smbios_power_t) (*SmbiosPowerControls, error) {
+	return &SmbiosPowerControls{
 		Type:   SmbiosTypePowerControls,
 		Handle: int(info.handle),
 		Month:  uint(info.month),

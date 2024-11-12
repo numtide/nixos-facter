@@ -23,8 +23,8 @@ func (s SmbiosAny) SmbiosType() SmbiosType {
 	return s.Type
 }
 
-func NewSmbiosAny(smbiosType SmbiosType, info C.smbios_any_t) (Smbios, error) {
-	return SmbiosAny{
+func NewSmbiosAny(smbiosType SmbiosType, info C.smbios_any_t) (*SmbiosAny, error) {
+	return &SmbiosAny{
 		Type:    smbiosType,
 		Handle:  int(info.handle),
 		Data:    fmt.Sprintf("0x%x", ReadByteArray(unsafe.Pointer(info.data), int(info.data_len))),

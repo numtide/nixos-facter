@@ -7,6 +7,8 @@ package hwinfo
 import "C"
 
 // SmbiosMemoryDeviceMappedAddress captures physical memory array information (consists of several memory devices).
+//
+//nolint:lll
 type SmbiosMemoryDeviceMappedAddress struct {
 	Type               SmbiosType `json:"-"`
 	Handle             int        `json:"handle"`
@@ -23,8 +25,8 @@ func (s SmbiosMemoryDeviceMappedAddress) SmbiosType() SmbiosType {
 	return s.Type
 }
 
-func NewSmbiosMemDeviceMap(info C.smbios_memdevicemap_t) (Smbios, error) {
-	return SmbiosMemoryDeviceMappedAddress{
+func NewSmbiosMemDeviceMap(info C.smbios_memdevicemap_t) (*SmbiosMemoryDeviceMappedAddress, error) {
+	return &SmbiosMemoryDeviceMappedAddress{
 		Type:               SmbiosTypeMemoryDeviceMappedAddress,
 		Handle:             int(info.handle),
 		MemoryDeviceHandle: int(info.memdevice_handle),

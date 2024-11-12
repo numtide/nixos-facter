@@ -43,10 +43,10 @@ func (d DetailMonitor) DetailType() DetailType {
 	return DetailTypeMonitor
 }
 
-func NewDetailMonitor(mon C.hd_detail_monitor_t) (Detail, error) {
+func NewDetailMonitor(mon C.hd_detail_monitor_t) (*DetailMonitor, error) {
 	data := mon.data
 
-	return DetailMonitor{
+	return &DetailMonitor{
 		Type:            DetailTypeMonitor,
 		ManufactureYear: uint(data.manu_year),
 		ManufactureWeek: uint(data.manu_week),

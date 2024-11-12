@@ -11,17 +11,17 @@ type SmbiosProcessor struct {
 	Type            SmbiosType `json:"-"`
 	Handle          int        `json:"handle"`
 	Socket          string     `json:"socket"`
-	SocketType      *Id        `json:"socket_type"`
+	SocketType      *ID        `json:"socket_type"`
 	SocketPopulated bool       `json:"socket_populated"` // true: populated, false: empty
 	Manufacturer    string     `json:"manufacturer"`
 	Version         string     `json:"version"`
 	Serial          string     `json:"-"`    // omit from json output
 	AssetTag        string     `json:"-"`    // asset tag
 	Part            string     `json:"part"` // part number
-	ProcessorType   *Id        `json:"processor_type"`
-	ProcessorFamily *Id        `json:"processor_family"`
-	ProcessorId     uint64     `json:"-"` // omit from json
-	ProcessorStatus *Id        `json:"processor_status"`
+	ProcessorType   *ID        `json:"processor_type"`
+	ProcessorFamily *ID        `json:"processor_family"`
+	ProcessorID     uint64     `json:"-"` // omit from json
+	ProcessorStatus *ID        `json:"processor_status"`
 	Voltage         uint       `json:"-"`
 	ClockExt        uint       `json:"clock_ext"`       // MHz
 	ClockMax        uint       `json:"clock_max"`       // MHz
@@ -35,22 +35,22 @@ func (s SmbiosProcessor) SmbiosType() SmbiosType {
 	return s.Type
 }
 
-func NewSmbiosProcessor(info C.smbios_processor_t) (Smbios, error) {
-	return SmbiosProcessor{
+func NewSmbiosProcessor(info C.smbios_processor_t) (*SmbiosProcessor, error) {
+	return &SmbiosProcessor{
 		Type:            SmbiosTypeProcessor,
 		Handle:          int(info.handle),
 		Socket:          C.GoString(info.socket),
-		SocketType:      NewId(info.upgrade),
+		SocketType:      NewID(info.upgrade),
 		SocketPopulated: uint(info.sock_status) == 1,
 		Manufacturer:    C.GoString(info.manuf),
 		Version:         C.GoString(info.version),
 		Serial:          C.GoString(info.serial),
 		AssetTag:        C.GoString(info.asset),
 		Part:            C.GoString(info.part),
-		ProcessorType:   NewId(info.pr_type),
-		ProcessorFamily: NewId(info.family),
-		ProcessorId:     uint64(info.cpu_id),
-		ProcessorStatus: NewId(info.cpu_status),
+		ProcessorType:   NewID(info.pr_type),
+		ProcessorFamily: NewID(info.family),
+		ProcessorID:     uint64(info.cpu_id),
+		ProcessorStatus: NewID(info.cpu_status),
 		Voltage:         uint(info.voltage),
 		ClockExt:        uint(info.ext_clock),
 		ClockMax:        uint(info.max_speed),

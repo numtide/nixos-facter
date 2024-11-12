@@ -25,7 +25,7 @@ func (r ResourceLink) ResourceType() ResourceType {
 
 func NewResourceLink(res *C.hd_res_t, resType ResourceType) (*ResourceLink, error) {
 	if res == nil {
-		return nil, nil
+		return nil, fmt.Errorf("res is nil")
 	}
 
 	if resType != ResourceTypeLink {
