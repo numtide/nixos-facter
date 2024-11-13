@@ -83,3 +83,17 @@ func NewID(id C.hd_id_t) *ID {
 	}
 	return &result
 }
+
+func NewBusID(bus Bus) *ID {
+	return &ID{
+		Name:  bus.String(),
+		Value: uint16(bus),
+	}
+}
+
+func NewBaseClassID(bc BaseClass) *ID {
+	return &ID{
+		Name:  bc.String(),
+		Value: uint16(bc),
+	}
+}
