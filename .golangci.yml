@@ -1,0 +1,34 @@
+linters:
+    enable:
+        - errname
+        - exhaustive
+        - gci
+        - goconst
+        - godot
+        - gofumpt
+        - goheader
+        - goimports
+        - gosec
+        - importas
+        - ireturn
+        - lll
+        - makezero
+        - misspell
+        - nakedret
+        - nestif
+        - nilerr
+        - nilnil
+        - noctx
+        - nolintlint
+        - prealloc
+        - predeclared
+        - revive
+        - rowserrcheck
+        - stylecheck
+        - tenv
+        - testpackage
+        - unconvert
+        - unparam
+        - wastedassign
+        - whitespace
+        - wsl

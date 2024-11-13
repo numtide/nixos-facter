@@ -14,16 +14,16 @@ type SmbiosSystem struct {
 	Product      string     `json:"product"`
 	Version      string     `json:"version"`
 	Serial       string     `json:"-"`       // omit from json output
-	UUID         string     `json:"-"`       // universal unique id; all 0x00: undef, all 0xff: undef but settable, omit from json
-	WakeUp       *Id        `json:"wake_up"` // wake-up type
+	UUID         string     `json:"-"`       // universal unique id; all 0x00: undef, all 0xff: undef but settable
+	WakeUp       *ID        `json:"wake_up"` // wake-up type
 }
 
 func (s SmbiosSystem) SmbiosType() SmbiosType {
 	return s.Type
 }
 
-func NewSmbiosSysInfo(info C.smbios_sysinfo_t) (Smbios, error) {
-	return SmbiosSystem{
+func NewSmbiosSysInfo(info C.smbios_sysinfo_t) (*SmbiosSystem, error) {
+	return &SmbiosSystem{
 		Type:         SmbiosTypeSystem,
 		Handle:       int(info.handle),
 		Manufacturer: C.GoString(info.manuf),
@@ -31,6 +31,6 @@ func NewSmbiosSysInfo(info C.smbios_sysinfo_t) (Smbios, error) {
 		Version:      C.GoString(info.version),
 		Serial:       C.GoString(info.serial),
 		// todo uuid
-		WakeUp: NewId(info.wake_up),
+		WakeUp: NewID(info.wake_up),
 	}, nil
 }

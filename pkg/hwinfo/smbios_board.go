@@ -16,7 +16,7 @@ type SmbiosBoard struct {
 	Version      string     `json:"version"`
 	Serial       string     `json:"-"` // omit from json output
 	AssetTag     string     `json:"-"`
-	BoardType    *Id        `json:"board_type"`
+	BoardType    *ID        `json:"board_type"`
 	Features     []string   `json:"features"`
 	Location     string     `json:"location"`          // location in chassis
 	Chassis      int        `json:"chassis"`           // handle of chassis
@@ -27,8 +27,8 @@ func (s SmbiosBoard) SmbiosType() SmbiosType {
 	return s.Type
 }
 
-func NewSmbiosBoardInfo(info C.smbios_boardinfo_t) (Smbios, error) {
-	return SmbiosBoard{
+func NewSmbiosBoardInfo(info C.smbios_boardinfo_t) (*SmbiosBoard, error) {
+	return &SmbiosBoard{
 		Type:         SmbiosTypeBoard,
 		Handle:       int(info.handle),
 		Manufacturer: C.GoString(info.manuf),
@@ -36,7 +36,7 @@ func NewSmbiosBoardInfo(info C.smbios_boardinfo_t) (Smbios, error) {
 		Version:      C.GoString(info.version),
 		Serial:       C.GoString(info.serial),
 		AssetTag:     C.GoString(info.asset),
-		BoardType:    NewId(info.board_type),
+		BoardType:    NewID(info.board_type),
 		Features:     ReadStringList(info.feature.str),
 		Location:     C.GoString(info.location),
 		Chassis:      int(info.chassis),

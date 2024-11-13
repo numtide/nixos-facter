@@ -17,8 +17,8 @@ func (s SmbiosOEMStrings) SmbiosType() SmbiosType {
 	return s.Type
 }
 
-func NewSmbiosOEM(info C.smbios_oem_t) (Smbios, error) {
-	return SmbiosOEMStrings{
+func NewSmbiosOEM(info C.smbios_oem_t) (*SmbiosOEMStrings, error) {
+	return &SmbiosOEMStrings{
 		Type:    SmbiosTypeOEMStrings,
 		Handle:  int(info.handle),
 		Strings: ReadStringList(info.oem_strings),

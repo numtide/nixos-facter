@@ -9,8 +9,8 @@ import "C"
 type DriverInfoKeyboard struct {
 	Type DriverInfoType `json:"type,omitempty"`
 	// actual driver database entries
-	DbEntry0 []string `json:"db_entry_0,omitempty"`
-	DbEntry1 []string `json:"db_entry_1,omitempty"`
+	DBEntry0 []string `json:"db_entry_0,omitempty"`
+	DBEntry1 []string `json:"db_entry_1,omitempty"`
 
 	XkbRules  string `json:"xkb_rules,omitempty"`
 	XkbModel  string `json:"xkb_model,omitempty"`
@@ -25,8 +25,8 @@ func (d DriverInfoKeyboard) DriverInfoType() DriverInfoType {
 func NewDriverInfoKeyboard(info C.driver_info_kbd_t) DriverInfoKeyboard {
 	return DriverInfoKeyboard{
 		Type:      DriverInfoTypeKeyboard,
-		DbEntry0:  ReadStringList(info.hddb0),
-		DbEntry1:  ReadStringList(info.hddb1),
+		DBEntry0:  ReadStringList(info.hddb0),
+		DBEntry1:  ReadStringList(info.hddb1),
 		XkbRules:  C.GoString(info.XkbRules),
 		XkbModel:  C.GoString(info.XkbModel),
 		XkbLayout: C.GoString(info.XkbLayout),

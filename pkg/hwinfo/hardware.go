@@ -1,7 +1,5 @@
 package hwinfo
 
-import "C"
-
 /*
 #cgo pkg-config: hwinfo
 #include <hd.h>
@@ -19,6 +17,7 @@ import (
 //go:generate enumer -type=ProbeFeature -json -transform=snake -trimprefix ProbeFeature -output=./hardware_enum_probe_feature.go
 type ProbeFeature uint
 
+//nolint:revive,stylecheck
 const (
 	ProbeFeatureMemory ProbeFeature = iota + 1
 	ProbeFeaturePci
@@ -122,6 +121,7 @@ const (
 //go:generate enumer -type=HardwareClass -json -transform=snake -trimprefix HardwareClass -output=./hardware_enum_hardware_class.go
 type HardwareClass uint
 
+//nolint:revive,stylecheck
 const (
 	HardwareClassNone HardwareClass = iota
 	HardwareClassSystem
@@ -220,8 +220,8 @@ type DeviceNumber struct {
 	Type int `json:"type"`
 	// Major identifies the driver for a device.
 	Major uint `json:"major"`
-	// Minor is used by the device driver to distinguish between different devices it controls, or different instances of the
-	// same device.
+	// Minor is used by the device driver to distinguish between different devices it controls, or different instances
+	// of the same device.
 	Minor uint `json:"minor"`
 	Range uint `json:"range"`
 }
@@ -275,59 +275,60 @@ type HardwareDevice struct {
 	ClassList []HardwareClass `json:"class_list,omitempty"`
 
 	// BusType represents the type of bus to which the hardware device is connected.
-	BusType *Id `json:"bus_type,omitempty"`
+	BusType *ID `json:"bus_type,omitempty"`
 
 	// Slot represents a bus and slot number for the hardware device.
 	Slot *Slot `json:"slot,omitempty"`
 
 	// BaseClass specifies the base classification of the hardware device.
-	BaseClass *Id `json:"base_class,omitempty"`
+	BaseClass *ID `json:"base_class,omitempty"`
 
-	// SubClass represents the specific subclass of the hardware component, providing more granular identification within its class.
-	SubClass *Id `json:"sub_class,omitempty"`
+	// SubClass represents the specific subclass of the hardware component, providing more granular identification
+	// within its class.
+	SubClass *ID `json:"sub_class,omitempty"`
 
 	// PciInterface specifies the PCI interface identifier of the hardware device.
-	PciInterface *Id `json:"pci_interface,omitempty"`
+	PciInterface *ID `json:"pci_interface,omitempty"`
 
 	// Vendor represents the vendor ID of the hardware device.
-	Vendor *Id `json:"vendor,omitempty"`
+	Vendor *ID `json:"vendor,omitempty"`
 
 	// SubVendor represents the ID of the subsystem vendor.
-	SubVendor *Id `json:"sub_vendor,omitempty"`
+	SubVendor *ID `json:"sub_vendor,omitempty"`
 
 	// Device represents the unique identifier for the hardware device.
-	Device *Id `json:"device,omitempty"`
+	Device *ID `json:"device,omitempty"`
 
 	// SubDevice represents the identifier of a sub-device in the hardware
-	SubDevice *Id `json:"sub_device,omitempty"`
+	SubDevice *ID `json:"sub_device,omitempty"`
 
 	// Revision specifies the hardware revision identifier.
-	Revision *Id `json:"revision,omitempty"`
+	Revision *ID `json:"revision,omitempty"`
 
 	Serial string `json:"serial,omitempty"`
 
 	// CompatVendor is a vendor id and name of some compatible hardware.
 	// Used mainly for ISA-PnP devices.
-	CompatVendor *Id `json:"compat_vendor,omitempty"`
+	CompatVendor *ID `json:"compat_vendor,omitempty"`
 
 	// CompatDevice is a device id and name of some compatible hardware.
 	// Used mainly for ISA-PnP devices.
-	CompatDevice *Id `json:"compat_device,omitempty"`
+	CompatDevice *ID `json:"compat_device,omitempty"`
 
 	// Model is a combination of vendor and device names. Some heuristics are used to make it more presentable.
 	Model string `json:"model,omitempty"`
 
-	// SysfsId is a sysfs entry for this hardware, if any.
-	SysfsId string `json:"sysfs_id,omitempty"`
+	// SysfsID is a sysfs entry for this hardware, if any.
+	SysfsID string `json:"sysfs_id,omitempty"`
 
-	// SysfsBusId is a sysfs bus entry for this hardware, if any.
-	SysfsBusId string `json:"sysfs_bus_id,omitempty"`
+	// SysfsBusID is a sysfs bus entry for this hardware, if any.
+	SysfsBusID string `json:"sysfs_bus_id,omitempty"`
 
 	// SysfsDeviceLink is the string path to the system file system (sysfs) link for this hardware device.
 	SysfsDeviceLink string `json:"sysfs_device_link,omitempty"`
 
-	// SysfsIOMMUGroupId represents the IOMMU group ID associated with the hardware device in sysfs, if any.
-	SysfsIOMMUGroupId *IOMMUGroup `json:"sysfs_iommu_group_id,omitempty"`
+	// SysfsIOMMUGroupID represents the IOMMU group ID associated with the hardware device in sysfs, if any.
+	SysfsIOMMUGroupID *IOMMUGroup `json:"sysfs_iommu_group_id,omitempty"`
 
 	// UnixDeviceName is a path to a device file used to access this hardware.
 	// Normally something below /dev.
@@ -351,10 +352,10 @@ type HardwareDevice struct {
 	// UnixDeviceNumber2 is an alternative device type and number according to sysfs.
 	UnixDeviceNumber2 *DeviceNumber `json:"unix_device_number2,omitempty"`
 
-	// RomId represents a BIOS/PROM id.
+	// RomID represents a BIOS/PROM id.
 	// Where appropriate, this is a special BIOS/PROM id (e.g. "0x80" for the first harddisk on Intel-PCs).
 	// CHPID for s390.
-	RomId string `json:"rom_id,omitempty"`
+	RomID string `json:"rom_id,omitempty"`
 
 	// Udi is a HAL unique device identifier.
 	Udi string `json:"udi,omitempty"`
@@ -372,8 +373,8 @@ type HardwareDevice struct {
 	Hotplug *Hotplug `json:"hotplug,omitempty"`
 
 	// HotplugSlot indicates the slot this device is connected to, if any (e.g. PCMCIA socket).
-	// Counts are 1-based.
-	HotplugSlot uint `json:"hotplug_slot,omitempty"` // slot the hotplug device is connected to (e.g. PCMCIA socket), count is 1-based (0: no info available)
+	// Counts are 1-based (0: no info available).
+	HotplugSlot uint `json:"hotplug_slot,omitempty"`
 
 	// Driver is the currently active driver, if any.
 	Driver string `json:"driver,omitempty"`
@@ -390,10 +391,11 @@ type HardwareDevice struct {
 	// DriverInfo is available driver information for the currently active driver, if any.
 	DriverInfo DriverInfo `json:"driver_info,omitempty"` // device driver info
 
-	// UsbGuid is a USB Global Unique Identifier.
+	// UsbGUID is a USB Global Unique Identifier.
 	// Available for USB devices.
-	// This may be set even if the bus type is not USB (e.g. USB storage devices will have bus set to SCSI due to SCSI emulation)
-	UsbGuid string `json:"usb_guid,omitempty"` // USB Global Unique Identifier.
+	// This may be set even if the bus type is not USB (e.g. USB storage devices will have bus set to SCSI due to SCSI
+	// emulation)
+	UsbGUID string `json:"usb_guid,omitempty"` // USB Global Unique Identifier.
 
 	// todo hal_prop
 	// todo persistent_prop
@@ -407,7 +409,7 @@ type HardwareDevice struct {
 
 func NewHardwareDevice(hd *C.hd_t) (*HardwareDevice, error) {
 	if hd == nil {
-		return nil, nil
+		return nil, fmt.Errorf("hd is nil")
 	}
 
 	resources, err := NewResources(hd)
@@ -428,7 +430,7 @@ func NewHardwareDevice(hd *C.hd_t) (*HardwareDevice, error) {
 
 	hwClass := HardwareClass(hd.hw_class)
 	if hwClass == HardwareClassCpu {
-		model = stripCpuFreq(model)
+		model = stripCPUFreq(model)
 	}
 
 	var hwClassList []HardwareClass
@@ -441,30 +443,30 @@ func NewHardwareDevice(hd *C.hd_t) (*HardwareDevice, error) {
 	result := &HardwareDevice{
 		Index:             uint(hd.idx),
 		AttachedTo:        uint(hd.attached_to),
-		BusType:           NewId(hd.bus),
-		BaseClass:         NewId(hd.base_class),
-		SubClass:          NewId(hd.sub_class),
-		PciInterface:      NewId(hd.prog_if),
-		Vendor:            NewId(hd.vendor),
-		SubVendor:         NewId(hd.sub_vendor),
-		Device:            NewId(hd.device),
-		SubDevice:         NewId(hd.sub_device),
-		Revision:          NewId(hd.revision),
+		BusType:           NewID(hd.bus),
+		BaseClass:         NewID(hd.base_class),
+		SubClass:          NewID(hd.sub_class),
+		PciInterface:      NewID(hd.prog_if),
+		Vendor:            NewID(hd.vendor),
+		SubVendor:         NewID(hd.sub_vendor),
+		Device:            NewID(hd.device),
+		SubDevice:         NewID(hd.sub_device),
+		Revision:          NewID(hd.revision),
 		Serial:            C.GoString(hd.serial),
-		CompatVendor:      NewId(hd.compat_vendor),
-		CompatDevice:      NewId(hd.compat_device),
+		CompatVendor:      NewID(hd.compat_vendor),
+		CompatDevice:      NewID(hd.compat_device),
 		Class:             hwClass,
 		ClassList:         hwClassList,
 		Model:             model,
-		SysfsId:           C.GoString(hd.sysfs_id),
-		SysfsBusId:        C.GoString(hd.sysfs_bus_id),
+		SysfsID:           C.GoString(hd.sysfs_id),
+		SysfsBusID:        C.GoString(hd.sysfs_bus_id),
 		SysfsDeviceLink:   C.GoString(hd.sysfs_device_link),
 		UnixDeviceName:    C.GoString(hd.unix_dev_name),
 		UnixDeviceNumber:  NewDeviceNumber(hd.unix_dev_num),
 		UnixDeviceName2:   C.GoString(hd.unix_dev_name2),
 		UnixDeviceNames:   ReadStringList(hd.unix_dev_names),
 		UnixDeviceNumber2: NewDeviceNumber(hd.unix_dev_num2),
-		RomId:             C.GoString(hd.rom_id),
+		RomID:             C.GoString(hd.rom_id),
 		Udi:               C.GoString(hd.udi),
 		ParentUdi:         C.GoString(hd.parent_udi),
 		Resources:         resources,
@@ -473,7 +475,7 @@ func NewHardwareDevice(hd *C.hd_t) (*HardwareDevice, error) {
 		DriverModule:      C.GoString(hd.driver_module),
 		Drivers:           ReadStringList(hd.drivers),
 		DriverModules:     ReadStringList(hd.driver_modules),
-		UsbGuid:           C.GoString(hd.usb_guid),
+		UsbGUID:           C.GoString(hd.usb_guid),
 		DriverInfo:        driverInfo,
 		ModuleAlias:       C.GoString(hd.modalias),
 		Label:             C.GoString(hd.label),

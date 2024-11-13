@@ -50,10 +50,10 @@ func (d DetailBios) DetailType() DetailType {
 	return DetailTypeBios
 }
 
-func NewDetailBios(dev C.hd_detail_bios_t) (Detail, error) {
+func NewDetailBios(dev C.hd_detail_bios_t) (*DetailBios, error) {
 	data := dev.data
 
-	return DetailBios{
+	return &DetailBios{
 		Type: DetailTypeBios,
 		ApmInfo: ApmInfo{
 			Supported:  bool(C.bios_info_is_apm_supported(data)),

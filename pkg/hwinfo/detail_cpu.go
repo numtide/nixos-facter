@@ -12,27 +12,27 @@ bool cpu_info_write_protect(cpu_info_t *info) { return info->write_protect; }
 import "C"
 import "regexp"
 
-//go:generate enumer -type=CpuArch -json -transform=snake -trimprefix CpuArch -output=./detail_enum_cpu_arch.go
-type CpuArch uint
+//go:generate enumer -type=CPUArch -json -transform=snake -trimprefix CPUArch -output=./detail_enum_cpu_arch.go
+type CPUArch uint
 
 const (
-	CpuArchUnknown CpuArch = iota
-	CpuArchIntel
-	CpuArchAlpha
-	CpuArchSparc
-	CpuArchSparc64
-	CpuArchPpc
-	CpuArchPpc64
+	CPUArchUnknown CPUArch = iota
+	CPUArchIntel
+	CPUArchAlpha
+	CPUArchSparc
+	CPUArchSparc64
+	CPUArchPpc
+	CPUArchPpc64
 	CpiArch68k
-	CpuArchIa64
-	CpuArchS390
-	CpuArchS390x
-	CpuArchArm
-	CpuArchMips
-	CpuArchx86_64
-	CpuArchAarch64
-	CpuArchLoongarch
-	CpuArchRiscv
+	CPUArchIa64
+	CPUArchS390
+	CPUArchS390x
+	CPUArchArm
+	CPUArchMips
+	CPUArchX86_64
+	CPUArchAarch64
+	CPUArchLoongarch
+	CPUArchRiscv
 )
 
 type AddressSizes struct {
@@ -40,10 +40,10 @@ type AddressSizes struct {
 	Virtual  uint `json:"virtual,omitempty"`
 }
 
-type DetailCpu struct {
+type DetailCPU struct {
 	Type DetailType `json:"-"`
 
-	Architecture CpuArch `json:"architecture"`
+	Architecture CPUArch `json:"architecture"`
 
 	VendorName string `json:"vendor_name,omitempty"`
 	ModelName  string `json:"model_name,omitempty"`
@@ -64,10 +64,10 @@ type DetailCpu struct {
 	Clock uint    `json:"-"`
 
 	// x86 only fields
-	PhysicalId     uint         `json:"physical_id"`
+	PhysicalID     uint         `json:"physical_id"`
 	Siblings       uint         `json:"siblings,omitempty"`
 	Cores          uint         `json:"cores,omitempty"`
-	CoreId         uint         `json:"-"`
+	CoreID         uint         `json:"-"`
 	Fpu            bool         `json:"fpu"`
 	FpuException   bool         `json:"fpu_exception"`
 	CpuidLevel     uint         `json:"cpuid_level,omitempty"`
@@ -82,20 +82,20 @@ type DetailCpu struct {
 
 var matchCPUFreq = regexp.MustCompile(`, \d+ MHz$`)
 
-func stripCpuFreq(s string) string {
+func stripCPUFreq(s string) string {
 	// strip frequency of the model name as it is not stable.
 	return matchCPUFreq.ReplaceAllString(s, "")
 }
 
-func NewDetailCpu(cpu C.hd_detail_cpu_t) (Detail, error) {
+func NewDetailCPU(cpu C.hd_detail_cpu_t) (*DetailCPU, error) {
 	data := cpu.data
 
-	return DetailCpu{
+	return &DetailCPU{
 		Type: DetailTypeCpu,
 
-		Architecture: CpuArch(data.architecture),
+		Architecture: CPUArch(data.architecture),
 		VendorName:   C.GoString(data.vend_name),
-		ModelName:    stripCpuFreq(C.GoString(data.model_name)),
+		ModelName:    stripCPUFreq(C.GoString(data.model_name)),
 
 		Family:   uint(data.family),
 		Model:    uint(data.model),
@@ -112,10 +112,10 @@ func NewDetailCpu(cpu C.hd_detail_cpu_t) (Detail, error) {
 		Cache: uint(data.cache),
 		Units: uint(data.units),
 
-		PhysicalId:     uint(data.physical_id),
+		PhysicalID:     uint(data.physical_id),
 		Siblings:       uint(data.siblings),
 		Cores:          uint(data.cores),
-		CoreId:         uint(data.core_id),
+		CoreID:         uint(data.core_id),
 		Apicid:         uint(data.apicid),
 		ApicidInitial:  uint(data.apicid_initial),
 		Fpu:            bool(C.cpu_info_fpu(data)),
@@ -132,6 +132,6 @@ func NewDetailCpu(cpu C.hd_detail_cpu_t) (Detail, error) {
 	}, nil
 }
 
-func (d DetailCpu) DetailType() DetailType {
+func (d DetailCPU) DetailType() DetailType {
 	return DetailTypeCpu
 }

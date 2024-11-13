@@ -25,7 +25,7 @@ func (r ResourceFrameBuffer) ResourceType() ResourceType {
 
 func NewResourceFrameBuffer(res *C.hd_res_t, resType ResourceType) (*ResourceFrameBuffer, error) {
 	if res == nil {
-		return nil, nil
+		return nil, fmt.Errorf("res is nil")
 	}
 
 	if resType != ResourceTypeFramebuffer {

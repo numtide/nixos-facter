@@ -29,7 +29,7 @@ func (r ResourceIO) ResourceType() ResourceType {
 
 func NewResourceIO(res *C.hd_res_t, resType ResourceType) (*ResourceIO, error) {
 	if res == nil {
-		return nil, nil
+		return nil, fmt.Errorf("res is nil")
 	}
 
 	if resType != ResourceTypeIo {

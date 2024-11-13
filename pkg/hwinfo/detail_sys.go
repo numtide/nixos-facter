@@ -21,9 +21,9 @@ func (d DetailSys) DetailType() DetailType {
 	return DetailTypeSys
 }
 
-func NewDetailSys(sys C.hd_detail_sys_t) (Detail, error) {
+func NewDetailSys(sys C.hd_detail_sys_t) (*DetailSys, error) {
 	data := sys.data
-	return DetailSys{
+	return &DetailSys{
 		Type:       DetailTypeSys,
 		SystemType: C.GoString(data.system_type),
 		Generation: C.GoString(data.generation),

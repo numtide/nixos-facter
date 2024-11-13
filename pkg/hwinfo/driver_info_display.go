@@ -9,8 +9,8 @@ import "C"
 type DriverInfoDisplay struct {
 	Type DriverInfoType `json:"type,omitempty"`
 	// actual driver database entries
-	DbEntry0 []string `json:"db_entry_0,omitempty"`
-	DbEntry1 []string `json:"db_entry_1,omitempty"`
+	DBEntry0 []string `json:"db_entry_0,omitempty"`
+	DBEntry1 []string `json:"db_entry_1,omitempty"`
 
 	Width                 uint        `json:"width"`
 	Height                uint        `json:"height"`
@@ -30,8 +30,8 @@ func (d DriverInfoDisplay) DriverInfoType() DriverInfoType {
 func NewDriverInfoDisplay(info C.driver_info_display_t) DriverInfoDisplay {
 	return DriverInfoDisplay{
 		Type:     DriverInfoTypeDisplay,
-		DbEntry0: ReadStringList(info.hddb0),
-		DbEntry1: ReadStringList(info.hddb1),
+		DBEntry0: ReadStringList(info.hddb0),
+		DBEntry1: ReadStringList(info.hddb1),
 		Width:    uint(info.width),
 		Height:   uint(info.height),
 		VerticalSync: SyncRange{

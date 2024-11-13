@@ -10,8 +10,8 @@ import "C"
 type SmbiosPointingDevice struct {
 	Type      SmbiosType `json:"-"`
 	Handle    int        `json:"handle"`
-	MouseType *Id        `json:"mouse_type"`
-	Interface *Id        `json:"interface"`
+	MouseType *ID        `json:"mouse_type"`
+	Interface *ID        `json:"interface"`
 	Buttons   uint       `json:"buttons"`
 }
 
@@ -19,12 +19,12 @@ func (s SmbiosPointingDevice) SmbiosType() SmbiosType {
 	return s.Type
 }
 
-func NewSmbiosMouse(info C.smbios_mouse_t) (Smbios, error) {
-	return SmbiosPointingDevice{
+func NewSmbiosMouse(info C.smbios_mouse_t) (*SmbiosPointingDevice, error) {
+	return &SmbiosPointingDevice{
 		Type:      SmbiosTypePointingDevice,
 		Handle:    int(info.handle),
-		MouseType: NewId(info.mtype),
-		Interface: NewId(info._interface),
+		MouseType: NewID(info.mtype),
+		Interface: NewID(info._interface),
 		Buttons:   uint(info.buttons),
 	}, nil
 }

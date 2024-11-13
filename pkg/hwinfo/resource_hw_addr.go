@@ -21,11 +21,14 @@ func (r ResourceHardwareAddress) ResourceType() ResourceType {
 
 func NewResourceHardwareAddress(res *C.hd_res_t, resType ResourceType) (*ResourceHardwareAddress, error) {
 	if !(resType == ResourceTypeHwaddr || resType == ResourceTypePhwaddr) {
-		return nil, fmt.Errorf("invalid resource type %s, must be either %s or %s", resType, ResourceTypeHwaddr, ResourceTypePhwaddr)
+		return nil, fmt.Errorf(
+			"invalid resource type %s, must be either %s or %s",
+			resType, ResourceTypeHwaddr, ResourceTypePhwaddr,
+		)
 	}
 
 	if res == nil {
-		return nil, nil
+		return nil, fmt.Errorf("res is nil")
 	}
 
 	hwaddr := C.hd_res_get_hwaddr(res)

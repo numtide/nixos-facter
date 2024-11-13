@@ -17,8 +17,8 @@ func (s SmbiosConfig) SmbiosType() SmbiosType {
 	return s.Type
 }
 
-func NewSmbiosConfig(info C.smbios_config_t) (Smbios, error) {
-	return SmbiosConfig{
+func NewSmbiosConfig(info C.smbios_config_t) (*SmbiosConfig, error) {
+	return &SmbiosConfig{
 		Type:    SmbiosTypeConfig,
 		Handle:  int(info.handle),
 		Options: ReadStringList(info.options),

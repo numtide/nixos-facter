@@ -27,6 +27,7 @@ func StableDevicePath(device string) (string, error) {
 	if !strings.HasPrefix("/", device) {
 		return device, nil
 	}
+
 	stat, err := os.Stat(device)
 	if err != nil {
 		return "", err
@@ -41,14 +42,18 @@ func StableDevicePath(device string) (string, error) {
 			// the only possible error is ErrBadPattern
 			return "", err
 		}
+
 		for _, match := range matches {
 			matchStat, err := os.Stat(match)
 			if err != nil {
 				l.Debug("failed to stat match", "match", match, "error", err)
+
 				continue
 			}
+
 			if os.SameFile(stat, matchStat) {
 				l.Debug("match found for device", "match", match, "device", device)
+
 				return match, nil
 			}
 		}

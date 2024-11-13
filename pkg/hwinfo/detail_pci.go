@@ -44,7 +44,8 @@ type DetailPci struct {
 	SecondaryBus uint `json:"secondary_bus"` // > 0 for PCI & CB bridges
 
 	Irq uint `json:"irq"` // used irq if any
-	// Programming Interface Byte: a read-only register that specifies a register-level programming interface for the device.
+	// Programming Interface Byte: a read-only register that specifies a register-level programming interface for the
+	// device.
 	ProgIf uint `json:"prog_if"`
 
 	// already included in the parent model, so we omit from JSON output
@@ -67,8 +68,8 @@ type DetailPci struct {
 	RomBaseAddress uint64 `json:"-"` // memory base for card ROM
 	RomBaseLength  uint64 `json:"-"` // memory range for card ROM
 
-	SysfsId     string `json:"-"` // sysfs path
-	SysfsBusId  string `json:"-"` // sysfs bus id
+	SysfsID     string `json:"-"` // sysfs path
+	SysfsBusID  string `json:"-"` // sysfs bus id
 	ModuleAlias string `json:"-"` // module alias
 	Label       string `json:"-"` // Consistent Device Name (CDN), pci firmware 3.1, chapter 4.6.7
 
@@ -83,10 +84,10 @@ func (p DetailPci) DetailType() DetailType {
 	return DetailTypePci
 }
 
-func NewDetailPci(pci C.hd_detail_pci_t) (Detail, error) {
+func NewDetailPci(pci C.hd_detail_pci_t) (*DetailPci, error) {
 	data := pci.data
 
-	return DetailPci{
+	return &DetailPci{
 		Type:           DetailTypePci,
 		Data:           hex.EncodeToString(C.GoBytes(unsafe.Pointer(&data.data), 256)),
 		DataLength:     uint(data.data_len),
@@ -113,8 +114,8 @@ func NewDetailPci(pci C.hd_detail_pci_t) (Detail, error) {
 		AddressFlags:   [7]uint(ReadUintArray(unsafe.Pointer(&data.addr_flags), 7)),
 		RomBaseAddress: uint64(data.rom_base_addr),
 		RomBaseLength:  uint64(data.rom_base_len),
-		SysfsId:        C.GoString(data.sysfs_id),
-		SysfsBusId:     C.GoString(data.sysfs_bus_id),
+		SysfsID:        C.GoString(data.sysfs_id),
+		SysfsBusID:     C.GoString(data.sysfs_bus_id),
 		ModuleAlias:    C.GoString(data.modalias),
 		Label:          C.GoString(data.label),
 	}, nil

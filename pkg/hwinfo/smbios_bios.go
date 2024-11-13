@@ -26,8 +26,8 @@ func (s SmbiosBios) SmbiosType() SmbiosType {
 	return s.Type
 }
 
-func NewSmbiosBiosInfo(info C.smbios_biosinfo_t) (Smbios, error) {
-	return SmbiosBios{
+func NewSmbiosBiosInfo(info C.smbios_biosinfo_t) (*SmbiosBios, error) {
+	return &SmbiosBios{
 		Type:         SmbiosTypeBios,
 		Handle:       int(info.handle),
 		Vendor:       C.GoString(info.vendor),

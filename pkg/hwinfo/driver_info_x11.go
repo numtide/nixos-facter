@@ -19,8 +19,8 @@ import "C"
 type DriverInfoX11 struct {
 	Type DriverInfoType `json:"type,omitempty"`
 	// actual driver database entries
-	DbEntry0 []string `json:"db_entry_0,omitempty"`
-	DbEntry1 []string `json:"db_entry_1,omitempty"`
+	DBEntry0 []string `json:"db_entry_0,omitempty"`
+	DBEntry1 []string `json:"db_entry_1,omitempty"`
 
 	Server      string `json:"server,omitempty"`       // the server/module name
 	XF86Version string `json:"xf86_version,omitempty"` // XFree86 version (3 or 4)
@@ -48,8 +48,8 @@ func (d DriverInfoX11) DriverInfoType() DriverInfoType {
 func NewDriverInfoX11(info C.driver_info_x11_t) DriverInfoX11 {
 	result := DriverInfoX11{
 		Type:        DriverInfoTypeX11,
-		DbEntry0:    ReadStringList(info.hddb0),
-		DbEntry1:    ReadStringList(info.hddb1),
+		DBEntry0:    ReadStringList(info.hddb0),
+		DBEntry1:    ReadStringList(info.hddb1),
 		Server:      C.GoString(info.server),
 		XF86Version: C.GoString(info.xf86_ver),
 		Supports3D:  bool(C.driver_info_x11_supports_3d(info)),

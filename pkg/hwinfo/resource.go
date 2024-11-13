@@ -46,52 +46,54 @@ const (
 	ResourceTypePhwaddr
 )
 
-func NewResource(res *C.hd_res_t) (Resource, error) {
+//nolint:ireturn
+func NewResource(res *C.hd_res_t) (result Resource, err error) {
 	if res == nil {
-		return nil, nil
+		return result, err
 	}
 
 	resourceType := ResourceType(C.hd_res_get_type(res))
 
 	switch resourceType {
 	case ResourceTypeFc:
-		return NewResourceFc(res, resourceType)
+		result, err = NewResourceFc(res, resourceType)
 	case ResourceTypePhysMem:
-		return NewResourcePhysicalMemory(res, resourceType)
+		result, err = NewResourcePhysicalMemory(res, resourceType)
 	case ResourceTypeMem:
-		return NewResourceMemory(res, resourceType)
+		result, err = NewResourceMemory(res, resourceType)
 	case ResourceTypeIo:
-		return NewResourceIO(res, resourceType)
+		result, err = NewResourceIO(res, resourceType)
 	case ResourceTypeIrq:
-		return NewResourceIrq(res, resourceType)
+		result, err = NewResourceIrq(res, resourceType)
 	case ResourceTypeDma:
-		return NewResourceDma(res, resourceType)
+		result, err = NewResourceDma(res, resourceType)
 	case ResourceTypeMonitor:
-		return NewResourceMonitor(res, resourceType)
+		result, err = NewResourceMonitor(res, resourceType)
 	case ResourceTypeSize:
-		return NewResourceSize(res, resourceType)
+		result, err = NewResourceSize(res, resourceType)
 	case ResourceTypeDiskGeo:
-		return NewResourceDiskGeo(res, resourceType)
+		result, err = NewResourceDiskGeo(res, resourceType)
 	case ResourceTypeCache:
-		return NewResourceCache(res, resourceType)
+		result, err = NewResourceCache(res, resourceType)
 	case ResourceTypeBaud:
-		return NewResourceBaud(res, resourceType)
+		result, err = NewResourceBaud(res, resourceType)
 	case ResourceTypeInitStrings:
-		return NewResourceInitStrings(res, resourceType)
+		result, err = NewResourceInitStrings(res, resourceType)
 	case ResourceTypePppdOption:
-		return NewResourcePppdOption(res, resourceType)
+		result, err = NewResourcePppdOption(res, resourceType)
 	case ResourceTypeFramebuffer:
-		return NewResourceFrameBuffer(res, resourceType)
+		result, err = NewResourceFrameBuffer(res, resourceType)
 	case ResourceTypeHwaddr, ResourceTypePhwaddr:
-		return NewResourceHardwareAddress(res, resourceType)
+		result, err = NewResourceHardwareAddress(res, resourceType)
 	case ResourceTypeLink:
 		// this is the link status of a network interface and can change when we plug/unplug a cable
-		return nil, nil
 	case ResourceTypeWlan:
-		return NewResourceWlan(res, resourceType)
+		result, err = NewResourceWlan(res, resourceType)
 	default:
-		return nil, fmt.Errorf("unexpected resource type: %v", resourceType)
+		err = fmt.Errorf("unexpected resource type: %v", resourceType)
 	}
+
+	return result, err
 }
 
 func NewResources(hd *C.hd_t) ([]Resource, error) {

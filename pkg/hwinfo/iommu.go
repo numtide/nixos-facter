@@ -20,13 +20,13 @@ func IOMMUGroups() (map[string]IOMMUGroup, error) {
 	}
 
 	result := make(map[string]IOMMUGroup)
-	for _, group := range groups {
 
+	for _, group := range groups {
 		if !group.IsDir() {
 			return nil, fmt.Errorf("non-directory entry found in %s: %s", iommuSysfsPath, group.Name())
 		}
 
-		groupId, err := strconv.Atoi(group.Name())
+		groupID, err := strconv.Atoi(group.Name())
 		if err != nil {
 			return nil, fmt.Errorf("failed to parse iommu group id '%s': %w", group.Name(), err)
 		}
@@ -37,15 +37,17 @@ func IOMMUGroups() (map[string]IOMMUGroup, error) {
 		if err != nil {
 			return nil, fmt.Errorf("failed to read devices from iommu group %s: %w", devicesPath, err)
 		}
+
 		for _, device := range devices {
 			devicePath := filepath.Join(devicesPath, device.Name())
+
 			resolvedPath, err := filepath.EvalSymlinks(devicePath)
 			if err != nil {
 				return nil, fmt.Errorf("failed to resolve device symlink '%s': %w", devicePath, err)
 			}
 
 			// sysfs id -> iommu group id
-			result[resolvedPath[4:]] = IOMMUGroup(groupId)
+			result[resolvedPath[4:]] = IOMMUGroup(groupID)
 		}
 	}
 

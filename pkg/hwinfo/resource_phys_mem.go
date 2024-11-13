@@ -21,7 +21,7 @@ func (r ResourcePhysicalMemory) ResourceType() ResourceType {
 
 func NewResourcePhysicalMemory(res *C.hd_res_t, resType ResourceType) (*ResourcePhysicalMemory, error) {
 	if res == nil {
-		return nil, nil
+		return nil, fmt.Errorf("res is nil")
 	}
 
 	if resType != ResourceTypePhysMem {

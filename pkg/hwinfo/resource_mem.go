@@ -55,7 +55,7 @@ func (r ResourceMemory) ResourceType() ResourceType {
 
 func NewResourceMemory(res *C.hd_res_t, resType ResourceType) (*ResourceMemory, error) {
 	if res == nil {
-		return nil, nil
+		return nil, fmt.Errorf("res is nil")
 	}
 
 	if resType != ResourceTypeMem {

@@ -14,8 +14,8 @@ import "C"
 type DriverInfoModule struct {
 	Type DriverInfoType `json:"type,omitempty"`
 	// actual driver database entries
-	DbEntry0 []string `json:"db_entry_0,omitempty"`
-	DbEntry1 []string `json:"db_entry_1,omitempty"`
+	DBEntry0 []string `json:"db_entry_0,omitempty"`
+	DBEntry1 []string `json:"db_entry_1,omitempty"`
 
 	Active     bool     `json:"active"`      // if the module is currently active
 	Modprobe   bool     `json:"modprobe"`    // modprobe or insmod
@@ -31,8 +31,8 @@ func (d DriverInfoModule) DriverInfoType() DriverInfoType {
 func NewDriverInfoModule(info C.driver_info_module_t) DriverInfoModule {
 	return DriverInfoModule{
 		Type:       DriverInfoTypeModule,
-		DbEntry0:   ReadStringList(info.hddb0),
-		DbEntry1:   ReadStringList(info.hddb1),
+		DBEntry0:   ReadStringList(info.hddb0),
+		DBEntry1:   ReadStringList(info.hddb1),
 		Active:     bool(C.driver_info_module_is_active(info)),
 		Modprobe:   bool(C.driver_info_module_is_modprobe(info)),
 		Names:      ReadStringList(info.names),

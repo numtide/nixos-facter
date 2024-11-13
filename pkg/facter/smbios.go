@@ -78,36 +78,36 @@ func (s *Smbios) add(item hwinfo.Smbios) error {
 	case hwinfo.SmbiosTypeBios:
 		if s.Bios != nil {
 			return fmt.Errorf("bios field is already set")
-		} else if bios, ok := item.(hwinfo.SmbiosBios); !ok {
+		} else if bios, ok := item.(*hwinfo.SmbiosBios); !ok {
 			return fmt.Errorf("expected hwinfo.SmbiosBios, found %T", item)
 		} else {
-			s.Bios = &bios
+			s.Bios = bios
 		}
 	case hwinfo.SmbiosTypeBoard:
 		if s.Board != nil {
 			return fmt.Errorf("board field is already set")
-		} else if board, ok := item.(hwinfo.SmbiosBoard); !ok {
+		} else if board, ok := item.(*hwinfo.SmbiosBoard); !ok {
 			return fmt.Errorf("expected hwinfo.SmbiosBoard, found %T", item)
 		} else {
-			s.Board = &board
+			s.Board = board
 		}
 	case hwinfo.SmbiosTypeCache:
 		s.Cache = append(s.Cache, item)
 	case hwinfo.SmbiosTypeChassis:
 		if s.Chassis != nil {
 			return fmt.Errorf("chassis field is already set")
-		} else if chassis, ok := item.(hwinfo.SmbiosChassis); !ok {
+		} else if chassis, ok := item.(*hwinfo.SmbiosChassis); !ok {
 			return fmt.Errorf("expected hwinfo.SmbiosChassis, found %T", item)
 		} else {
-			s.Chassis = &chassis
+			s.Chassis = chassis
 		}
 	case hwinfo.SmbiosTypeConfig:
 		if s.Config != nil {
 			return fmt.Errorf("config field is already set")
-		} else if config, ok := item.(hwinfo.SmbiosConfig); !ok {
+		} else if config, ok := item.(*hwinfo.SmbiosConfig); !ok {
 			return fmt.Errorf("expected hwinfo.SmbiosConfig, found %T", item)
 		} else {
-			s.Config = &config
+			s.Config = config
 		}
 	case hwinfo.SmbiosTypeGroupAssociations:
 		s.GroupAssociations = append(s.GroupAssociations, item)
@@ -142,13 +142,24 @@ func (s *Smbios) add(item hwinfo.Smbios) error {
 	case hwinfo.SmbiosTypeSystem:
 		if s.System != nil {
 			return fmt.Errorf("system field is already set")
-		} else if system, ok := item.(hwinfo.SmbiosSystem); !ok {
+		} else if system, ok := item.(*hwinfo.SmbiosSystem); !ok {
 			return fmt.Errorf("expected hwinfo.SmbiosSystem, found %T", item)
 		} else {
-			s.System = &system
+			s.System = system
 		}
+
+	case hwinfo.SmbiosTypeMemoryController, hwinfo.SmbiosTypeMemoryModule, hwinfo.SmbiosTypeOEMStrings,
+		hwinfo.SmbiosTypeEventLog, hwinfo.SmbiosTypeBattery, hwinfo.SmbiosTypeSystemReset, hwinfo.SmbiosTypeVoltage,
+		hwinfo.SmbiosTypeCoolingDevice, hwinfo.SmbiosTypeTemperature, hwinfo.SmbiosTypeCurrent,
+		hwinfo.SmbiosTypeOutOfBandRemoteAccess, hwinfo.SmbiosTypeBootIntegrityServices, hwinfo.SmbiosTypeSystemBoot,
+		hwinfo.SmbiosTypeManagementDevice, hwinfo.SmbiosTypeManDeviceComponent, hwinfo.SmbiosTypeManDeviceThreshold,
+		hwinfo.SmbiosTypeMemoryChannel, hwinfo.SmbiosTypeIPMIDevice, hwinfo.SmbiosTypeSystemPowerSupply,
+		hwinfo.SmbiosTypeAdditionalInfo, hwinfo.SmbiosTypeOnboardExtended,
+		hwinfo.SmbiosTypeManagementControllerHostInterface, hwinfo.SmbiosTypeTPM, hwinfo.SmbiosTypeProcessorAdditional,
+		hwinfo.SmbiosTypeFirmwareInventory, hwinfo.SmbiosTypeInactive, hwinfo.SmbiosTypeEndOfTable:
+		// currently not supported
 	default:
-		// Do nothing for the rest of the types, we currently don't map them
+		return fmt.Errorf("unknown smbios type %d", item.SmbiosType())
 	}
 
 	return nil

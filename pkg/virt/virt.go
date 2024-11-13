@@ -16,6 +16,7 @@ import (
 //go:generate enumer -type=Type -json -text -transform=snake -trimprefix Type -output=./virt_enum_type.go
 type Type int
 
+//nolint:revive,stylecheck
 const (
 	TypeNone Type = iota
 	TypeKvm
@@ -59,6 +60,7 @@ func Detect() (Type, error) {
 	// note: systemd-detect-virt exits with status 1 when "none" is detected
 	if !(outStr == "none" || err == nil) {
 		slog.Error("failed to detect virtualisation type", "output", out)
+
 		return TypeNone, fmt.Errorf("failed to detect virtualisation type: %w", err)
 	}
 

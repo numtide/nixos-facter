@@ -9,8 +9,8 @@ import "C"
 type DriverInfoMouse struct {
 	Type DriverInfoType `json:"type,omitempty"`
 	// actual driver database entries
-	DbEntry0 []string `json:"db_entry_0,omitempty"`
-	DbEntry1 []string `json:"db_entry_1,omitempty"`
+	DBEntry0 []string `json:"db_entry_0,omitempty"`
+	DBEntry1 []string `json:"db_entry_1,omitempty"`
 
 	XF86    string `json:"xf86,omitempty"`    // XF86 protocol name
 	GPM     string `json:"gpm,omitempty"`     // dto, gpm
@@ -25,8 +25,8 @@ func (d DriverInfoMouse) DriverInfoType() DriverInfoType {
 func NewDriverInfoMouse(info C.driver_info_mouse_t) DriverInfoMouse {
 	return DriverInfoMouse{
 		Type:     DriverInfoTypeMouse,
-		DbEntry0: ReadStringList(info.hddb0),
-		DbEntry1: ReadStringList(info.hddb1),
+		DBEntry0: ReadStringList(info.hddb0),
+		DBEntry1: ReadStringList(info.hddb1),
 		XF86:     C.GoString(info.xf86),
 		GPM:      C.GoString(info.gpm),
 		Buttons:  int(info.buttons),
