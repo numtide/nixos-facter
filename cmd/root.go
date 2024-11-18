@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"log/slog"
 	"os"
 	"strings"
 
@@ -65,6 +66,7 @@ Flags:
   -h, --help           help for nixos-facter
   -o, --output string  path to write the report
   --swap               capture swap entries
+  --log-level string   log level, one of <error|warn|info|debug> (default "info")
   --hardware strings   Hardware items to probe.
                        Default: %s
                        Possible values: %s
@@ -94,16 +96,24 @@ func Execute() {
 	}
 
 	// Set the log level
-	switch logLevel {
-	case "debug":
+
+	var slogLevel slog.Level
+	if err := slogLevel.UnmarshalText([]byte(logLevel)); err != nil {
+		log.Fatalf("invalid log level: %v", err)
+	}
+
+	switch slogLevel {
+	case slog.LevelDebug:
 		log.SetFlags(log.LstdFlags | log.Lshortfile)
-	case "info":
+	case slog.LevelInfo:
 		log.SetFlags(log.LstdFlags)
-	case "warn", "error":
+	case slog.LevelWarn, slog.LevelError:
 		log.SetFlags(0)
 	default:
 		log.Fatalf("invalid log level: %s", logLevel)
 	}
+
+	slog.SetLogLoggerLevel(slogLevel)
 
 	report, err := scanner.Scan()
 	if err != nil {

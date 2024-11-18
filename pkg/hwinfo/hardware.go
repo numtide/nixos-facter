@@ -191,6 +191,90 @@ const (
 	HardwareClassAll
 )
 
+// BaseClass values (superset of PCI classes)
+//
+//go:generate enumer -type=BaseClass -json -transform=snake -trimprefix BaseClass -output=./hardware_enum_base_class.go
+type BaseClass uint16
+
+// these *must* match standard PCI class numbers
+const (
+	BaseClassNone BaseClass = iota
+	BaseClassStorage
+	BaseClassNetwork
+	BaseClassDisplay
+	BaseClassMultimedia
+
+	BaseClassMemory
+	BaseClassBridge
+	BaseClassComm
+	BaseClassSystem
+	BaseClassInput
+	BaseClassDocking
+
+	BaseClassProcessor
+	BaseClassSerial
+	BaseClassWireless
+	BaseClassI2o
+	BaseClassOther BaseClass = 0xff
+)
+
+// add our own base classes here (starting at 0x100 as PCI values are 8 bit)
+const (
+	BaseClassMonitor BaseClass = iota + 0x100
+	BaseClassInternal
+	BaseClassModem
+	BaseClassIsdn
+	BaseClassPs2
+	BaseClassMouse
+
+	BaseClassStorageDevice
+	BaseClassNetworkInterface
+	BaseClassKeyboard
+	BaseClassPrinter
+
+	BaseClassHub
+	BaseClassBraille
+	BaseClassScanner
+	BaseClassJoystick
+	BaseClassChipcard
+	BaseClassCamera
+
+	BaseClassFramebuffer
+	BaseClassDvb
+	BaseClassTv
+	BaseClassPartition
+	BaseClassDsl
+	BaseClassBluetooth
+	BaseClassFingerprint
+
+	BaseClassMmcController
+	BaseClassTouchpad
+)
+
+// SubClassKeyboard values of BaseClassKeyboard
+//
+//go:generate enumer -type=SubClassKeyboard -json -transform=snake -trimprefix SubClassKeyboard -output=./hardware_enum_sub_class_keyboard.go
+type SubClassKeyboard uint16
+
+const (
+	SubClassKeyboardKbd SubClassKeyboard = iota
+	SubClassKeyboardConsole
+)
+
+// SubClassMouse values of BaseClassMouse
+//
+//go:generate enumer -type=SubClassMouse -json -transform=snake -trimprefix SubClassMouse -output=./hardware_enum_sub_class_mouse.go
+type SubClassMouse uint16
+
+const (
+	SubClassMousePs2 SubClassMouse = iota
+	SubClassMouseSer
+	SubClassMouseBus
+	SubClassMouseUsb
+	SubClassMouseSun
+	SubClassMouseOther SubClassMouse = 0x80
+)
+
 // Slot represents a bus and slot number.
 // Bits 0-7: slot number, 8-31 bus number
 type Slot uint
@@ -258,6 +342,55 @@ const (
 	HotplugPci
 	HotplugUsb
 	HotplugFirewire
+)
+
+// Bus types similar to PCI bridge subclasses
+//
+//go:generate enumer -type=Bus -json -transform=snake -trimprefix Bus -output=./hardware_enum_bus.go
+type Bus uint16
+
+const (
+	BusNone Bus = iota
+	BusIsa
+	BusEisa
+	BusMc
+	BusPci
+	BusPcmcia
+	BusNubus
+
+	BusCardbus
+	BusOther
+)
+
+const (
+	/** outside the range of the PCI values **/
+
+	BusPs2 Bus = iota + 0x80
+	BusSerial
+	BusParallel
+	BusFloppy
+	BusScsi
+	BusIde
+	BusUsb
+
+	BusAdb
+	BusRaid
+	BusSbus
+	BusI2o
+	BusVio
+	BusCcw
+	BusIucv
+	BusPs3SystemBus
+
+	BusVirtio
+	BusIbmebus
+	BusGameport
+	BusUisvirtpci
+	BusMmc
+	BusSdio
+	BusNd
+
+	BusNvme
 )
 
 // HardwareDevice represents a hardware component detected in the system.

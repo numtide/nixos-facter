@@ -38,7 +38,7 @@ in
     modules = ./gomod2nix.toml;
 
     buildInputs = [
-      pkgs.libusb1
+      pkgs.systemdMinimal.dev
       perSystem.hwinfo.default
     ];
 
@@ -48,9 +48,7 @@ in
     ];
 
     runtimeInputs = with pkgs; [
-      libusb1
       util-linux
-      pciutils
     ];
 
     ldflags = [

@@ -60,10 +60,15 @@ func Scan(probes []ProbeFeature) ([]Smbios, []HardwareDevice, error) {
 	}
 
 	var hardwareItems []HardwareDevice
+	var deviceIdx uint
 	for hd := data.hd; hd != nil; hd = hd.next {
 		item, err := NewHardwareDevice(hd)
 		if err != nil {
 			return nil, nil, err
+		}
+
+		if item.Index > deviceIdx {
+			deviceIdx = item.Index
 		}
 
 		if excludeDevice(item) {
@@ -72,6 +77,14 @@ func Scan(probes []ProbeFeature) ([]Smbios, []HardwareDevice, error) {
 
 		hardwareItems = append(hardwareItems, *item)
 	}
+
+	// probe for additional inputs that hwinfo does not support
+	touchpads, err := captureTouchpads(deviceIdx + 1)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	hardwareItems = append(hardwareItems, touchpads...)
 
 	return smbiosItems, hardwareItems, nil
 }
