@@ -21,7 +21,9 @@ const (
 	PciFlagAgp
 )
 
-func ParsePciFlags(flags uint) (result []PciFlag) {
+func ParsePciFlags(flags uint) []PciFlag {
+	var result []PciFlag
+
 	for _, flag := range PciFlagValues() {
 		if (flag & (1 << flags)) == 1 {
 			result = append(result, flag)
@@ -29,7 +31,8 @@ func ParsePciFlags(flags uint) (result []PciFlag) {
 	}
 	// ensure stable output
 	slices.Sort(result)
-	return
+
+	return result
 }
 
 type DetailPci struct {
@@ -89,7 +92,7 @@ func NewDetailPci(pci C.hd_detail_pci_t) (*DetailPci, error) {
 
 	return &DetailPci{
 		Type:           DetailTypePci,
-		Data:           hex.EncodeToString(C.GoBytes(unsafe.Pointer(&data.data), 256)),
+		Data:           hex.EncodeToString(C.GoBytes(unsafe.Pointer(&data.data), 256)), //nolint:gocritic
 		DataLength:     uint(data.data_len),
 		DataExtLength:  uint(data.data_ext_len),
 		Log:            C.GoString(data.log),

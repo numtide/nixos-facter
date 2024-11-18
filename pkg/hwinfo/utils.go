@@ -7,7 +7,8 @@ package hwinfo
 import "C"
 import "unsafe"
 
-func ReadStringList(list *C.str_list_t) (result []string) {
+func ReadStringList(list *C.str_list_t) []string {
+	var result []string
 	for entry := list; entry != nil; entry = entry.next {
 		result = append(result, C.GoString(entry.str))
 	}

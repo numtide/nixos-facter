@@ -1,6 +1,7 @@
 package facter
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/numtide/nixos-facter/pkg/hwinfo"
@@ -77,7 +78,7 @@ func (s *Smbios) add(item hwinfo.Smbios) error {
 	switch item.SmbiosType() {
 	case hwinfo.SmbiosTypeBios:
 		if s.Bios != nil {
-			return fmt.Errorf("bios field is already set")
+			return errors.New("bios field is already set")
 		} else if bios, ok := item.(*hwinfo.SmbiosBios); !ok {
 			return fmt.Errorf("expected hwinfo.SmbiosBios, found %T", item)
 		} else {
@@ -85,7 +86,7 @@ func (s *Smbios) add(item hwinfo.Smbios) error {
 		}
 	case hwinfo.SmbiosTypeBoard:
 		if s.Board != nil {
-			return fmt.Errorf("board field is already set")
+			return errors.New("board field is already set")
 		} else if board, ok := item.(*hwinfo.SmbiosBoard); !ok {
 			return fmt.Errorf("expected hwinfo.SmbiosBoard, found %T", item)
 		} else {
@@ -95,7 +96,7 @@ func (s *Smbios) add(item hwinfo.Smbios) error {
 		s.Cache = append(s.Cache, item)
 	case hwinfo.SmbiosTypeChassis:
 		if s.Chassis != nil {
-			return fmt.Errorf("chassis field is already set")
+			return errors.New("chassis field is already set")
 		} else if chassis, ok := item.(*hwinfo.SmbiosChassis); !ok {
 			return fmt.Errorf("expected hwinfo.SmbiosChassis, found %T", item)
 		} else {
@@ -103,7 +104,7 @@ func (s *Smbios) add(item hwinfo.Smbios) error {
 		}
 	case hwinfo.SmbiosTypeConfig:
 		if s.Config != nil {
-			return fmt.Errorf("config field is already set")
+			return errors.New("config field is already set")
 		} else if config, ok := item.(*hwinfo.SmbiosConfig); !ok {
 			return fmt.Errorf("expected hwinfo.SmbiosConfig, found %T", item)
 		} else {
@@ -141,7 +142,7 @@ func (s *Smbios) add(item hwinfo.Smbios) error {
 		s.Slot = append(s.Slot, item)
 	case hwinfo.SmbiosTypeSystem:
 		if s.System != nil {
-			return fmt.Errorf("system field is already set")
+			return errors.New("system field is already set")
 		} else if system, ok := item.(*hwinfo.SmbiosSystem); !ok {
 			return fmt.Errorf("expected hwinfo.SmbiosSystem, found %T", item)
 		} else {

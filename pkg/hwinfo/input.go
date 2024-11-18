@@ -92,11 +92,11 @@ func captureTouchpads(deviceIdx uint) ([]HardwareDevice, error) {
 
 		// todo should we error if no event handler is found?
 		if handler := inputDevice.EventHandler(); handler != "" {
-			hd.UnixDeviceNames = append(hd.UnixDeviceNames, fmt.Sprintf("/dev/input/%s", handler))
+			hd.UnixDeviceNames = append(hd.UnixDeviceNames, "/dev/input/"+handler)
 		}
 
 		if handler := inputDevice.MouseHandler(); handler != "" {
-			hd.UnixDeviceNames = append(hd.UnixDeviceNames, fmt.Sprintf("/dev/input/%s", handler))
+			hd.UnixDeviceNames = append(hd.UnixDeviceNames, "/dev/input/ + handler")
 		}
 
 		hd.Index = deviceIdx

@@ -13,7 +13,11 @@ unsigned hd_res_io_get_access(res_io_t res) { return res.access; }
 res_io_t hd_res_get_io(hd_res_t *res) { return res->io; }
 */
 import "C"
-import "fmt"
+
+import (
+	"errors"
+	"fmt"
+)
 
 type ResourceIO struct {
 	Type    ResourceType `json:"type"`
@@ -29,7 +33,7 @@ func (r ResourceIO) ResourceType() ResourceType {
 
 func NewResourceIO(res *C.hd_res_t, resType ResourceType) (*ResourceIO, error) {
 	if res == nil {
-		return nil, fmt.Errorf("res is nil")
+		return nil, errors.New("res is nil")
 	}
 
 	if resType != ResourceTypeIo {

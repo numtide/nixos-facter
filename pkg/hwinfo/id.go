@@ -38,22 +38,32 @@ type idJSON struct {
 }
 
 func (i ID) MarshalJSON() ([]byte, error) {
+	var (
+		b   []byte
+		err error
+	)
+
 	switch i.Type {
 
 	case IDTagSpecial:
-		return json.Marshal(i.Name)
+		b, err = json.Marshal(i.Name)
 
 	case 0, IDTagPci, IDTagEisa, IDTagUsb, IDTagPcmcia, IDTagSdio:
-
-		return json.Marshal(idJSON{
+		b, err = json.Marshal(idJSON{
 			Hex:   fmt.Sprintf("%04x", i.Value),
 			Name:  i.Name,
 			Value: i.Value,
 		})
 
 	default:
-		return nil, fmt.Errorf("unknown id type %d", i.Type)
+		err = fmt.Errorf("unknown id type %d", i.Type)
 	}
+
+	if err != nil {
+		err = fmt.Errorf("failed to marshal id %s: %w", i, err)
+	}
+
+	return b, err
 }
 
 func (i ID) IsEmpty() bool {

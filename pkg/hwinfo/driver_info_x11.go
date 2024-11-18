@@ -38,7 +38,7 @@ type DriverInfoX11 struct {
 	Extensions []string `json:"extensions,omitempty"` // additional X extensions to load ('Module' section)
 	Options    []string `json:"options,omitempty"`    // special server options
 	Raw        []string `json:"raw,omitempty"`        // extra info to add to XF86Config
-	Script     string   `json:"script,"`              // 3d script to run
+	Script     string   `json:"script"`               // 3d script to run
 }
 
 func (d DriverInfoX11) DriverInfoType() DriverInfoType {

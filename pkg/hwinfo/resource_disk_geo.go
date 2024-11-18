@@ -8,7 +8,11 @@ package hwinfo
 res_disk_geo_t hd_res_get_disk_geo(hd_res_t *res) { return res->disk_geo; }
 */
 import "C"
-import "fmt"
+
+import (
+	"errors"
+	"fmt"
+)
 
 //go:generate enumer -type=GeoType -json -transform=snake -trimprefix GeoType -output=./resource_enum_geo_type.go
 type GeoType uint
@@ -35,7 +39,7 @@ func (r ResourceDiskGeo) ResourceType() ResourceType {
 
 func NewResourceDiskGeo(res *C.hd_res_t, resType ResourceType) (*ResourceDiskGeo, error) {
 	if res == nil {
-		return nil, fmt.Errorf("res is nil")
+		return nil, errors.New("res is nil")
 	}
 
 	if resType != ResourceTypeDiskGeo {

@@ -14,6 +14,7 @@ import "C"
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log"
 	"slices"
@@ -47,10 +48,15 @@ const (
 )
 
 //nolint:ireturn
-func NewResource(res *C.hd_res_t) (result Resource, err error) {
+func NewResource(res *C.hd_res_t) (Resource, error) {
 	if res == nil {
-		return result, err
+		return nil, errors.New("resource is nil")
 	}
+
+	var (
+		err    error
+		result Resource
+	)
 
 	resourceType := ResourceType(C.hd_res_get_type(res))
 

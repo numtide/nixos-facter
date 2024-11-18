@@ -28,8 +28,10 @@ func (s SmbiosOnboard) SmbiosType() SmbiosType {
 }
 
 func NewSmbiosOnboard(info C.smbios_onboard_t) (*SmbiosOnboard, error) {
-	var devices []OnboardDevice
-	for i := 0; i < int(info.dev_len); i++ {
+	count := int(info.dev_len)
+	devices := make([]OnboardDevice, 0, count)
+
+	for i := range count {
 		devices = append(devices, OnboardDevice{
 			Name:    C.GoString(C.smbios_onboard_get_name(info, C.int(i))),
 			Type:    NewID(C.smbios_onboard_get_type(info, C.int(i))),

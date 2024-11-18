@@ -225,8 +225,8 @@ type Udev struct {
 	Input *Input
 }
 
-func NewUdev(env map[string]string) (result *Udev, err error) {
-	result = &Udev{
+func NewUdev(env map[string]string) (*Udev, error) {
+	result := &Udev{
 		Model:       env["ID_MODEL"],
 		Vendor:      env["ID_VENDOR"],
 		Serial:      env["ID_SERIAL"],
@@ -267,6 +267,8 @@ func NewUdev(env map[string]string) (result *Udev, err error) {
 		result.Revision = uint16(revision)
 	}
 
+	var err error
+
 	switch result.Bus {
 	case BusUsb:
 		if result.Usb, err = NewUdevUsb(env); err != nil {
@@ -301,7 +303,7 @@ func Read(sysPath string) (*Udev, error) {
 
 	propsArray := C.facter_udev_get_device_properties(device, &count)
 	if propsArray == nil {
-		return nil, fmt.Errorf("failed to get device properties")
+		return nil, errors.New("failed to get device properties")
 	}
 
 	defer C.free(unsafe.Pointer(propsArray))

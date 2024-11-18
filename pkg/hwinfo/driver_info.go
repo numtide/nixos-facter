@@ -38,10 +38,15 @@ type DriverInfo interface {
 }
 
 //nolint:ireturn
-func NewDriverInfo(info *C.driver_info_t) (result DriverInfo, err error) {
+func NewDriverInfo(info *C.driver_info_t) (DriverInfo, error) {
 	if info == nil {
-		return result, err
+		return nil, errors.New("info is nil")
 	}
+
+	var (
+		err    error
+		result DriverInfo
+	)
 
 	switch DriverInfoType(C.driver_info_get_type(info)) {
 	case DriverInfoTypeModule:

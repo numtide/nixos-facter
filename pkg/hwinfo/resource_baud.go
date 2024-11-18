@@ -8,7 +8,11 @@ package hwinfo
 res_baud_t hd_res_get_baud(hd_res_t *res) { return res->baud; }
 */
 import "C"
-import "fmt"
+
+import (
+	"errors"
+	"fmt"
+)
 
 type ResourceBaud struct {
 	Type      ResourceType `json:"type"`
@@ -25,7 +29,7 @@ func (r ResourceBaud) ResourceType() ResourceType {
 
 func NewResourceBaud(res *C.hd_res_t, resType ResourceType) (*ResourceBaud, error) {
 	if res == nil {
-		return nil, fmt.Errorf("res is nil")
+		return nil, errors.New("res is nil")
 	}
 
 	if resType != ResourceTypeBaud {

@@ -15,7 +15,11 @@ res_mem_t hd_res_get_mem(hd_res_t *res) { return res->mem; }
 
 */
 import "C"
-import "fmt"
+
+import (
+	"errors"
+	"fmt"
+)
 
 //go:generate enumer -type=AccessFlags -json -transform=snake -trimprefix AccessFlags -output=./resource_enum_access_flags.go
 type AccessFlags uint
@@ -55,7 +59,7 @@ func (r ResourceMemory) ResourceType() ResourceType {
 
 func NewResourceMemory(res *C.hd_res_t, resType ResourceType) (*ResourceMemory, error) {
 	if res == nil {
-		return nil, fmt.Errorf("res is nil")
+		return nil, errors.New("res is nil")
 	}
 
 	if resType != ResourceTypeMem {

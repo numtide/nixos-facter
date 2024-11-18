@@ -8,7 +8,11 @@ package hwinfo
 res_init_strings_t hd_res_get_init_strings(hd_res_t *res) { return res->init_strings; }
 */
 import "C"
-import "fmt"
+
+import (
+	"errors"
+	"fmt"
+)
 
 type ResourceInitStrings struct {
 	Type  ResourceType
@@ -22,7 +26,7 @@ func (r ResourceInitStrings) ResourceType() ResourceType {
 
 func NewResourceInitStrings(res *C.hd_res_t, resType ResourceType) (*ResourceInitStrings, error) {
 	if res == nil {
-		return nil, fmt.Errorf("res is nil")
+		return nil, errors.New("res is nil")
 	}
 
 	if resType != ResourceTypeInitStrings {

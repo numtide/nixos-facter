@@ -19,6 +19,7 @@ import "C"
 
 import (
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"unsafe"
 )
@@ -52,10 +53,15 @@ type Detail interface {
 }
 
 //nolint:ireturn
-func NewDetail(detail *C.hd_detail_t) (result Detail, err error) {
+func NewDetail(detail *C.hd_detail_t) (Detail, error) {
 	if detail == nil {
-		return result, err
+		return nil, errors.New("detail is nil")
 	}
+
+	var (
+		err    error
+		result Detail
+	)
 
 	switch DetailType(C.hd_detail_get_type(detail)) {
 	case DetailTypePci:
@@ -93,6 +99,6 @@ func NewMemoryRange(mem C.memory_range_t) MemoryRange {
 	return MemoryRange{
 		Start: uint(mem.start),
 		Size:  uint(mem.size),
-		Data:  hex.EncodeToString(C.GoBytes(unsafe.Pointer(&mem.data), C.int(mem.size))),
+		Data:  hex.EncodeToString(C.GoBytes(unsafe.Pointer(&mem.data), C.int(mem.size))), //nolint:gocritic
 	}
 }

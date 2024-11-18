@@ -13,7 +13,11 @@ res_dma_t hd_res_get_dma(hd_res_t *res) { return res->dma; }
 
 */
 import "C"
-import "fmt"
+
+import (
+	"errors"
+	"fmt"
+)
 
 type ResourceDma struct {
 	Type    ResourceType `json:"type"`
@@ -27,7 +31,7 @@ func (r ResourceDma) ResourceType() ResourceType {
 
 func NewResourceDma(res *C.hd_res_t, resType ResourceType) (*ResourceDma, error) {
 	if res == nil {
-		return nil, fmt.Errorf("res is nil")
+		return nil, errors.New("res is nil")
 	}
 
 	if resType != ResourceTypeDma {

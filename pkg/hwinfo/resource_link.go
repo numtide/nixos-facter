@@ -12,7 +12,11 @@ bool hd_res_link_get_connected(res_link_t res) { return res.state == 1; }
 res_link_t hd_res_get_link(hd_res_t *res) { return res->link; }
 */
 import "C"
-import "fmt"
+
+import (
+	"errors"
+	"fmt"
+)
 
 type ResourceLink struct {
 	Type      ResourceType `json:"type"`
@@ -25,7 +29,7 @@ func (r ResourceLink) ResourceType() ResourceType {
 
 func NewResourceLink(res *C.hd_res_t, resType ResourceType) (*ResourceLink, error) {
 	if res == nil {
-		return nil, fmt.Errorf("res is nil")
+		return nil, errors.New("res is nil")
 	}
 
 	if resType != ResourceTypeLink {
