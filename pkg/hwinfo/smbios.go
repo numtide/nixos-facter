@@ -31,6 +31,7 @@ smbios_power_t hd_smbios_get_power(hd_smbios_t *sm) { return sm->power; }
 smbios_any_t hd_smbios_get_any(hd_smbios_t *sm) { return sm->any; }
 */
 import "C"
+import "errors"
 
 //go:generate enumer -type=SmbiosType -json -transform=snake -trimprefix SmbiosType -output=./smbios_enum_type.go
 type SmbiosType uint
@@ -104,10 +105,15 @@ type Smbios interface {
 }
 
 //nolint:ireturn
-func NewSmbios(smbios *C.hd_smbios_t) (result Smbios, err error) {
+func NewSmbios(smbios *C.hd_smbios_t) (Smbios, error) {
 	if smbios == nil {
-		return result, err
+		return nil, errors.New("smbios is nil")
 	}
+
+	var (
+		err    error
+		result Smbios
+	)
 
 	switch SmbiosType(C.hd_smbios_get_type(smbios)) {
 	case SmbiosTypeBios:

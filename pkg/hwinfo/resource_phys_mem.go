@@ -8,7 +8,11 @@ package hwinfo
 res_phys_mem_t hd_res_get_phys_mem(hd_res_t *res) { return res->phys_mem; }
 */
 import "C"
-import "fmt"
+
+import (
+	"errors"
+	"fmt"
+)
 
 type ResourcePhysicalMemory struct {
 	Type  ResourceType `json:"type"`
@@ -21,7 +25,7 @@ func (r ResourcePhysicalMemory) ResourceType() ResourceType {
 
 func NewResourcePhysicalMemory(res *C.hd_res_t, resType ResourceType) (*ResourcePhysicalMemory, error) {
 	if res == nil {
-		return nil, fmt.Errorf("res is nil")
+		return nil, errors.New("res is nil")
 	}
 
 	if resType != ResourceTypePhysMem {

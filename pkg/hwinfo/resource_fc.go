@@ -14,7 +14,11 @@ bool hd_res_fc_get_port_id_ok(res_fc_t res) { return res.port_id_ok; }
 res_fc_t hd_res_get_fc(hd_res_t *res) { return res->fc; }
 */
 import "C"
-import "fmt"
+
+import (
+	"errors"
+	"fmt"
+)
 
 // todo what is FC?
 type ResourceFc struct {
@@ -34,7 +38,7 @@ func (r ResourceFc) ResourceType() ResourceType {
 
 func NewResourceFc(res *C.hd_res_t, resType ResourceType) (*ResourceFc, error) {
 	if res == nil {
-		return nil, fmt.Errorf("res is nil")
+		return nil, errors.New("res is nil")
 	}
 
 	if resType != ResourceTypeFc {

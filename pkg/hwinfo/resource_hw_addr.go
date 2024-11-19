@@ -8,7 +8,11 @@ package hwinfo
 res_hwaddr_t hd_res_get_hwaddr(hd_res_t *res) { return res->hwaddr; }
 */
 import "C"
-import "fmt"
+
+import (
+	"errors"
+	"fmt"
+)
 
 type ResourceHardwareAddress struct {
 	Type    ResourceType `json:"type"`
@@ -28,7 +32,7 @@ func NewResourceHardwareAddress(res *C.hd_res_t, resType ResourceType) (*Resourc
 	}
 
 	if res == nil {
-		return nil, fmt.Errorf("res is nil")
+		return nil, errors.New("res is nil")
 	}
 
 	hwaddr := C.hd_res_get_hwaddr(res)

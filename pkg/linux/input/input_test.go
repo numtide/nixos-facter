@@ -65,7 +65,7 @@ func TestReadDevices(t *testing.T) {
 			Vendor:   uint16(0x1038),
 			Product:  uint16(0x1634),
 			Version:  uint16(0x0111),
-			Name:     "SteelSeries SteelSeries Apex 9 TKL",
+			Name:     "SteelSeries SteelSeries Apex 9 TKL", //nolint:dupword
 			Phys:     "usb-0000:08:00.3-2.4.2/input2",
 			Sysfs:    "/devices/pci0000:00/0000:00:01.2/0000:02:00.0/0000:03:08.0/0000:08:00.3/usb3/3-2/3-2.4/3-2.4.2/3-2.4.2:1.2/0003:1038:1634.000B/input/input11",
 			Handlers: []string{"sysrq", "kbd", "leds", "event4"},

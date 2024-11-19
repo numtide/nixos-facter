@@ -3,6 +3,7 @@
 package facter
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/numtide/nixos-facter/pkg/build"
@@ -57,7 +58,7 @@ func (s *Scanner) Scan() (*Report, error) {
 	}
 
 	if build.System == "" {
-		return nil, fmt.Errorf("system is not set")
+		return nil, errors.New("system is not set")
 	}
 
 	report.System = build.System

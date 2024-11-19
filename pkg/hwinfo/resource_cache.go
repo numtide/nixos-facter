@@ -8,7 +8,11 @@ package hwinfo
 res_cache_t hd_res_get_cache(hd_res_t *res) { return res->cache; }
 */
 import "C"
-import "fmt"
+
+import (
+	"errors"
+	"fmt"
+)
 
 type ResourceCache struct {
 	Type ResourceType `json:"type"`
@@ -21,7 +25,7 @@ func (r ResourceCache) ResourceType() ResourceType {
 
 func NewResourceCache(res *C.hd_res_t, resType ResourceType) (*ResourceCache, error) {
 	if res == nil {
-		return nil, fmt.Errorf("res is nil")
+		return nil, errors.New("res is nil")
 	}
 
 	if resType != ResourceTypeCache {

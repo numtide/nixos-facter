@@ -2,6 +2,7 @@ package ephem
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -43,7 +44,7 @@ type SwapEntry struct {
 func SwapEntries() ([]*SwapEntry, error) {
 	f, err := os.Open("/proc/swaps")
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to open /proc/swaps: %w", err)
 	}
 
 	devices, err := ReadSwapFile(f)
@@ -68,7 +69,7 @@ func SwapEntries() ([]*SwapEntry, error) {
 func ReadSwapFile(reader io.Reader) ([]*SwapEntry, error) {
 	scanner := bufio.NewScanner(reader)
 	if !scanner.Scan() {
-		return nil, fmt.Errorf("swaps file is empty")
+		return nil, errors.New("swaps file is empty")
 	} else if b := scanner.Bytes(); !swapHeaderRegex.Match(b) {
 		return nil, fmt.Errorf("header in swaps file is malformed: '%s'", string(b))
 	}

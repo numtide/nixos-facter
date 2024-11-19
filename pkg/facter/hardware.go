@@ -1,6 +1,7 @@
 package facter
 
 import (
+	"errors"
 	"fmt"
 	"slices"
 
@@ -196,7 +197,7 @@ func (h *Hardware) add(device hwinfo.HardwareDevice) error {
 	switch class {
 	case hwinfo.HardwareClassBios:
 		if h.Bios != nil {
-			return fmt.Errorf("bios field is already set")
+			return errors.New("bios field is already set")
 		} else if bios, ok := device.Detail.(*hwinfo.DetailBios); !ok {
 			return fmt.Errorf("expected hwinfo.DetailBios, found %T", device.Detail)
 		} else {
@@ -359,7 +360,7 @@ func (h *Hardware) add(device hwinfo.HardwareDevice) error {
 		slices.SortFunc(h.StorageController, compareDevice)
 	case hwinfo.HardwareClassSystem:
 		if h.System != nil {
-			return fmt.Errorf("system field is already set")
+			return errors.New("system field is already set")
 		} else if system, ok := device.Detail.(*hwinfo.DetailSys); !ok {
 			return fmt.Errorf("expected hwinfo.DetailSys, found %T", device.Detail)
 		} else {

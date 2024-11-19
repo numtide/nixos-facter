@@ -8,7 +8,11 @@ package hwinfo
 res_pppd_option_t hd_res_get_pppd_option(hd_res_t *res) { return res->pppd_option; }
 */
 import "C"
-import "fmt"
+
+import (
+	"errors"
+	"fmt"
+)
 
 type ResourcePppdOption struct {
 	Type   ResourceType `json:"type"`
@@ -21,7 +25,7 @@ func (r ResourcePppdOption) ResourceType() ResourceType {
 
 func NewResourcePppdOption(res *C.hd_res_t, resType ResourceType) (*ResourcePppdOption, error) {
 	if res == nil {
-		return nil, fmt.Errorf("res is nil")
+		return nil, errors.New("res is nil")
 	}
 
 	if resType != ResourceTypePppdOption {

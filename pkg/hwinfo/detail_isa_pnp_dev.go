@@ -12,7 +12,7 @@ import "C"
 
 import (
 	"encoding/hex"
-	"fmt"
+	"errors"
 	"unsafe"
 )
 
@@ -29,7 +29,7 @@ func NewIsaPnpResource(res *C.isapnp_res_t) *IsaPnpResource {
 	return &IsaPnpResource{
 		Length: int(res.len),
 		Type:   int(res._type),
-		Data:   hex.EncodeToString(C.GoBytes(unsafe.Pointer(&res.data), res.len)),
+		Data:   hex.EncodeToString(C.GoBytes(unsafe.Pointer(&res.data), res.len)), //nolint:gocritic
 	}
 }
 
@@ -46,7 +46,7 @@ type IsaPnpCard struct {
 
 func NewIsaPnpCard(card *C.isapnp_card_t) (*IsaPnpCard, error) {
 	if card == nil {
-		return nil, fmt.Errorf("card is nil")
+		return nil, errors.New("card is nil")
 	}
 
 	return &IsaPnpCard{
@@ -54,7 +54,7 @@ func NewIsaPnpCard(card *C.isapnp_card_t) (*IsaPnpCard, error) {
 		LogDevs: int(card.log_devs),
 		// Serial:   C.GoString(card.serial),	todo
 		// CardRegs: C.GoString(card.card_regs), todo
-		LdevRegs: hex.EncodeToString(C.GoBytes(unsafe.Pointer(&card.ldev_regs), C.int(0xd0))),
+		LdevRegs: hex.EncodeToString(C.GoBytes(unsafe.Pointer(&card.ldev_regs), C.int(0xd0))), //nolint:gocritic
 		ResLen:   int(card.res_len),
 		Broken:   bool(C.hd_isapnp_card_get_broken(card)),
 		Resource: NewIsaPnpResource(card.res),

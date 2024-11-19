@@ -9,7 +9,11 @@ res_size_t hd_res_get_size(hd_res_t *res) { return res->size; }
 
 */
 import "C"
-import "fmt"
+
+import (
+	"errors"
+	"fmt"
+)
 
 //go:generate enumer -type=SizeUnit -json --transform=snake -trimprefix SizeUnit --output=./resource_enum_size_unit.go
 type SizeUnit uint
@@ -39,7 +43,7 @@ func (r ResourceSize) ResourceType() ResourceType {
 
 func NewResourceSize(res *C.hd_res_t, resType ResourceType) (*ResourceSize, error) {
 	if res == nil {
-		return nil, fmt.Errorf("res is nil")
+		return nil, errors.New("res is nil")
 	}
 
 	if resType != ResourceTypeSize {

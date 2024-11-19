@@ -12,7 +12,11 @@ bool hd_res_irq_get_enabled(res_irq_t res) { return res.enabled; }
 res_irq_t hd_res_get_irq(hd_res_t *res) { return res->irq; }
 */
 import "C"
-import "fmt"
+
+import (
+	"errors"
+	"fmt"
+)
 
 type ResourceIrq struct {
 	Type      ResourceType `json:"type"`
@@ -27,7 +31,7 @@ func (r ResourceIrq) ResourceType() ResourceType {
 
 func NewResourceIrq(res *C.hd_res_t, resType ResourceType) (*ResourceIrq, error) {
 	if res == nil {
-		return nil, fmt.Errorf("res is nil")
+		return nil, errors.New("res is nil")
 	}
 
 	if resType != ResourceTypeIrq {

@@ -8,7 +8,11 @@ package hwinfo
 res_framebuffer_t hd_res_get_framebuffer(hd_res_t *res) { return res->framebuffer; }
 */
 import "C"
-import "fmt"
+
+import (
+	"errors"
+	"fmt"
+)
 
 type ResourceFrameBuffer struct {
 	Type         ResourceType `json:"type"`
@@ -25,7 +29,7 @@ func (r ResourceFrameBuffer) ResourceType() ResourceType {
 
 func NewResourceFrameBuffer(res *C.hd_res_t, resType ResourceType) (*ResourceFrameBuffer, error) {
 	if res == nil {
-		return nil, fmt.Errorf("res is nil")
+		return nil, errors.New("res is nil")
 	}
 
 	if resType != ResourceTypeFramebuffer {

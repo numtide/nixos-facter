@@ -5,6 +5,7 @@
 package ephem
 
 import (
+	"fmt"
 	"log/slog"
 	"os"
 	"path/filepath"
@@ -24,13 +25,13 @@ var deviceGlobs = []string{
 func StableDevicePath(device string) (string, error) {
 	l := slog.With("prefix", "stableDevicePath")
 
-	if !strings.HasPrefix("/", device) {
+	if !strings.HasPrefix(device, "/") {
 		return device, nil
 	}
 
 	stat, err := os.Stat(device)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("failed to stat device %s: %w", device, err)
 	}
 
 	for idx := range deviceGlobs {
@@ -40,7 +41,7 @@ func StableDevicePath(device string) (string, error) {
 		matches, err := filepath.Glob(glob)
 		if err != nil {
 			// the only possible error is ErrBadPattern
-			return "", err
+			return "", fmt.Errorf("failed to glob %s: %w", glob, err)
 		}
 
 		for _, match := range matches {

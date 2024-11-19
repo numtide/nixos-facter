@@ -130,7 +130,7 @@ func ReadDevices(r io.ReadCloser, udevAnnotate bool) ([]*Device, error) {
 				if errors.Is(err, udev.ErrNotFound) {
 					slog.Warn("udev data not found", "name", device.Name, "sysfs", device.Sysfs)
 				} else if err != nil {
-					return nil, fmt.Errorf("failed to annotate with udev data: %s", err)
+					return nil, fmt.Errorf("failed to annotate with udev data: %w", err)
 				}
 			}
 
@@ -149,7 +149,7 @@ func ReadDevices(r io.ReadCloser, udevAnnotate bool) ([]*Device, error) {
 		switch line[:3] {
 		case "I: ":
 			if err := readBasicInfo(line, device); err != nil {
-				return nil, fmt.Errorf("failed to read basic info: %s", err)
+				return nil, fmt.Errorf("failed to read basic info: %w", err)
 			}
 		case "N: ":
 			matches := nameRegex.FindStringSubmatch(line)

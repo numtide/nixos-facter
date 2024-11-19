@@ -12,7 +12,11 @@ bool hd_res_monitor_get_interlaced(res_monitor_t res) { return res.interlaced; }
 res_monitor_t hd_res_get_monitor(hd_res_t *res) { return res->monitor; }
 */
 import "C"
-import "fmt"
+
+import (
+	"errors"
+	"fmt"
+)
 
 type ResourceMonitor struct {
 	Type              ResourceType `json:"type"`
@@ -28,7 +32,7 @@ func (r ResourceMonitor) ResourceType() ResourceType {
 
 func NewResourceMonitor(res *C.hd_res_t, resType ResourceType) (*ResourceMonitor, error) {
 	if res == nil {
-		return nil, fmt.Errorf("res is nil")
+		return nil, errors.New("res is nil")
 	}
 
 	if resType != ResourceTypeMonitor {

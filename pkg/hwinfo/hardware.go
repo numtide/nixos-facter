@@ -8,6 +8,7 @@ import "C"
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"slices"
 )
@@ -292,10 +293,15 @@ func (s *Slot) String() string {
 }
 
 func (s *Slot) MarshalJSON() ([]byte, error) {
-	return json.Marshal(map[string]any{
+	b, err := json.Marshal(map[string]any{
 		"bus":    s.Bus(),
 		"number": s.Slot(),
 	})
+	if err != nil {
+		err = fmt.Errorf("failed to marshal Slot: %w", err)
+	}
+
+	return b, err
 }
 
 // DeviceNumber represents a Unix device number, a unique identifier for devices in the system.
@@ -542,23 +548,35 @@ type HardwareDevice struct {
 
 func NewHardwareDevice(hd *C.hd_t) (*HardwareDevice, error) {
 	if hd == nil {
-		return nil, fmt.Errorf("hd is nil")
+		return nil, errors.New("hd is nil")
 	}
 
-	resources, err := NewResources(hd)
+	var (
+		err        error
+		resources  []Resource
+		detail     Detail
+		driverInfo DriverInfo
+	)
+
+	resources, err = NewResources(hd)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read resources: %w", err)
 	}
 
-	detail, err := NewDetail(hd.detail)
-	if err != nil {
-		return nil, fmt.Errorf("failed to read detail: %w", err)
+	if hd.detail != nil {
+		detail, err = NewDetail(hd.detail)
+		if err != nil {
+			return nil, fmt.Errorf("failed to read detail: %w", err)
+		}
 	}
 
-	driverInfo, err := NewDriverInfo(hd.driver_info)
-	if err != nil {
-		return nil, fmt.Errorf("failed to read driver info: %w", err)
+	if hd.driver_info != nil {
+		driverInfo, err = NewDriverInfo(hd.driver_info)
+		if err != nil {
+			return nil, fmt.Errorf("failed to read driver info: %w", err)
+		}
 	}
+
 	model := C.GoString(hd.model)
 
 	hwClass := HardwareClass(hd.hw_class)

@@ -34,28 +34,6 @@ in
         environment.systemPackages = [
           perSystem.self.nixos-facter
         ];
-
-        systemd.services = {
-          create-swap-files = {
-            serviceConfig.Type = "oneshot";
-            wantedBy = ["multi-user.target"];
-            path = with pkgs; [
-              coreutils
-              util-linux
-            ];
-            script = ''
-              # create some swap files
-              mkdir -p /swap
-              for (( i=1; i<=3; i++ )); do
-                out="/swap/swapfile-$i"
-                dd if=/dev/zero of="$out" bs=1MB count=10
-                chmod 600 "$out"
-                mkswap "$out"
-                swapon "$out"
-              done
-            '';
-          };
-        };
       };
 
       extraTestScript = ''
@@ -74,14 +52,23 @@ in
 
         with subtest("Capture swap entries"):
             assert 'swap' in report, "'swap' not found in the report"
-            assert report['swap'] == [
-                { 'path': '/dev/vda4', 'type': 'partition', 'size': 1048572, 'used': 0, 'priority': -2 },
-                { 'path': '/dev/dm-0', 'type': 'partition', 'size': 10236, 'used': 0, 'priority': 100 },
-                { 'path': '/swap/swapfile-1', 'type': 'file', 'size': 9760, 'used': 0, 'priority': -3 },
-                { 'path': '/swap/swapfile-2', 'type': 'file', 'size': 9760, 'used': 0, 'priority': -4 },
-                { 'path': '/swap/swapfile-3', 'type': 'file', 'size': 9760, 'used': 0, 'priority': -5 }
-            ], "swap entries did not match what we expected"
-            # todo is there a nice way of showing a diff?
+
+            swap = report['swap']
+
+            expected = [
+                { 'type': 'partition', 'size': 1048572, 'used': 0, 'priority': -2 },
+                { 'type': 'partition', 'size': 10236, 'used': 0, 'priority': 100 }
+            ]
+
+            assert len(swap) == len(expected), f"expected {len(expected)} swap entries, found {len(swap)}"
+
+            for i in range(2):
+                assert swap[i]['path'].startswith("/dev/disk/by-uuid/"), f"expected a stable device path: {swap[i]['path']}"
+
+                # delete for easier comparison
+                del swap[i]['path']
+
+                assert swap[i] == expected[i], "swap[{i}] mismatch"
       '';
     };
   }
