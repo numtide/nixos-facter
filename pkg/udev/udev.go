@@ -1,7 +1,7 @@
 package udev
 
 /*
-#cgo LDFLAGS: -ludev
+#cgo pkg-config: libudev
 #include <libudev.h>
 #include <stdlib.h>
 #include <string.h>
@@ -54,7 +54,7 @@ import (
 )
 
 //go:generate enumer -type=Bus -json -text -transform=snake -trimprefix Bus -output=./udev_bus.go
-type Bus int
+type Bus int //nolint:recvcheck
 
 const (
 	BusAta Bus = iota // ATA (IDE) devices
@@ -75,7 +75,7 @@ const (
 )
 
 //go:generate enumer -type=Type -json -text -trimprefix Type -output=./udev_type.go
-type Type int
+type Type int //nolint:recvcheck
 
 const (
 	TypeDisk Type = iota

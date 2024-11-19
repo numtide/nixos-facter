@@ -16,7 +16,7 @@ import (
 // ProbeFeature is a type that specifies various hardware probing features.
 //
 //go:generate enumer -type=ProbeFeature -json -transform=snake -trimprefix ProbeFeature -output=./hardware_enum_probe_feature.go
-type ProbeFeature uint
+type ProbeFeature uint //nolint:recvcheck
 
 //nolint:revive,stylecheck
 const (
@@ -120,7 +120,7 @@ const (
 // HardwareClass represents the classification of different hardware components.
 //
 //go:generate enumer -type=HardwareClass -json -transform=snake -trimprefix HardwareClass -output=./hardware_enum_hardware_class.go
-type HardwareClass uint
+type HardwareClass uint //nolint:recvcheck
 
 //nolint:revive,stylecheck
 const (
@@ -195,7 +195,7 @@ const (
 // BaseClass values (superset of PCI classes)
 //
 //go:generate enumer -type=BaseClass -json -transform=snake -trimprefix BaseClass -output=./hardware_enum_base_class.go
-type BaseClass uint16
+type BaseClass uint16 //nolint:recvcheck
 
 // these *must* match standard PCI class numbers
 const (
@@ -255,7 +255,7 @@ const (
 // SubClassKeyboard values of BaseClassKeyboard
 //
 //go:generate enumer -type=SubClassKeyboard -json -transform=snake -trimprefix SubClassKeyboard -output=./hardware_enum_sub_class_keyboard.go
-type SubClassKeyboard uint16
+type SubClassKeyboard uint16 //nolint:recvcheck
 
 const (
 	SubClassKeyboardKbd SubClassKeyboard = iota
@@ -265,7 +265,7 @@ const (
 // SubClassMouse values of BaseClassMouse
 //
 //go:generate enumer -type=SubClassMouse -json -transform=snake -trimprefix SubClassMouse -output=./hardware_enum_sub_class_mouse.go
-type SubClassMouse uint16
+type SubClassMouse uint16 //nolint:recvcheck
 
 const (
 	SubClassMousePs2 SubClassMouse = iota
@@ -339,7 +339,7 @@ func NewDeviceNumber(num C.hd_dev_num_t) *DeviceNumber {
 // Hotplug defines types of hotplug devices.
 //
 //go:generate enumer -type=Hotplug -json -transform=snake -trimprefix Hotplug -output=./hardware_enum_hotplug.go
-type Hotplug int
+type Hotplug int //nolint:recvcheck
 
 const (
 	HotplugNone Hotplug = iota
@@ -353,7 +353,7 @@ const (
 // Bus types similar to PCI bridge subclasses
 //
 //go:generate enumer -type=Bus -json -transform=snake -trimprefix Bus -output=./hardware_enum_bus.go
-type Bus uint16
+type Bus uint16 //nolint:recvcheck
 
 const (
 	BusNone Bus = iota

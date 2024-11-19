@@ -13,7 +13,7 @@ import (
 )
 
 //go:generate enumer -type=IDTag -json -transform=snake -trimprefix IDTag -output=./id_tag_enum.go
-type IDTag byte
+type IDTag byte //nolint:recvcheck
 
 const (
 	IDTagPci IDTag = iota + 1

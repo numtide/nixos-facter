@@ -16,7 +16,7 @@ import (
 )
 
 //go:generate enumer -type=SizeUnit -json --transform=snake -trimprefix SizeUnit --output=./resource_enum_size_unit.go
-type SizeUnit uint
+type SizeUnit uint //nolint:recvcheck
 
 const (
 	SizeUnitCm SizeUnit = iota

@@ -20,7 +20,7 @@ import (
 )
 
 //go:generate enumer -type=DriverInfoType -json -transform=snake -trimprefix DriverInfoType -output=./driver_info_enum_type.go
-type DriverInfoType uint
+type DriverInfoType uint //nolint:recvcheck
 
 const (
 	DriverInfoTypeAny DriverInfoType = iota

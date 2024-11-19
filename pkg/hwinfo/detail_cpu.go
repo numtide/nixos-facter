@@ -13,7 +13,7 @@ import "C"
 import "regexp"
 
 //go:generate enumer -type=CPUArch -json -transform=snake -trimprefix CPUArch -output=./detail_enum_cpu_arch.go
-type CPUArch uint
+type CPUArch uint //nolint:recvcheck
 
 const (
 	CPUArchUnknown CPUArch = iota

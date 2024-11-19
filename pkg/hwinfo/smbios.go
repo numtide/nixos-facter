@@ -34,7 +34,7 @@ import "C"
 import "errors"
 
 //go:generate enumer -type=SmbiosType -json -transform=snake -trimprefix SmbiosType -output=./smbios_enum_type.go
-type SmbiosType uint
+type SmbiosType uint //nolint:recvcheck
 
 // For a full list of types see https://www.dmtf.org/sites/default/files/standards/documents/DSP0134_3.6.0.pdf.
 // hwinfo doesn't provide structs for all of these, but we've ensured we at least have their ids so they format

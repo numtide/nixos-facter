@@ -21,7 +21,7 @@ import (
 )
 
 //go:generate enumer -type=ResourceType -json -transform=snake -trimprefix ResourceType -output=./resource_enum_type.go
-type ResourceType uint
+type ResourceType uint //nolint:recvcheck
 
 const (
 	ResourceTypeAny ResourceType = iota

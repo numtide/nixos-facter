@@ -7,7 +7,7 @@ package hwinfo
 import "C"
 
 //go:generate enumer -type=UsbClass -json -transform=snake -trimprefix UsbClass -output=./detail_usb_enum_usb_class.go
-type UsbClass uint16
+type UsbClass uint16 //nolint:recvcheck
 
 const (
 	UsbClassPerInterface       UsbClass = 0x00

@@ -22,7 +22,7 @@ import (
 )
 
 //go:generate enumer -type=AccessFlags -json -transform=snake -trimprefix AccessFlags -output=./resource_enum_access_flags.go
-type AccessFlags uint
+type AccessFlags uint //nolint:recvcheck
 
 const (
 	AccessFlagsUnknown AccessFlags = iota
@@ -32,7 +32,7 @@ const (
 )
 
 //go:generate enumer -type=YesNoFlags -json -transform=snake -trimprefix YesNoFlags -output=./resource_enum_yes_no_flags.go
-type YesNoFlags uint
+type YesNoFlags uint //nolint:recvcheck
 
 const (
 	YesNoFlagsUnknown YesNoFlags = iota

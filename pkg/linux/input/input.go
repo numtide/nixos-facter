@@ -15,7 +15,7 @@ import (
 )
 
 //go:generate enumer -type=Bus -json -text -trimprefix Bus -output=./input_bus.go
-type Bus uint16
+type Bus uint16 //nolint:recvcheck
 
 // Codes taken from
 // https://github.com/torvalds/linux/blob/cfaaa7d010d1fc58f9717fcc8591201e741d2d49/include/uapi/linux/input.h#L254
