@@ -3,6 +3,7 @@ package facter
 import (
 	"errors"
 	"fmt"
+	"log/slog"
 	"slices"
 
 	"github.com/numtide/nixos-facter/pkg/hwinfo"
@@ -186,6 +187,16 @@ func compareDevice(a hwinfo.HardwareDevice, b hwinfo.HardwareDevice) int {
 }
 
 func (h *Hardware) add(device hwinfo.HardwareDevice) error {
+	slog.Debug(
+		"hardware.add",
+		"index", device.Index,
+		"attached_to", device.AttachedTo,
+		"class", device.Class,
+		"class_list", device.ClassList,
+		"bus", device.BusType,
+		"sysfs_id", device.SysfsID,
+	)
+
 	// start with the overall device class
 	class := device.Class
 

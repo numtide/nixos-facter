@@ -3,6 +3,7 @@ package facter
 import (
 	"errors"
 	"fmt"
+	"log/slog"
 
 	"github.com/numtide/nixos-facter/pkg/hwinfo"
 )
@@ -75,6 +76,8 @@ type Smbios struct {
 }
 
 func (s *Smbios) add(item hwinfo.Smbios) error {
+	slog.Debug("smbios.add", "type", item.SmbiosType())
+
 	switch item.SmbiosType() {
 	case hwinfo.SmbiosTypeBios:
 		if s.Bios != nil {

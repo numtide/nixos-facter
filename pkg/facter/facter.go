@@ -5,6 +5,7 @@ package facter
 import (
 	"errors"
 	"fmt"
+	"log/slog"
 
 	"github.com/numtide/nixos-facter/pkg/build"
 	"github.com/numtide/nixos-facter/pkg/ephem"
@@ -63,15 +64,21 @@ func (s *Scanner) Scan() (*Report, error) {
 
 	report.System = build.System
 
+	slog.Info("building report", "system", report.System, "version", report.Version)
+
 	var (
 		smbios  []hwinfo.Smbios
 		devices []hwinfo.HardwareDevice
 	)
 
+	slog.Info("scanning hardware", "features", s.Features)
+
 	smbios, devices, err = hwinfo.Scan(s.Features)
 	if err != nil {
 		return nil, fmt.Errorf("failed to scan hardware: %w", err)
 	}
+
+	slog.Info("reading IOMMU groups")
 
 	// read iommu groups
 	iommuGroups, err := hwinfo.IOMMUGroups()
@@ -79,12 +86,15 @@ func (s *Scanner) Scan() (*Report, error) {
 		return nil, fmt.Errorf("failed to read iommu groups: %w", err)
 	}
 
+	slog.Info("processing devices", "count", len(devices))
+
 	for idx := range devices {
 		// lookup iommu group before adding to the report
 		device := devices[idx]
 
 		groupID, ok := iommuGroups[device.SysfsID]
 		if ok {
+			slog.Debug("IOMMU group found", "device", device.SysfsID, "groupID", groupID)
 			device.SysfsIOMMUGroupID = &groupID
 		}
 
@@ -93,21 +103,29 @@ func (s *Scanner) Scan() (*Report, error) {
 		}
 	}
 
+	slog.Info("processing smbios entries", "count", len(smbios))
+
 	for idx := range smbios {
 		if err = report.Smbios.add(smbios[idx]); err != nil {
 			return nil, fmt.Errorf("failed to add to smbios report: %w", err)
 		}
 	}
 
+	slog.Info("detecting virtualisation")
+
 	if report.Virtualisation, err = virt.Detect(); err != nil {
 		return nil, fmt.Errorf("failed to detect virtualisation: %w", err)
 	}
 
 	if s.Ephemeral || s.Swap {
+		slog.Info("processing swap devices")
+
 		if report.Swap, err = ephem.SwapEntries(); err != nil {
 			return nil, fmt.Errorf("failed to detect swap devices: %w", err)
 		}
 	}
+
+	slog.Info("report complete")
 
 	return &report, nil
 }
