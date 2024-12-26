@@ -63,34 +63,17 @@
         "type": "github"
       }
     },
-    "flake-utils_2": {
-      "inputs": {
-        "systems": [
-          "godoc",
-          "systems"
-        ]
-      },
-      "locked": {
-        "lastModified": 1710146030,
-        "narHash": "sha256-SZ5L6eA7HJ/nmkzGG7/ISclqe6oZdOZTNoesiInkXPQ=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "b1d9ab70662946ef0850d488da1c9019f3a9752a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
     "godoc": {
       "inputs": {
         "blueprint": [
           "blueprint"
         ],
-        "flake-utils": "flake-utils_2",
-        "gomod2nix": "gomod2nix",
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "gomod2nix": [
+          "gomod2nix"
+        ],
         "nixpkgs": [
           "nixpkgs"
         ],
@@ -116,31 +99,6 @@
       }
     },
     "gomod2nix": {
-      "inputs": {
-        "flake-utils": [
-          "godoc",
-          "flake-utils"
-        ],
-        "nixpkgs": [
-          "godoc",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1722589758,
-        "narHash": "sha256-sbbA8b6Q2vB/t/r1znHawoXLysCyD4L/6n6/RykiSnA=",
-        "owner": "nix-community",
-        "repo": "gomod2nix",
-        "rev": "4e08ca09253ef996bd4c03afa383b23e35fe28a1",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "gomod2nix",
-        "type": "github"
-      }
-    },
-    "gomod2nix_2": {
       "inputs": {
         "flake-utils": [
           "flake-utils"
@@ -211,7 +169,7 @@
         "disko": "disko",
         "flake-utils": "flake-utils",
         "godoc": "godoc",
-        "gomod2nix": "gomod2nix_2",
+        "gomod2nix": "gomod2nix",
         "hwinfo": "hwinfo",
         "nixpkgs": "nixpkgs",
         "systems": "systems",

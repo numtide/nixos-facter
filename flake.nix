@@ -34,6 +34,8 @@
     godoc.inputs.systems.follows = "systems";
     godoc.inputs.blueprint.follows = "blueprint";
     godoc.inputs.treefmt-nix.follows = "treefmt-nix";
+    godoc.inputs.flake-utils.follows = "flake-utils";
+    godoc.inputs.gomod2nix.follows = "gomod2nix";
   };
 
   # Keep the magic invocations to minimum.
