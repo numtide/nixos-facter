@@ -25,7 +25,7 @@ import (
 )
 
 //go:generate enumer -type=DetailType -json -transform=snake -trimprefix DetailType -output=./detail_enum_type.go
-type DetailType uint //nolint:recvcheck
+type DetailType uint
 
 const (
 	DetailTypePci DetailType = iota

@@ -16,7 +16,7 @@ import (
 // Type represents various virtualisation and container types.
 //
 //go:generate enumer -type=Type -json -text -transform=snake -trimprefix Type -output=./virt_enum_type.go
-type Type int //nolint:recvcheck
+type Type int
 
 const (
 	TypeNone Type = iota
