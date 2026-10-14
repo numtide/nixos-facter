@@ -5,7 +5,9 @@
   ...
 }:
 pkgs.callPackage ./package.nix {
-  hwinfo = perSystem.hwinfo.default;
+  # The hwinfo flake does not export packages for all of our systems
+  # (riscv64-linux). Build its package.nix with our pkgs instead.
+  hwinfo = import "${inputs.hwinfo}/nix/package.nix" { inherit pkgs; };
 }
 // {
   passthru.tests = import ./tests {
