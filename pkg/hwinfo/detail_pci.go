@@ -13,7 +13,7 @@ import (
 )
 
 //go:generate enumer -type=PciFlag -json -transform=snake -trimprefix PciFlag -output=./detail_enum_pci_flag.go
-type PciFlag uint //nolint:recvcheck
+type PciFlag uint
 
 const (
 	PciFlagOk PciFlag = iota

@@ -57,7 +57,7 @@ import (
 )
 
 //go:generate enumer -type=Type -json -text -trimprefix Type -output=./udev_type.go
-type Type int //nolint:recvcheck
+type Type int
 
 const (
 	TypeDisk Type = iota

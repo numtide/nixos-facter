@@ -15,7 +15,7 @@ import (
 )
 
 //go:generate enumer -type=GeoType -json -transform=snake -trimprefix GeoType -output=./resource_enum_geo_type.go
-type GeoType uint //nolint:recvcheck
+type GeoType uint
 
 const (
 	GeoTypePhysical GeoType = iota

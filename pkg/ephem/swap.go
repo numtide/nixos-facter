@@ -19,7 +19,7 @@ var (
 // SwapType represents the type of swap space, either file or partition.
 //
 //go:generate enumer -type=SwapType -json -transform=snake -trimprefix SwapType -output=./swap_enum_type.go
-type SwapType uint //nolint:recvcheck
+type SwapType uint
 
 const (
 	SwapTypeFile SwapType = iota

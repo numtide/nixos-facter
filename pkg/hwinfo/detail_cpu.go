@@ -18,7 +18,7 @@ import (
 )
 
 //go:generate enumer -type=CPUArch -json -transform=snake -trimprefix CPUArch -output=./detail_enum_cpu_arch.go
-type CPUArch uint //nolint:recvcheck
+type CPUArch uint
 
 const (
 	CPUArchUnknown CPUArch = iota

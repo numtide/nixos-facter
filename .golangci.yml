@@ -7,6 +7,7 @@ linters:
         - err113
         - depguard
         - exhaustruct
+        - exhaustruct_v5
         - funlen
         - godox
         - godot

@@ -188,13 +188,18 @@ func compareDevice(a hwinfo.HardwareDevice, b hwinfo.HardwareDevice) int {
 
 //nolint:gocyclo,maintidx
 func (h *Hardware) add(device hwinfo.HardwareDevice) error {
+	var bus string
+	if device.BusType != nil {
+		bus = device.BusType.String()
+	}
+
 	slog.Debug(
 		"hardware.add",
 		"index", device.Index,
 		"attached_to", device.AttachedTo,
 		"class", device.Class,
 		"class_list", device.ClassList,
-		"bus", device.BusType,
+		"bus", bus,
 		"sysfs_id", device.SysfsID,
 	)
 
