@@ -1,4 +1,5 @@
 {
+  inputs,
   perSystem,
   pkgs,
   ...
@@ -22,7 +23,7 @@ if stdenv.hostPlatform.isLinux then
       old.nativeBuildInputs
       ++ commonDevTools
       ++ [
-        perSystem.hwinfo.default
+        (import "${inputs.hwinfo}/nix/package.nix" { inherit pkgs; })
       ];
     shellHook = ''
       # this is only needed for hermetic builds
